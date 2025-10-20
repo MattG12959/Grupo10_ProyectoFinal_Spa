@@ -17,6 +17,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
      */
     public vistaMenuSpa() {
         initComponents();
+        musica();
     }
 
     /**
@@ -97,13 +98,21 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     private void jbPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPlayMouseClicked
         // TODO add your handling code here:
+        /*
         AudioClip sound;
         sound = java.applet.Applet.newAudioClip(getClass().getResource("/resources/sounds/wet_hands_c418.wav"));
         sound.loop();
         sound.play();
+        */
+        musica();
     }//GEN-LAST:event_jbPlayMouseClicked
 
-    
+    public void musica(){
+        AudioClip sound;
+        sound = java.applet.Applet.newAudioClip(getClass().getResource("/resources/sounds/wet_hands_c418.wav"));
+        sound.loop();
+        sound.play();
+    }
     
     /**
      * @param args the command line arguments
