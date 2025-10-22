@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- * @author Alejo
- */
+
 public class InstalacionData {
 
     private Connection con = null;
