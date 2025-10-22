@@ -6,18 +6,17 @@ package entidades;
  * Ezequiel Dave Natalia Quiroga Dorzan Alejo
  */
 public class Vendedor {
-    int idEmpleado;
-    String nombre;
-    String apellido;
-    String teléfono;
-    int dni; 
-    String especialidad; // (enum: constantes para especialidad (facial, corporal, relajación, o estético))
-    boolean estado; // (Inactivo o Activo)
+    private int idEmpleado;
+    private String nombre;
+    private String apellido;
+    private String teléfono;
+    private int dni; 
+    private String especialidad; // (enum: constantes para especialidad (facial, corporal, relajación, o estético))
+    private boolean estado; // (Inactivo o Activo)
 
     public Vendedor() {
     }
 
-    
     public Vendedor(int idEmpleado, String nombre, String apellido, String teléfono, int dni, String especialidad, boolean estado) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
@@ -92,6 +91,6 @@ public class Vendedor {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
+     
     
 }

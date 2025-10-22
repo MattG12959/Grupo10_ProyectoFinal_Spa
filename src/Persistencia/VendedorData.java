@@ -6,6 +6,7 @@ package Persistencia;
 
 import java.sql.Connection;
 import entidades.Vendedor;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,15 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class VendedorData {
-     private Connection con = null;
+
+    private Connection con = null;
 
     public VendedorData(miConexion conexion) {
         this.con = conexion.buscarConexion();
         //con = miConexion.buscarConexion();
     }
-      public void darAltaVendedor(int idEmpleado) {
+
+    public void darAltaVendedor(int idEmpleado) {
         String query = "UPDATE vendedor SET estado=1 WHERE idAlumno = ?";
         try {
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
