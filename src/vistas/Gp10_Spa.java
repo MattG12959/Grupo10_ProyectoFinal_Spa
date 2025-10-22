@@ -4,17 +4,24 @@
  */
 package vistas;
 
+import Persistencia.miConexion;
+import Persistencia.EmpleadoData;
 /**
- *
- * @author matia
+ * @author Grupo10 
+ * 
+ * Altamirano Karina 
+ * Gianfranco Antonacci Matías 
+ * Bequis Marcos Ezequiel 
+ * Dave Natalia 
+ * Quiroga Dorzan Alejo
  */
-public class Gp10_Spa {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Gp10_Spa {
+    private static miConexion conexion;
     
+    public static void main(String[] args) {
+       conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+       
+       EmpleadoData empleadodata = EmpleadoData(conexion);
+    }
 }

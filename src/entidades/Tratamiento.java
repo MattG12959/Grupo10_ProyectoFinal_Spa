@@ -14,12 +14,13 @@ import java.util.ArrayList;
  * Quiroga Dorzan Alejo
  */
 public class Tratamiento {
+    
     // Atributos
     private int codTratam = -1;
     private String nombre;
     private String tipo; // enum: constantes para especialidades (facial, corporal, relajación, o estético
     private String detalle; // Información del tipo de tratamiento
-    private ArrayList<Producto> producto;
+    private ArrayList<Producto> producto = new ArrayList<>(); 
     private LocalTime duracion; // Hora
     private double costo;
     private boolean estado;

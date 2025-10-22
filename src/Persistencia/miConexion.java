@@ -44,7 +44,6 @@ public class miConexion {
         }
         return conexion;
     }
-    
 }
 
 
