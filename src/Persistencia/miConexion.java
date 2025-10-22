@@ -30,7 +30,7 @@ public class miConexion {
     
     
     //Establecer y guardar la conexión.
-   /* public Connection buscarConexion(){
+    public Connection buscarConexion(){
         if(conexion == null){
             try {
                 Class.forName("org.mariadb.jdbc.Driver");
@@ -43,7 +43,7 @@ public class miConexion {
             }
         }
         return conexion;
-    }*/
+    }
     
 }
 
