@@ -42,7 +42,8 @@ public class EmpleadoData {
             }
 
             ps.close();
-
+            
+            //JOptionPane.showMessageDialog(null, "Empleado dado de alta con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de empleados", "Error", JOptionPane.ERROR_MESSAGE);
         }
