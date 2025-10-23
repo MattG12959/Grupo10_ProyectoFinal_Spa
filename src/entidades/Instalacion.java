@@ -4,12 +4,12 @@ package entidades;
 
 public class Instalacion {
 
-    int codInstal = -1;
-    String nombre;
-    String detalleDeUso;
-    int usos;
-    double precio30m;
-    boolean estado;
+   private int codInstal = -1;
+   private String nombre;
+   private String detalleDeUso;
+   private int usos;
+   private double precio30m;
+   private boolean estado;
 
     public Instalacion() {
     }

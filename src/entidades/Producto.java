@@ -5,14 +5,14 @@ package entidades;
  * @author matia
  */
 public class Producto {
-    int idProducto = -1;
-    String nombre;
-    String fabricante;
-    String detalle;
-    double precio;
-    int stock;
-    boolean vegano;
-    boolean sinTacc;
+    private int idProducto = -1;
+    private String nombre;
+    private String fabricante;
+    private String detalle;
+    private double precio;
+    private int stock;
+    private boolean vegano;
+    private boolean sinTacc;
 
     public Producto() {
     }
