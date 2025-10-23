@@ -17,7 +17,6 @@ import entidades.Masajista;
  * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
  * Natalia Quiroga Dorzan Alejo
  */
-
 // Clase Testing
 public class Gp10_Spa {
 
@@ -27,8 +26,8 @@ public class Gp10_Spa {
         conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
 
         EmpleadoData empleadodata = new EmpleadoData(conexion);
-     //   VendedorData vendedorData = new VendedorData(conexion);
-        
+        //   VendedorData vendedorData = new VendedorData(conexion);
+
         //vendedorData.bajaLogica(10);
         /*
         Vendedor vend = new Vendedor();
@@ -40,12 +39,7 @@ public class Gp10_Spa {
         vend.setEstado(true);
         
         vendedorData.altaVendedor(vend);
-        */
-        
-        
-
-        
-        
+         */
         //Empleado emp =  new Empleado(44437768, ConstantesPuestos.MASAJISTA);
         //empleadodata.altaEmpleado(emp);
         /*   ----Prueba método actualizarVendedor (tiene que tener el mismo ID y DNI)----
@@ -72,12 +66,10 @@ public class Gp10_Spa {
     System.out.println("Prueba de actualización completada");
     
          */
-        
         // crear masajista con datos actualizados
-        EmpleadoData empleadodata1 = new EmpleadoData(conexion);
-        MasajistaData masajistaData= new MasajistaData(conexion);
-        
-    
+        EmpleadoData empleadoData1 = new EmpleadoData(conexion);
+        MasajistaData masajistaData = new MasajistaData(conexion);
+
         Masajista masajista = new Masajista();
         masajista.setMatricula(456);
         masajista.setIdEmpleado(3);
@@ -88,9 +80,8 @@ public class Gp10_Spa {
         masajista.setPuesto(ConstantesPuestos.MASAJISTA);
         masajista.setEspecialidad("estético");
         masajista.setEstado(true);
-        
+
         masajistaData.altaMasajista(masajista);
-        
-        
+
     }
 }

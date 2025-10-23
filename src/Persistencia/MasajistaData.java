@@ -34,7 +34,7 @@ public class MasajistaData {
 
         // 2) Le paso el dni de la masajista y el puesto
         empleado.setDni(masajista.getDni());
-       // empleado.setPuesto(masajista.getPuesto());
+        empleado.setPuesto(masajista.getPuesto());
 
         // 3) Creo una nueva conexion, ya que siempre va a tirar error por una imcompatiblidad entre miConexion y Connection
         miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
@@ -45,7 +45,7 @@ public class MasajistaData {
         empleadoData.altaEmpleado(empleado);
 
         // 5) Inserto en la tabla MASAJISTAcon el idEmpleado ya generado, el DNI y el puesto
-        String sql = "INSERT INTO `masajista` (`idEmpleado`, ´matricula', `nombre`, `apellido`, `telefono`, dni`,  'puesto',  'especialidad`, 'estado' ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO 'masajista' ('idEmpleado', 'matricula', 'nombre', 'apellido', 'telefono', 'dni',  'puesto',  'especialidad', 'estado' ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 
         PreparedStatement ps;
         try {
