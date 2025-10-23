@@ -27,8 +27,10 @@ public class VendedorData {
         //con = miConexion.buscarConexion();
     }
 
+    
+
     public void darAltaVendedor(int idEmpleado) {
-        String query = "UPDATE vendedor SET estado=1 WHERE idAlumno = ?";
+        String query = "UPDATE vendedor SET estado=1 WHERE idEmpleado = ?";
         try {
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -47,7 +49,7 @@ public class VendedorData {
     }
     
     public void actualizarVendedor(Vendedor a) {        
-        String query = "UPDATE Vendedor SET nombre = ?, apellido = ?, telefono=?, dni=?,  especialidad = ?, estado = ? WHERE idEmpleado = ?";
+        String query = "UPDATE Vendedor SET nombre = ?, apellido = ?, telefono=?, dni=? WHERE idEmpleado = ?";
         //System.out.println("["+a.getNombre()+"]"+a.getApellido()+"]"a.getTelefono()+"] "+a.getDni()+"]"+a.getEspecialidad()+"]"+a.getEstado()+"]"+a.getIdEmpleado()+"] ");
         try {
             PreparedStatement ps = con.prepareStatement(query);
@@ -55,9 +57,7 @@ public class VendedorData {
             ps.setString(2, a.getApellido());
             ps.setString(3, a.getTeléfono());
             ps.setInt(4, a.getDni());
-            ps.setString(5, a.getEspecialidad());
-            ps.setBoolean(6, a.isEstado());
-            ps.setInt(7, a.getIdEmpleado());
+            ps.setInt(5, a.getIdEmpleado());
             int aux = ps.executeUpdate();
             if (aux == 0) {
                 JOptionPane.showMessageDialog(null, "El Vendedor no se ha modificado.");
