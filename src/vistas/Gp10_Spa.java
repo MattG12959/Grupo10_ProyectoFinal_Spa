@@ -71,12 +71,12 @@ public class Gp10_Spa {
         MasajistaData masajistaData = new MasajistaData(conexion);
 
         Masajista masajista = new Masajista();
-        masajista.setMatricula(456);
+        masajista.setMatricula(569);
         masajista.setIdEmpleado(3);
-        masajista.setNombre("Maria");
-        masajista.setApellido("GOMEZ");
+        masajista.setNombre("Lopsf");
+        masajista.setApellido("adsdsa");
         masajista.setTelefono("2664345678");
-        masajista.setDni(33456987);
+        masajista.setDni(485141);
         masajista.setPuesto(ConstantesPuestos.MASAJISTA);
         masajista.setEspecialidad("estético");
         masajista.setEstado(true);
