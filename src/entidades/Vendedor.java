@@ -9,9 +9,9 @@ public class Vendedor {
     private int idEmpleado;
     private String nombre;
     private String apellido;
-    private String teléfono;
+    private String telefono;
     private int dni; 
-    private String especialidad; // (enum: constantes para especialidad (facial, corporal, relajación, o estético))
+    private String puesto; // (enum: constantes para puesto (facial, corporal, relajación, o estético))
     private boolean estado; // (Inactivo o Activo)
 
     public Vendedor() {
@@ -21,18 +21,18 @@ public class Vendedor {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.teléfono = teléfono;
+        this.telefono = teléfono;
         this.dni = dni;
-        this.especialidad = especialidad;
+        this.puesto = especialidad;
         this.estado = estado;
     }
 
     public Vendedor(String nombre, String apellido, String teléfono, int dni, String especialidad, boolean estado) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.teléfono = teléfono;
+        this.telefono = teléfono;
         this.dni = dni;
-        this.especialidad = especialidad;
+        this.puesto = especialidad;
         this.estado = estado;
     }
 
@@ -60,12 +60,12 @@ public class Vendedor {
         this.apellido = apellido;
     }
 
-    public String getTeléfono() {
-        return teléfono;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setTeléfono(String teléfono) {
-        this.teléfono = teléfono;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public int getDni() {
@@ -76,15 +76,15 @@ public class Vendedor {
         this.dni = dni;
     }
 
-    public String getEspecialidad() {
-        return especialidad;
+    public String getPuesto() {
+        return puesto;
     }
 
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
+    public void setPuesto(String puesto) {
+        this.puesto = puesto;
     }
 
-    public boolean isEstado() {
+    public boolean getEstado() {
         return estado;
     }
 

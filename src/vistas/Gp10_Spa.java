@@ -1,4 +1,3 @@
-
 package vistas;
 
 import Persistencia.miConexion;
@@ -7,31 +6,60 @@ import Persistencia.VendedorData;
 import constantes.ConstantesPuestos;
 import entidades.Empleado;
 import entidades.Vendedor;
+import constantes.*;
+
 /**
- * @author Grupo10 
- * 
- * Altamirano Karina 
- * Gianfranco Antonacci Matías 
- * Bequis Marcos Ezequiel 
- * Dave Natalia 
- * Quiroga Dorzan Alejo
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia Quiroga Dorzan Alejo
  */
 
 // Clase Testing
 public class Gp10_Spa {
+
     private static miConexion conexion;
-    
+
     public static void main(String[] args) {
-       conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-       
-       EmpleadoData empleadodata = new EmpleadoData(conexion);
-       
-       //Empleado emp =  new Empleado(44437768, ConstantesPuestos.MASAJISTA);
-       //empleadodata.altaEmpleado(emp);
+        conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+
+        EmpleadoData empleadodata = new EmpleadoData(conexion);
+        VendedorData vendedorData = new VendedorData(conexion);
+        
+        vendedorData.bajaLogica(10);
+        /*
+        Vendedor vend = new Vendedor();
+        vend.setNombre("Sol");
+        vend.setApellido("DASDA");
+        vend.setTelefono("1111111111");
+        vend.setDni(564465564);
+        vend.setPuesto(ConstantesPuestos.VENDEDOR);
+        vend.setEstado(true);
+        
+        vendedorData.altaVendedor(vend);
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //Empleado emp =  new Empleado(44437768, ConstantesPuestos.MASAJISTA);
+        //empleadodata.altaEmpleado(emp);
+        /*   ----Prueba método actualizarVendedor (tiene que tener el mismo ID y DNI)----
     
-    
-    /*   ----Prueba método actualizarVendedor (tiene que tener el mismo ID y DNI)----
-    VendedorData vendedorData = new VendedorData(conexion);
     
     // Crear vendedor con datos actualizados
     Vendedor vend = new Vendedor();
@@ -53,7 +81,6 @@ public class Gp10_Spa {
     vendedorData.actualizarVendedor(vend);
     System.out.println("Prueba de actualización completada");
     
-    */
+         */
     }
- }
-
+}
