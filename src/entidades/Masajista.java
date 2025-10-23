@@ -14,32 +14,32 @@ public class Masajista {
     private String apellido;
     private String telefono;
     private int dni;
-   // private String puesto; // (enum: Masajista o Vendedor)
+   private String puesto; // (enum: Masajista o Vendedor)
     private String especialidad; //(enum: constantes para especialidad (facial, corporal, relajación, o estético))
     private boolean estado; // (Inactivo o Activo)
 
     public Masajista() {
     }
 
-    public Masajista(int idEmpleado, int matricula, String nombre, String apellido, String telefono, int dni,  String especialidad, boolean estado) {
+    public Masajista(int idEmpleado, int matricula, String nombre, String apellido, String telefono, int dni, String puesto,  String especialidad, boolean estado) {
         this.idEmpleado = idEmpleado;
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.dni = dni;
-       // this.puesto = puesto;
+        this.puesto = puesto;
         this.especialidad = especialidad;
         this.estado = estado;
     }
 
-    public Masajista(int matricula, String nombre, String apellido, String telefono, int dni,  String especialidad, boolean estado) {
+    public Masajista(int matricula, String nombre, String apellido, String telefono, int dni,  String puesto, String especialidad, boolean estado) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.dni = dni;
-        //this.puesto = puesto;
+        this.puesto = puesto;
         this.especialidad = especialidad;
         this.estado = estado;
     }
@@ -91,15 +91,15 @@ public class Masajista {
     public void setDni(int dni) {
         this.dni = dni;
     }
-/*
+
     public String getPuesto() {
         return puesto;
     }
 
-    //public void setPuesto(String puesto) {
+    public void setPuesto(String puesto) {
         this.puesto = puesto;
     }
-*/
+
     public String getEspecialidad() {
         return especialidad;
     }

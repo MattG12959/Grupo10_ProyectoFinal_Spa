@@ -45,21 +45,21 @@ public class MasajistaData {
         empleadoData.altaEmpleado(empleado);
 
         // 5) Inserto en la tabla MASAJISTAcon el idEmpleado ya generado, el DNI y el puesto
-        String sql = "INSERT INTO `masajista` (´matricula', `nombre`, `apellido`, `telefono`, 'especialidad`, 'estado', `idEmpleado`, dni` ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `masajista` (`idEmpleado`, ´matricula', `nombre`, `apellido`, `telefono`, dni`,  'puesto',  'especialidad`, 'estado' ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps;
         try {
             ps = con.prepareStatement(sql);
 
-            ps.setInt(1, masajista.getMatricula());
-            ps.setString(2, masajista.getNombre());
-            ps.setString(3, masajista.getApellido());
-            ps.setString(4, masajista.getTelefono());
-            ps.setString(5, masajista.getEspecialidad());
-             ps.setInt(6, empleado.getIdEmpleado());
-            ps.setInt(7, masajista.getDni());
-          //  ps.setString(6, empleado.getPuesto());
-            ps.setBoolean(8, masajista.isEstado());
+            ps.setInt(1, empleado.getIdEmpleado());
+            ps.setInt(2, masajista.getMatricula()); 
+            ps.setString(3, masajista.getNombre());
+            ps.setString(4, masajista.getApellido());
+            ps.setString(5, masajista.getTelefono());
+            ps.setInt(6, masajista.getDni());
+            ps.setString(7, masajista.getPuesto());
+            ps.setString(8, masajista.getEspecialidad());
+            ps.setBoolean(9, masajista.isEstado());
 
             int filas = ps.executeUpdate();
 

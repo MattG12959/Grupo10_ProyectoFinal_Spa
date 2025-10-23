@@ -8,6 +8,7 @@ import constantes.ConstantesPuestos;
 import entidades.Empleado;
 import entidades.Vendedor;
 import constantes.*;
+import static constantes.ConstantesPuestos.MASAJISTA;
 import entidades.Masajista;
 
 /**
@@ -73,20 +74,20 @@ public class Gp10_Spa {
          */
         
         // crear masajista con datos actualizados
-       // EmpleadoData empleadodata1 = new EmpleadoData(conexion);
+        EmpleadoData empleadodata1 = new EmpleadoData(conexion);
         MasajistaData masajistaData= new MasajistaData(conexion);
         
     
         Masajista masajista = new Masajista();
         masajista.setMatricula(456);
+        masajista.setIdEmpleado(3);
         masajista.setNombre("Maria");
         masajista.setApellido("GOMEZ");
         masajista.setTelefono("2664345678");
+        masajista.setDni(33456987);
+        masajista.setPuesto(ConstantesPuestos.MASAJISTA);
         masajista.setEspecialidad("estético");
         masajista.setEstado(true);
-        masajista.setIdEmpleado(13);
-        masajista.setDni(39220456);
-          
         
         masajistaData.altaMasajista(masajista);
         
