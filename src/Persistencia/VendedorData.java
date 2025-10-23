@@ -16,8 +16,13 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Usuario
+ * @author Grupo10 
+ * 
+ * Altamirano Karina 
+ * Gianfranco Antonacci Matías 
+ * Bequis Marcos Ezequiel 
+ * Dave Natalia 
+ * Quiroga Dorzan Alejo
  */
 public class VendedorData {
 

@@ -2,11 +2,13 @@ package vistas;
 
 import Persistencia.miConexion;
 import Persistencia.EmpleadoData;
+import Persistencia.MasajistaData;
 import Persistencia.VendedorData;
 import constantes.ConstantesPuestos;
 import entidades.Empleado;
 import entidades.Vendedor;
 import constantes.*;
+import entidades.Masajista;
 
 /**
  * @author Grupo10
@@ -24,9 +26,9 @@ public class Gp10_Spa {
         conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
 
         EmpleadoData empleadodata = new EmpleadoData(conexion);
-        VendedorData vendedorData = new VendedorData(conexion);
+     //   VendedorData vendedorData = new VendedorData(conexion);
         
-        vendedorData.bajaLogica(10);
+        //vendedorData.bajaLogica(10);
         /*
         Vendedor vend = new Vendedor();
         vend.setNombre("Sol");
@@ -40,20 +42,7 @@ public class Gp10_Spa {
         */
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         
         //Empleado emp =  new Empleado(44437768, ConstantesPuestos.MASAJISTA);
@@ -82,5 +71,25 @@ public class Gp10_Spa {
     System.out.println("Prueba de actualización completada");
     
          */
+        
+        // crear masajista con datos actualizados
+       // EmpleadoData empleadodata1 = new EmpleadoData(conexion);
+        MasajistaData masajistaData= new MasajistaData(conexion);
+        
+    
+        Masajista masajista = new Masajista();
+        masajista.setMatricula(456);
+        masajista.setNombre("Maria");
+        masajista.setApellido("GOMEZ");
+        masajista.setTelefono("2664345678");
+        masajista.setEspecialidad("estético");
+        masajista.setEstado(true);
+        masajista.setIdEmpleado(13);
+        masajista.setDni(39220456);
+          
+        
+        masajistaData.altaMasajista(masajista);
+        
+        
     }
 }

@@ -11,7 +11,7 @@ public class Vendedor {
     private String apellido;
     private String telefono;
     private int dni; 
-    private String puesto; // (enum: constantes para puesto (facial, corporal, relajación, o estético))
+    private String puesto; // (enum: Masajista o Vendedor)
     private boolean estado; // (Inactivo o Activo)
 
     public Vendedor() {
