@@ -13,8 +13,10 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia Quiroga Dorzan Alejo
  */
 public class ProductoData {
     

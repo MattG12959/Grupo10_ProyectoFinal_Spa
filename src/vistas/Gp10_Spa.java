@@ -4,11 +4,11 @@ import Persistencia.miConexion;
 import Persistencia.EmpleadoData;
 import Persistencia.MasajistaData;
 import Persistencia.VendedorData;
-import constantes.ConstantesPuestos;
+//import constantes.ConstantesPuestos; ->Mati: Lo comente para que aparezca con error.
 import entidades.Empleado;
 import entidades.Vendedor;
 import constantes.*;
-import static constantes.ConstantesPuestos.MASAJISTA;
+//import static constantes.ConstantesPuestos.MASAJISTA; ->Mati: Lo comente para que aparezca con error.
 import entidades.Masajista;
 
 /**
@@ -25,21 +25,24 @@ public class Gp10_Spa {
     public static void main(String[] args) {
         conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
 
-        EmpleadoData empleadodata = new EmpleadoData(conexion);
-        //   VendedorData vendedorData = new VendedorData(conexion);
+        //EmpleadoData empleadodata = new EmpleadoData(conexion);
+        VendedorData vendedorData = new VendedorData(conexion);
 
-        //vendedorData.bajaLogica(10);
         /*
+        vendedorData.bajaLogica(1);
+        vendedorData.bajaLogica(2);
+        */
+        
         Vendedor vend = new Vendedor();
         vend.setNombre("Sol");
         vend.setApellido("DASDA");
         vend.setTelefono("1111111111");
         vend.setDni(564465564);
-        vend.setPuesto(ConstantesPuestos.VENDEDOR);
+        vend.setPuesto(PuestosDeTrabajo.VENDEDOR.getPuesto());
         vend.setEstado(true);
         
         vendedorData.altaVendedor(vend);
-         */
+         
         //Empleado emp =  new Empleado(44437768, ConstantesPuestos.MASAJISTA);
         //empleadodata.altaEmpleado(emp);
         /*   ----Prueba método actualizarVendedor (tiene que tener el mismo ID y DNI)----
@@ -67,6 +70,7 @@ public class Gp10_Spa {
     
          */
         // crear masajista con datos actualizados
+        /*
         EmpleadoData empleadoData1 = new EmpleadoData(conexion);
         MasajistaData masajistaData = new MasajistaData(conexion);
 
@@ -77,11 +81,14 @@ public class Gp10_Spa {
         masajista.setApellido("adsdsa");
         masajista.setTelefono("2664345678");
         masajista.setDni(485141);
-        masajista.setPuesto(ConstantesPuestos.MASAJISTA);
+        //masajista.setPuesto(ConstantesPuestos.MASAJISTA);  ->Mati: Lo comente para que aparezca con error.
         masajista.setEspecialidad("estético");
         masajista.setEstado(true);
 
-        masajistaData.altaMasajista(masajista);
+        masajistaData.altaMasajista(masajista);*/
 
+        System.out.println(TratamientosFaciales.LUZ_PULSADA_INTENSA.getNombre() + ": " 
+                + TratamientosFaciales.LUZ_PULSADA_INTENSA.getDescripcion());
+        
     }
 }

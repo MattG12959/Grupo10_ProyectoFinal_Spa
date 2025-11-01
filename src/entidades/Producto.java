@@ -1,8 +1,10 @@
 package entidades;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia Quiroga Dorzan Alejo
  */
 public class Producto {
     private int idProducto = -1;

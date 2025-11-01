@@ -14,8 +14,10 @@ import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia Quiroga Dorzan Alejo
  */
 public class SesionData {
     private Connection con = null;
@@ -45,7 +47,7 @@ public class SesionData {
                     fechaHoraFinal,
                     resultado.getInt("idTratamiento"),
                     resultado.getInt("idConsultorio"),
-                    resultado.getInt("matricula"),
+                    resultado.getInt("idMasajista"),
                     resultado.getString("instalaciones"),
                     resultado.getInt("codPack"),
                     resultado.getBoolean("estado")
