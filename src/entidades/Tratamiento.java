@@ -18,7 +18,7 @@ public class Tratamiento {
     // Atributos
     private int codTratam = -1;
     private String nombre;
-    private String tipo; // enum: constantes para especialidades (facial, corporal, relajación, o estético
+    private String tipoTratamiento; // enum: constantes para especialidades (facial, corporal, relajación, o estético
     private String detalle; // Información del tipo de tratamiento
     private ArrayList<Producto> producto = new ArrayList<>(); 
     private LocalTime duracion; // Hora
@@ -29,9 +29,9 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(String nombre, String tipo, String detalle, ArrayList<Producto> producto, LocalTime duracion, double costo, boolean estado) {
+    public Tratamiento(String nombre, String tipoTratamiento, String detalle, ArrayList<Producto> producto, LocalTime duracion, double costo, boolean estado) {
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.tipoTratamiento = tipoTratamiento;
         this.detalle = detalle;
         this.producto = producto;
         this.duracion = duracion;
@@ -39,10 +39,10 @@ public class Tratamiento {
         this.estado = estado;
     }
     
-    public Tratamiento(int codTratam, String nombre, String tipo, String detalle, ArrayList<Producto> producto, LocalTime duracion, double costo, boolean estado) {
+    public Tratamiento(int codTratam, String nombre, String tipoTratamiento, String detalle, ArrayList<Producto> producto, LocalTime duracion, double costo, boolean estado) {
         this.codTratam = codTratam;
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.tipoTratamiento = tipoTratamiento;
         this.detalle = detalle;
         this.producto = producto;
         this.duracion = duracion;
@@ -67,12 +67,12 @@ public class Tratamiento {
         this.nombre = nombre;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String gettipoTratamiento() {
+        return tipoTratamiento;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void settipoTratamiento(String tipoTratamiento) {
+        this.tipoTratamiento = tipoTratamiento;
     }
 
     public String getDetalle() {
