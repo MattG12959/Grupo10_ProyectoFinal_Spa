@@ -18,20 +18,25 @@ public class Consultorio {
     // Atributos
     private int nroConsultorio = -1;
     private int usos; // Cantidad de veces que fue utilizado el consultorio para mantenimiento, estadísticas, etc
-    private ArrayList<String> equipamiento = new ArrayList<>(); // enum: constantes para equipamientos
-    private ArrayList<String> apto = new ArrayList<>(); // enum: constantes para especialidades
+    private ArrayList<Equipamiento> equipamiento = new ArrayList<>(); // enum: constantes para equipamientos
+    private String apto; // enum: constantes para especialidades
     
     // Constructores
     public Consultorio() {
     }
 
-    public Consultorio(int usos, ArrayList<String> equipamiento, ArrayList<String> apto) {
+    public Consultorio(int usos, ArrayList<Equipamiento> equipamiento, String apto) {
         this.usos = usos;
         this.equipamiento = equipamiento;
         this.apto = apto;
     }
+    
+    public Consultorio(int usos, String apto) {
+        this.usos = usos;
+        this.apto = apto;
+    }
 
-    public Consultorio(int nroConsultorio, int usos, ArrayList<String> equipamiento, ArrayList<String> apto) {
+    public Consultorio(int nroConsultorio, int usos, ArrayList<Equipamiento> equipamiento, String apto) {
         this.nroConsultorio = nroConsultorio;
         this.usos = usos;
         this.equipamiento = equipamiento;
@@ -55,19 +60,19 @@ public class Consultorio {
         this.usos = usos;
     }
 
-    public ArrayList<String> getEquipamiento() {
+    public ArrayList<Equipamiento> getEquipamiento() {
         return equipamiento;
     }
 
-    public void setEquipamiento(ArrayList<String> equipamiento) {
+    public void setEquipamiento(ArrayList<Equipamiento> equipamiento) {
         this.equipamiento = equipamiento;
     }
 
-    public ArrayList<String> getApto() {
+    public String getApto() {
         return apto;
     }
 
-    public void setApto(ArrayList<String> apto) {
+    public void setApto(String apto) {
         this.apto = apto;
     }
 }

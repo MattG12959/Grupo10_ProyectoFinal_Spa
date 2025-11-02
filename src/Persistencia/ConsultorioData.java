@@ -46,9 +46,10 @@ public class ConsultorioData {
                 consultorio.setNroConsultorio(rs.getInt(1));
             }
             
+                /*  CARGAMOS LOS EQUIPAMIENTOS LUEGO :P
             if (!consultorio.getEquipamiento().isEmpty()) {
                 ed.cargaEquipamiento(consultorio.getEquipamiento());
-            }
+            }*/
 
             ps.close();
 

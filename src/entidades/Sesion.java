@@ -16,14 +16,14 @@ public class Sesion {
     Tratamiento tratamiento;
     Consultorio consultorio;
     Masajista masajista;
-    Dia_De_Spa diaDeSpa;
+    DiaDeSpa diaDeSpa;
     ArrayList<Instalacion> insalaciones;
     boolean estado;
 
     public Sesion() {
     }
 
-    public Sesion(int codSesion, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, Dia_De_Spa diaDeSpa, ArrayList<Instalacion> insalaciones, boolean estado) {
+    public Sesion(int codSesion, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, DiaDeSpa diaDeSpa, ArrayList<Instalacion> insalaciones, boolean estado) {
         this.codSesion = codSesion;
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFinal = fechaHoraFinal;
@@ -37,7 +37,7 @@ public class Sesion {
 
     
     
-    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, Dia_De_Spa diaDeSpa, ArrayList<Instalacion> insalaciones, boolean estado) {
+    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, DiaDeSpa diaDeSpa, ArrayList<Instalacion> insalaciones, boolean estado) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFinal = fechaHoraFinal;
         this.tratamiento = tratamiento;
@@ -96,11 +96,11 @@ public class Sesion {
         this.masajista = masajista;
     }
 
-    public Dia_De_Spa getDiaDeSpa() {
+    public DiaDeSpa getDiaDeSpa() {
         return diaDeSpa;
     }
 
-    public void setDiaDeSpa(Dia_De_Spa diaDeSpa) {
+    public void setDiaDeSpa(DiaDeSpa diaDeSpa) {
         this.diaDeSpa = diaDeSpa;
     }
 
