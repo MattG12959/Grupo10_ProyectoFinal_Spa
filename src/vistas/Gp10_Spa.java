@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.Scanner;
 
@@ -37,6 +38,7 @@ public class Gp10_Spa {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
+       MasajistaData masajistaData = new MasajistaData(conexion);
 
         conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
         
@@ -577,9 +579,88 @@ public class Gp10_Spa {
     }
 */
         
+         int opcion;
+        do {
+            System.out.println("\n=== MENU ===");
+            System.out.println("1. Alta");
+            System.out.println("2. Actualizar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Listar");
+            System.out.println("5. Buscar por DNI");
+            System.out.println("0. Salir");
+            System.out.print("Opcion: ");
+            opcion = scanner.nextInt();
+            
+            switch (opcion) {
+                case 1: // ALTA
+                    Masajista nuevo = new Masajista();
+                    nuevo.setMatricula(12345);
+                    nuevo.setNombre("Juan");
+                    nuevo.setApellido("Perez");
+                    nuevo.setTelefono("2664123456");
+                    nuevo.setDni(35123456);
+                    nuevo.setPuesto("Masajista");
+                    nuevo.setEspecialidad("Deportivo");
+                    nuevo.setEstado(true);
+                    System.out.println("Creando masajista: " + nuevo.getNombre() + " " + nuevo.getApellido());
+                    masajistaData.altaMasajista(nuevo);
+                    break;
+                    
+                case 2: // ACTUALIZAR
+                    Masajista act = new Masajista();
+                    System.out.print("ID Empleado: ");
+                    act.setIdEmpleado(scanner.nextInt());
+                    System.out.print("Matricula: ");
+                    act.setMatricula(scanner.nextInt());
+                    scanner.nextLine();
+                    System.out.print("Nombre: ");
+                    act.setNombre(scanner.nextLine());
+                    System.out.print("Apellido: ");
+                    act.setApellido(scanner.nextLine());
+                    System.out.print("Telefono: ");
+                    act.setTelefono(scanner.nextLine());
+                    System.out.print("DNI: ");
+                    act.setDni(scanner.nextInt());
+                    scanner.nextLine();
+                    System.out.print("Puesto: ");
+                    act.setPuesto(scanner.nextLine());
+                    System.out.print("Especialidad: ");
+                    act.setEspecialidad(scanner.nextLine());
+                    act.setEstado(true);
+                    masajistaData.actualizarMasajista(act);
+                    break;
+                    
+                case 3: // ELIMINAR
+                    System.out.print("ID Empleado a eliminar: ");
+                    int id = scanner.nextInt();
+                    masajistaData.eliminarMasajista(id);
+                    break;
+                    
+                case 4: // LISTAR
+                    List<Masajista> lista = masajistaData.listarMasajistas();
+                    System.out.println("\n--- MASAJISTAS ---");
+                    for (Masajista m : lista) {
+                        System.out.println("ID: " + m.getIdEmpleado() + 
+                            " | " + m.getNombre() + " " + m.getApellido() + 
+                            " | DNI: " + m.getDni() + 
+                            " | Mat: " + m.getMatricula());
+                    }
+                    break;
+                    
+                case 5: // BUSCAR POR DNI
+                    System.out.print("DNI: ");
+                    int dni = scanner.nextInt();
+                    Masajista m = masajistaData.buscarMasajistaPorDNI(dni);
+                    if (m != null) {
+                        System.out.println("Encontrado: " + m.getNombre() + " " + m.getApellido());
+                    }
+                    break;
+            }
+        } while (opcion != 0);
         
-        
-        
-        
+        scanner.close();
     }
 }
+        
+        
+        

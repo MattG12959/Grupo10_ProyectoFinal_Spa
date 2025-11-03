@@ -48,4 +48,23 @@ public class EmpleadoData {
             JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de empleados", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+        public void eliminarEmpleado(int idEmpleado) {
+        String sql = "DELETE FROM empleado WHERE idEmpleado = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            int filas = ps.executeUpdate();
+
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Empleado eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el empleado con ese id.");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar empleado. " + ex.getMessage());
+        }
+    }
 }
