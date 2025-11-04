@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -57,5 +58,77 @@ public class ConsultorioData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de tratamientos", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    public Consultorio buscarConsultorio(int idConsultorio) {
+        String sql = "SELECT * FROM consultorio WHERE idConsultorio = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idConsultorio);
+            ResultSet rs = ps.executeQuery();
+            Consultorio consultorio = null;
+
+            while (rs.next()) {
+                consultorio = new Consultorio(
+                        rs.getInt("idConsultorio"),
+                        rs.getInt("usos"),
+                        rs.getString("apto")
+                );
+            }
+
+            ps.close();
+            return consultorio;
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el consultorio. " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    public void eliminarConsultorio(int idConsultorio) {
+        String sql = "DELETE FROM consultorio WHERE idConsultorio = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idConsultorio);
+            int filas = ps.executeUpdate();
+
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Consultorio eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el consultorio con ese código.");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar consultorio. " + ex.getMessage());
+        }
+    }
+    
+    public ArrayList<Consultorio> listarConsultorios() {
+        ArrayList<Consultorio> consultorios = new ArrayList<>();
+        String sql = "SELECT * FROM consultorio";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Consultorio c = new Consultorio(
+                        rs.getInt("idConsultorio"),
+                        rs.getInt("usos"),
+                        rs.getString("apto")
+                );
+                consultorios.add(c);
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar consultorios. " + ex.getMessage());
+        }
+
+        return consultorios;
     }
 }
