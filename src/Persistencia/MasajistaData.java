@@ -4,6 +4,9 @@
  */
 package Persistencia;
 
+import constantes.Especialidades;
+import constantes.TratamientosCorporales;
+import constantes.TratamientosFaciales;
 import entidades.Empleado;
 import entidades.Masajista;
 import java.sql.Connection;
@@ -89,10 +92,10 @@ public class MasajistaData {
             ps.setString(3, a.getApellido());
             ps.setString(4, a.getTelefono());
             ps.setInt(5, a.getDni());
-            ps.setString(5, a.getPuesto());
-            ps.setString(6, a.getEspecialidad());
-            ps.setBoolean(7, a.isEstado());
-            ps.setInt(8, a.getIdEmpleado());
+            ps.setString(6, a.getPuesto());
+            ps.setString(7, a.getEspecialidad());
+            ps.setBoolean(8, a.isEstado());
+            ps.setInt(9, a.getIdEmpleado());
 
             int aux = ps.executeUpdate();
             if (aux == 0) {
@@ -246,4 +249,24 @@ public class MasajistaData {
             return null;
         }
     }
+       //trae las especialidades
+    public String obtenerEspecialidadPorNombre(String nombreTratamiento) {
+        for (TratamientosFaciales tf : TratamientosFaciales.values()) {
+            if (tf.getNombre().equalsIgnoreCase(nombreTratamiento)) {
+                // Asume que si está en TratamientosFaciales, la especialidad es FACIAL
+                return Especialidades.FACIAL.getEspecialidad(); 
+            }
+        }
+
+        for (TratamientosCorporales tc : TratamientosCorporales.values()) {
+            if (tc.getNombre().equalsIgnoreCase(nombreTratamiento)) {
+                // Asume que si está en TratamientosCorporales, la especialidad es CORPORAL
+                return Especialidades.CORPORAL.getEspecialidad();
+            }
+        }
+
+
+        return null; // Si el nombre no coincide con ningún tratamiento definido
+    }
+
 }

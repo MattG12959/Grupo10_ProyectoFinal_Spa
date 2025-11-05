@@ -38,9 +38,11 @@ public class Gp10_Spa {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
-       MasajistaData masajistaData = new MasajistaData(conexion);
+      
 
         conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+        
+        MasajistaData masajistaData = new MasajistaData(conexion);
         
         //EmpleadoData empleadodata = new EmpleadoData(conexion);
         //VendedorData vendedorData = new VendedorData(conexion);
@@ -88,9 +90,9 @@ public class Gp10_Spa {
     
          */
         // crear masajista con datos actualizados
-        /*
-        EmpleadoData empleadoData1 = new EmpleadoData(conexion);
-        MasajistaData masajistaData = new MasajistaData(conexion);
+        
+      /*  EmpleadoData empleadoData1 = new EmpleadoData(conexion);
+       
 
         Masajista masajista = new Masajista();
         masajista.setMatricula(569);
@@ -99,13 +101,56 @@ public class Gp10_Spa {
         masajista.setApellido("adsdsa");
         masajista.setTelefono("2664345678");
         masajista.setDni(485141);
-        //masajista.setPuesto(ConstantesPuestos.MASAJISTA);  ->Mati: Lo comente para que aparezca con error.
+        masajista.setPuesto("masajista");  ->Mati: Lo comente para que aparezca con error.
         masajista.setEspecialidad("estético");
         masajista.setEstado(true);
 
         masajistaData.altaMasajista(masajista);*/
 
+      EmpleadoData empleadoData1 = new EmpleadoData(conexion);
+
+        Masajista masajista = new Masajista();
+    /*    masajista.setMatricula(124);
+        // NO setear idEmpleado manualmente - lo genera automáticamente altaMasajista()
+        // masajista.setIdEmpleado(3);  // COMENTAR ESTA LÍNEA
+        masajista.setNombre("Lois");
+        masajista.setApellido("Lane");
+        masajista.setTelefono("2664345678");
+        masajista.setDni(4651141);
+        masajista.setPuesto("Masajista");  // String con el nombre del puesto
+        masajista.setEspecialidad("FACIAL");      // Usar constantes del enum
+        masajista.setEstado(true);
+
+        masajistaData.altaMasajista(masajista);  */
         
+        Masajista act = new Masajista();
+                    System.out.print("ID Empleado: ");
+                    act.setIdEmpleado(scanner.nextInt());
+                    System.out.print("Matricula: ");
+                    act.setMatricula(scanner.nextInt());
+                    scanner.nextLine();
+                    System.out.print("Nombre: ");
+                    act.setNombre(scanner.nextLine());
+                    System.out.print("Apellido: ");
+                    act.setApellido(scanner.nextLine());
+                    System.out.print("Telefono: ");
+                    act.setTelefono(scanner.nextLine());
+                    System.out.print("DNI: ");
+                    act.setDni(scanner.nextInt());
+                    scanner.nextLine();
+                    System.out.print("Puesto: ");
+                    act.setPuesto(scanner.nextLine());
+                    System.out.print("Especialidad: ");
+                    act.setEspecialidad(scanner.nextLine());
+                    act.setEstado(true);
+                    masajistaData.actualizarMasajista(act);
+                    
+                    // Ejecutar actualización
+                    masajistaData.actualizarMasajista(masajista);
+                    System.out.println("Prueba de actualización completada");
+      
+      
+      
         /*
         System.out.println(TratamientosFaciales.LUZ_PULSADA_INTENSA.getNombre() + ": " 
                 + TratamientosFaciales.LUZ_PULSADA_INTENSA.getDescripcion());
@@ -579,6 +624,8 @@ public class Gp10_Spa {
     }
 */
         
+        
+        /*//--------MASAJISTA-------------
          int opcion;
         do {
             System.out.println("\n=== MENU ===");
@@ -600,7 +647,7 @@ public class Gp10_Spa {
                     nuevo.setTelefono("2664123456");
                     nuevo.setDni(35123456);
                     nuevo.setPuesto("Masajista");
-                    nuevo.setEspecialidad("Deportivo");
+                    nuevo.setEspecialidad("Estetico");
                     nuevo.setEstado(true);
                     System.out.println("Creando masajista: " + nuevo.getNombre() + " " + nuevo.getApellido());
                     masajistaData.altaMasajista(nuevo);
@@ -658,7 +705,7 @@ public class Gp10_Spa {
             }
         } while (opcion != 0);
         
-        scanner.close();
+        scanner.close();*/
     }
 }
         
