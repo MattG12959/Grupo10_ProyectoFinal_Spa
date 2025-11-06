@@ -5,55 +5,136 @@
  */
 package Persistencia;
 
-
-import java.sql.Connection;
 import entidades.Cliente;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author usuario
- */
 public class ClienteData {
+
     private Connection con = null;
 
     public ClienteData(miConexion conexion) {
         this.con = conexion.buscarConexion();
-        //con = miConexion.buscarConexion();
     }
 
-    public void actualizarCliente(Cliente a) {        
-        String query = "UPDATE Cliente SET dni=?, nombre=?, apellido=?, telefono=?, edad=?, afecciones=?, estado=? WHERE codCli=?";
-        //System.out.println("[" + a.getDni() + "] [" + a.getNombre() + "] [" + a.getApellido() + "] [" + a.getTelefono() + "] [" + a.getEdad() + "] [" + a.getAfecciones() + "] [" + a.isEstado() + "] [" + a.getCodCli() + "]");
+    // Guardar cliente
+    public void guardarCliente(Cliente c) {
+        String sql = "INSERT INTO cliente (dni, nombre, apellido, telefono, edad, afecciones, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, c.getDni());
+            ps.setString(2, c.getNombre());
+            ps.setString(3, c.getApellido());
+            ps.setString(4, c.getTelefono());
+            ps.setInt(5, c.getEdad());
+            ps.setString(6, c.getAfecciones());
+            ps.setBoolean(7, c.isEstado());
 
-            try {
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setInt(1, a.getDni());
-                ps.setString(2, a.getNombre());
-                ps.setString(3, a.getApellido());
-                ps.setString(4, a.getTelefono());
-                ps.setInt(5, a.getEdad());
-                ps.setString(6, a.getAfecciones());
-                ps.setBoolean(7, a.isEstado());
-                ps.setInt(8, a.getCodCli());
+            ps.executeUpdate();
 
-                int aux = ps.executeUpdate();
-                if (aux == 0) {
-                    JOptionPane.showMessageDialog(null, "El Cliente no se ha modificado.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente.");
-                }
-                ps.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al actualizar el cliente: " + ex.getMessage());
-                Logger.getLogger(ClienteData.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                c.setCodCli(rs.getInt(1));
+            }
+
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Cliente guardado correctamente.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar cliente. " + ex.getMessage());
+        }
     }
-    
+
+    // Buscar cliente por ID
+    public Cliente buscarCliente(int codCli) {
+        String sql = "SELECT * FROM cliente WHERE codCli = ?";
+        Cliente c = null;
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, codCli);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                c = new Cliente();
+                c.setCodCli(rs.getInt("codCli"));
+                c.setDni(rs.getInt("dni"));
+                c.setNombre(rs.getString("nombre"));
+                c.setApellido(rs.getString("apellido"));
+                c.setTelefono(rs.getString("telefono"));
+                c.setEdad(rs.getInt("edad"));
+                c.setAfecciones(rs.getString("afecciones"));
+                c.setEstado(rs.getBoolean("estado"));
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar cliente. " + ex.getMessage());
+        }
+        return c;
+    }
+
+    // Modificar cliente
+    public void modificarCliente(Cliente c) {
+        String sql = "UPDATE cliente SET dni = ?, nombre = ?, apellido = ?, telefono = ?, edad = ?, afecciones = ?, estado = ? WHERE codCli = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, c.getDni());
+            ps.setString(2, c.getNombre());
+            ps.setString(3, c.getApellido());
+            ps.setString(4, c.getTelefono());
+            ps.setInt(5, c.getEdad());
+            ps.setString(6, c.getAfecciones());
+            ps.setBoolean(7, c.isEstado());
+            ps.setInt(8, c.getCodCli());
+
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Cliente modificado correctamente.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar cliente. " + ex.getMessage());
+        }
+    }
+
+    // Eliminar cliente
+    public void eliminarCliente(int codCli) {
+        String sql = "DELETE FROM cliente WHERE codCli = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, codCli);
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar cliente. " + ex.getMessage());
+        }
+    }
+
+    // Listar clientes
+    public List<Cliente> listarClientes() {
+        List<Cliente> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM cliente";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setCodCli(rs.getInt("codCli"));
+                c.setDni(rs.getInt("dni"));
+                c.setNombre(rs.getString("nombre"));
+                c.setApellido(rs.getString("apellido"));
+                c.setTelefono(rs.getString("telefono"));
+                c.setEdad(rs.getInt("edad"));
+                c.setAfecciones(rs.getString("afecciones"));
+                c.setEstado(rs.getBoolean("estado"));
+                clientes.add(c);
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar clientes. " + ex.getMessage());
+        }
+        return clientes;
+    }
 }

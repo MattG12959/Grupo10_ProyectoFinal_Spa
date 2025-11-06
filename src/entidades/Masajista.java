@@ -14,7 +14,7 @@ public class Masajista {
     private String apellido;
     private String telefono;
     private int dni;
-   private String puesto; // (enum: Masajista o Vendedor)
+    private String puesto; // (enum: Masajista o Vendedor)
     private String especialidad; //(enum: constantes para especialidad (facial, corporal, relajación, o estético))
     private boolean estado; // (Inactivo o Activo)
 

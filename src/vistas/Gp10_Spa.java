@@ -17,12 +17,15 @@ import entidades.Vendedor;
 import constantes.*;
 import entidades.Cliente;
 import entidades.Consultorio;
+import entidades.DiaDeSpa;
+import entidades.Equipamiento;
 import entidades.Instalacion;
 //import static constantes.ConstantesPuestos.MASAJISTA; ->Mati: Lo comente para que aparezca con error.
 import entidades.Masajista;
 import entidades.Producto;
 import entidades.Sesion;
 import entidades.Tratamiento;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -59,46 +62,88 @@ public class Gp10_Spa {
         ClienteData clienteData = new ClienteData(conexion);
 
         try {
-            // 3) Crear/guardar entidades necesarias (instalaciones, tratamiento, masajista, consultorio, cliente)
+            // -------------- CARGO INSTALACION ----------------------
             Instalacion ins1 = new Instalacion();
-            ins1.setNombre("Sauna");
-            ins1.setDetalleDeUso("Uso para relajacion");
+            
+            ins1.setNombre(AreasDeRelajacion.SALA_DE_INFUCIONES.getNombre());
+            ins1.setDetalleDeUso(AreasDeRelajacion.SALA_DE_INFUCIONES.getDescripcion());
             ins1.setUsos(10);
             ins1.setPrecio30m(500.0);
             ins1.setEstado(true);
             instalData.guardarInstalacion(ins1);
             System.out.println("Instalacion guardada con id: " + ins1.getCodInstal());
 
+            // -------------- CARGO TRATAMIENTO -------------
             Tratamiento tr = new Tratamiento();
-            // Ajustá nombres/constructores según tu clase Tratamiento
-            tr.setCodTratam(0); // si tiene autoincrement, no importa
-            tr.setNombre("Masaje relajante");
-            tr.setDuracionMinutos(60);
-            tr.setPrecio(1200.0);
-            tratData.guardarTratamiento(tr);
+
+            tr.setNombre(TratamientosCorporales.ENVOLTURAS_CORPORALES.getNombre());
+            tr.settipoTratamiento(Especialidades.CORPORAL.getEspecialidad());
+            tr.setDetalle(TratamientosCorporales.ENVOLTURAS_CORPORALES.getDescripcion());
+            tr.setDuracion(LocalTime.of(60, 0));
+            tr.setCosto(1200.0);
+            tr.setEstado(true);
+            tratData.cargaTratamiento(tr);
             System.out.println("Tratamiento guardado con id: " + tr.getCodTratam());
 
+            // ----------------- CARGO MASAJISTA -------------
             Masajista m = new Masajista();
-            m.setMatricula(0);
+            
+            m.setMatricula(368);
             m.setNombre("Juan");
             m.setApellido("Perez");
             m.setTelefono("12345678");
-            masData.guardarMasajista(m);
+            m.setDni(62626262);
+            m.setPuesto(PuestosDeTrabajo.MASAJISTA.getPuesto());
+            m.setEspecialidad(Especialidades.CORPORAL.getEspecialidad());
+            masData.altaMasajista(m);
             System.out.println("Masajista guardado con matricula: " + m.getMatricula());
 
+            // --------------- CARGO CONSULTORIO -------------
             Consultorio c = new Consultorio();
+            
             c.setUsos(5);
             c.setApto("General");
-            consultData.guardarConsultorio(c);
+            consultData.cargaConsultorio(c);
+            
+            // cargo tres equipamientos para probar todo
+            ArrayList<Equipamiento> equipamientos = new ArrayList<>();
+
+            Equipamiento e1 = new Equipamiento();
+            e1.setNombre_equipamiento(Equipamientos.CABINA_SAUNA.getNombre());
+            e1.setDescripcion_equipamiento(Equipamientos.CABINA_SAUNA.getDescripcion());
+
+            Equipamiento e2 = new Equipamiento();
+            e2.setNombre_equipamiento(Equipamientos.CAMILLA_HIDROMASAJE.getNombre());
+            e2.setDescripcion_equipamiento(Equipamientos.CAMILLA_HIDROMASAJE.getDescripcion());
+
+            Equipamiento e3 = new Equipamiento();
+            e3.setNombre_equipamiento(Equipamientos.CAMILLA_MASAJES.getNombre());
+            e3.setDescripcion_equipamiento(Equipamientos.CAMILLA_MASAJES.getDescripcion());
+
+            equipamientos.add(e1);
+            equipamientos.add(e2);
+            equipamientos.add(e3);
+
+            // asignar la lista al consultorio antes de persistirlo
+            c.setEquipamiento(equipamientos);
+            
+            
             System.out.println("Consultorio guardado con nro: " + c.getNroConsultorio());
 
+            
+            // ------------------- CARGA CLIENTE ------------------
             Cliente cliente = new Cliente();
             // Ajustá el setter/getter de id si tu clase usa otro nombre
-            cliente.setCodCliente(0);
+            cliente.setDni(44437768);
             cliente.setNombre("Marcos");
             cliente.setApellido("Bequis");
+            cliente.setTelefono("2664880438");
+            cliente.setEdad(22);
+            cliente.setAfecciones("Ninguna");
+            cliente.setEstado(true);
             clienteData.guardarCliente(cliente);
-            System.out.println("Cliente guardado con id: " + cliente.getCodCliente());
+            
+            System.out.println("Cliente guardado con id: " + cliente.getCodCli());
 
             // 4) Crear una sesión que use las entidades anteriores
             Sesion s = new Sesion();
@@ -107,7 +152,7 @@ public class Gp10_Spa {
             s.setTratamiento(tr);
             s.setConsultorio(c);
             s.setMasajista(m);
-            s.setCodPack(0); // por ahora 0, luego lo seteamos con DiaDeSpa
+            s.getDiaDeSpa().setCodPack(0); // por ahora 0, luego lo seteamos con DiaDeSpa
             s.setEstado(true);
 
             // Asociar instalaciones a la sesión

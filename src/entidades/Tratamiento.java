@@ -1,6 +1,7 @@
 
 package entidades;
 
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -49,6 +50,17 @@ public class Tratamiento {
         this.costo = costo;
         this.estado = estado;
     }
+
+    public Tratamiento(String nombre, String tipoTratamiento, String detalle, LocalTime duracion, double costo, boolean estado) {
+        this.nombre = nombre;
+        this.tipoTratamiento = tipoTratamiento;
+        this.detalle = detalle;
+        this.duracion = duracion;
+        this.costo = costo;
+        this.estado = estado;
+    }
+    
+    
     
     // Getters y Setters
     public int getCodTratam() {
