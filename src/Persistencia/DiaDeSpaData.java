@@ -6,183 +6,152 @@
 package Persistencia;
 
 import entidades.DiaDeSpa;
+import entidades.Sesion;
+import entidades.Cliente;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.SQLException;
-import Persistencia.miConexion;
 
-/**
- *
- * @author usuario
- */
 public class DiaDeSpaData {
+
     private Connection con = null;
 
-    public DiaDeSpaData (miConexion conexion) {
+    public DiaDeSpaData(miConexion conexion) {
         this.con = conexion.buscarConexion();
     }
-    
-    public void agregarDiadespa(DiaDeSpa diaSpa) {
-        String sql = "INSERT INTO dia_de_spa (fecha_y_hora, preferencias, " +
-                     "idCliente, monto, estado) VALUES (?, ?, ?, ?, ?)";
+
+    // Guardar DiaDeSpa
+    public void guardarDiaDeSpa(DiaDeSpa d) {
+        String sql = "INSERT INTO dia_de_spa (fecha_y_hora, preferencias, idCliente, monto, estado) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setTimestamp(1, Timestamp.valueOf(diaSpa.getFechayhora()));
-            ps.setString(2, diaSpa.getPreferencias());
-            ps.setInt(3, diaSpa.getCliente().getCodCli());
-            ps.setDouble(4, diaSpa.getMonto());
-            ps.setBoolean(5, diaSpa.isEstado());
-            
+
+            ps.setTimestamp(1, Timestamp.valueOf(d.getFechayhora()));
+            ps.setString(2, d.getPreferencias());
+            ps.setInt(3, d.getCliente().getCodCli()); 
+            ps.setDouble(4, d.getMonto());
+            ps.setBoolean(5, d.isEstado());
+
             ps.executeUpdate();
+
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                diaSpa.setCodPack(rs.getInt(1));
+                d.setCodPack(rs.getInt(1));
             }
-            ps.close();
-            
-            JOptionPane.showMessageDialog(null, "Día de spa registrado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla dia_de_spa", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    
-    }
-    
-     public void actualizarDiadespa(DiaDeSpa diaSpa) {
-        String sql = "UPDATE dia_de_spa SET fecha_y_hora = ?, preferencias = ?, " +
-                     "idCliente = ?, monto = ?, estado = ? WHERE codPack = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setTimestamp(1, Timestamp.valueOf(diaSpa.getFechayhora()));
-            ps.setString(2, diaSpa.getPreferencias());
-            ps.setInt(3, diaSpa.getCliente().getCodCli());
-            ps.setDouble(4, diaSpa.getMonto());
-            ps.setBoolean(5, diaSpa.isEstado());
-            ps.setInt(6, diaSpa.getCodPack());
-            
-            ps.executeUpdate();
-            ps.close();
-            
-            JOptionPane.showMessageDialog(null, "Día de spa actualizado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar el día de spa", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-     
-    public void eliminarDiadespa(int codPack) {
-        String sql = "UPDATE dia_de_spa SET estado = 0 WHERE codPack = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codPack);
-            ps.executeUpdate();
-            ps.close();
-            
-            JOptionPane.showMessageDialog(null, "Día de spa eliminado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo eliminar el día de spa", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } 
-    
-    public DiaDeSpa buscarPorCodigo(int codPack) {
-        String sql = "SELECT * FROM dia_de_spa WHERE codPack = ?";
-        DiaDeSpa diaSpa = null;
-        
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codPack);
-            ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
-                diaSpa = new DiaDeSpa();
-                diaSpa.setCodPack(rs.getInt("codPack"));
-                diaSpa.setFechayhora(rs.getTimestamp("fecha_y_hora").toLocalDateTime());
-                diaSpa.setPreferencias(rs.getString("preferencias"));
-                diaSpa.setMonto(rs.getDouble("monto"));
-                diaSpa.setEstado(rs.getBoolean("estado"));
+
+            // guardar sesiones y tabla intermedia dia_de_spa_sesion
+            miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+            SesionData sd = new SesionData(conexion);
+            String sqlLink = "INSERT INTO dia_de_spa_sesion (codPack, codSesion) VALUES (?, ?)";
+
+            for (Sesion s : d.getSesiones()) {
+                s.getDiaDeSpa().setCodPack(d.getCodPack());
+                s.setDiaDeSpa(d);
+                sd.guardarSesion(s);
+
+                PreparedStatement psLink = con.prepareStatement(sqlLink);
+                psLink.setInt(1, d.getCodPack());
+                psLink.setInt(2, s.getCodSesion());
+                psLink.executeUpdate();
+                psLink.close();
             }
+
             ps.close();
+            JOptionPane.showMessageDialog(null, "Día de spa guardado correctamente.");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo buscar el día de spa", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al guardar el día de spa. " + ex.getMessage());
         }
-        return diaSpa;
     }
 
-    
-    
-    public ArrayList<DiaDeSpa> listarPorCliente(int idCliente) {
-        ArrayList<DiaDeSpa> lista = new ArrayList<>();
-        String sql = "SELECT * FROM dia_de_spa WHERE idCliente = ? AND estado = 1";
-        
+    //Buscar DiaDeSpa por ID
+    public DiaDeSpa buscarDiaDeSpa(int codPack) {
+        String sql = "SELECT * FROM dia_de_spa WHERE codPack = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idCliente);
+            ps.setInt(1, codPack);
             ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                DiaDeSpa diaSpa = new DiaDeSpa();
-                diaSpa.setCodPack(rs.getInt("codPack"));
-                diaSpa.setFechayhora(rs.getTimestamp("fecha_y_hora").toLocalDateTime());
-                diaSpa.setPreferencias(rs.getString("preferencias"));
-                diaSpa.setMonto(rs.getDouble("monto"));
-                diaSpa.setEstado(rs.getBoolean("estado"));
+
+            DiaDeSpa d = null;
+            if (rs.next()) {
+                d = new DiaDeSpa();
+                d.setCodPack(rs.getInt("codPack"));
+                d.setFechayhora(rs.getTimestamp("fecha_y_hora").toLocalDateTime());
+                d.setPreferencias(rs.getString("preferencias"));
+
+                miConexion conexionCliente = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                ClienteData cd = new ClienteData(conexionCliente);
                 
-                lista.add(diaSpa);
+                // TERMINAR CUANDO ESTE CLIENTE DATA
+                d.setCliente(cd.buscarCliente(rs.getInt("idCliente")));
+
+                d.setMonto(rs.getDouble("monto"));
+                d.setEstado(rs.getBoolean("estado"));
+
+                // recuperar sesiones asociadas
+                miConexion conexionSes = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                SesionData sd = new SesionData(conexionSes);
+                ArrayList<Sesion> sesiones = sd.listarSesionesPorPack(codPack);
+                d.setSesiones(new ArrayList<>(sesiones));
             }
+
             ps.close();
+            return d;
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo listar los días de spa del cliente", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al buscar el día de spa. " + ex.getMessage());
+            return null;
         }
-        return lista;
     }
-    
-    
-    public ArrayList<DiaDeSpa> listarActivos() {
-       ArrayList<DiaDeSpa> lista = new ArrayList<>();
-        String sql = "SELECT * FROM dia_de_spa WHERE estado = 1";
-        
+
+    // Listar todos los DiaDeSpa 
+    public ArrayList<DiaDeSpa> listarDiaDeSpas() {
+        ArrayList<DiaDeSpa> dias = new ArrayList<>();
+        String sql = "SELECT * FROM dia_de_spa";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-                DiaDeSpa diaSpa = new DiaDeSpa();
-                diaSpa.setCodPack(rs.getInt("codPack"));
-                diaSpa.setFechayhora(rs.getTimestamp("fecha_y_hora").toLocalDateTime());
-                diaSpa.setPreferencias(rs.getString("preferencias"));
-                diaSpa.setMonto(rs.getDouble("monto"));
-                diaSpa.setEstado(rs.getBoolean("estado"));
+                DiaDeSpa d = new DiaDeSpa();
+                d.setCodPack(rs.getInt("codPack"));
+                d.setFechayhora(rs.getTimestamp("fecha_y_hora").toLocalDateTime());
+                d.setPreferencias(rs.getString("preferencias"));
+
+                miConexion conexionCliente = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                ClienteData cd = new ClienteData(conexionCliente);
+                d.setCliente(cd.buscarCliente(rs.getInt("idCliente")));
+
+                d.setMonto(rs.getDouble("monto"));
+                d.setEstado(rs.getBoolean("estado"));
+
+                miConexion conexionSes = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                SesionData sd = new SesionData(conexionSes);
                 
-                lista.add(diaSpa);
+                ArrayList liSesion = new ArrayList<>(sd.listarSesionesPorPack(d.getCodPack()));
+                
+                d.setSesiones(liSesion);
+
+                dias.add(d);
             }
+
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla dia_de_spa", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al listar días de spa. " + ex.getMessage());
         }
-        return lista;
+        return dias;
     }
-    
-    public void activar(int codPack) {
-        String sql = "UPDATE dia_de_spa SET estado = 1 WHERE codPack = ?";
+
+    // Eliminar DiaDeSpa
+    public void eliminarDiaDeSpa(int codPack) {
+        String sql = "DELETE FROM dia_de_spa WHERE codPack = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, codPack);
             ps.executeUpdate();
             ps.close();
-            
-            JOptionPane.showMessageDialog(null, "Día de spa activado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Día de spa eliminado correctamente.");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo activar el día de spa", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al eliminar día de spa. " + ex.getMessage());
         }
     }
-      
-    public void desactivar(int codPack) {
-        eliminarDiadespa(codPack);
-    }
-   
-    
-    
-       
-    
 }

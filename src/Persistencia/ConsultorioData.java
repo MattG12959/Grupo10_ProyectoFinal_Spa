@@ -5,6 +5,7 @@
 package Persistencia;
 
 import entidades.Consultorio;
+import entidades.Equipamiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,10 +48,23 @@ public class ConsultorioData {
                 consultorio.setNroConsultorio(rs.getInt(1));
             }
             
-                /*  CARGAMOS LOS EQUIPAMIENTOS LUEGO :P
-            if (!consultorio.getEquipamiento().isEmpty()) {
-                ed.cargaEquipamiento(consultorio.getEquipamiento());
-            }*/
+             // Guardar equipamiento asociado (tabla equipamiento)
+            String sqlEq = "INSERT INTO equipamiento (idConsultorio, nombre, descripcion) VALUES (?, ?, ?)";
+            
+            PreparedStatement psEq = con.prepareStatement(sqlEq, Statement.RETURN_GENERATED_KEYS);
+            
+            for (Equipamiento e : consultorio.getEquipamiento()) {
+                psEq.setInt(1, consultorio.getNroConsultorio());
+                psEq.setString(2, e.getNombre_equipamiento());
+                psEq.setString(3, e.getDescripcion_equipamiento());
+                psEq.executeUpdate();
+                ResultSet rsEq = psEq.getGeneratedKeys();
+                if (rsEq.next()) {
+                    e.setIdEquipamiento(rsEq.getInt(1));
+                }
+                rsEq.close();
+            }
+            psEq.close();
 
             ps.close();
 
@@ -62,24 +76,44 @@ public class ConsultorioData {
     
     public Consultorio buscarConsultorio(int idConsultorio) {
         String sql = "SELECT * FROM consultorio WHERE idConsultorio = ?";
-
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idConsultorio);
             ResultSet rs = ps.executeQuery();
-            Consultorio consultorio = null;
 
-            while (rs.next()) {
-                consultorio = new Consultorio(
-                        rs.getInt("idConsultorio"),
-                        rs.getInt("usos"),
-                        rs.getString("apto")
-                );
+            Consultorio consultorio = null;
+            if (rs.next()) {
+                consultorio = new Consultorio();
+                consultorio.setNroConsultorio(rs.getInt("idConsultorio"));
+                consultorio.setUsos(rs.getInt("usos"));
+                consultorio.setApto(rs.getString("apto"));
+
+                // cargar equipamiento
+                String sqlEq = "SELECT * FROM equipamiento WHERE idConsultorio = ?";
+                
+                PreparedStatement psEq = con.prepareStatement(sqlEq);
+                
+                psEq.setInt(1, idConsultorio);
+                ResultSet rsEq = psEq.executeQuery();
+                
+                ArrayList<Equipamiento> listaEq = new ArrayList<>();
+                
+                while (rsEq.next()) {
+                    Equipamiento e = new Equipamiento();
+                    e.setIdEquipamiento(rsEq.getInt("idEquipamiento"));
+                    e.setNroConsultorio(rsEq.getInt("idConsultorio"));
+                    e.setNombre_equipamiento(rsEq.getString("nombre"));
+                    e.setDescripcion_equipamiento(rsEq.getString("descripcion"));
+                    listaEq.add(e);
+                }
+                
+                consultorio.setEquipamiento(new ArrayList<>(listaEq));
+                rsEq.close();
+                psEq.close();
             }
 
             ps.close();
             return consultorio;
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar el consultorio. " + ex.getMessage());
             return null;
@@ -109,26 +143,41 @@ public class ConsultorioData {
     public ArrayList<Consultorio> listarConsultorios() {
         ArrayList<Consultorio> consultorios = new ArrayList<>();
         String sql = "SELECT * FROM consultorio";
-
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Consultorio c = new Consultorio(
-                        rs.getInt("idConsultorio"),
-                        rs.getInt("usos"),
-                        rs.getString("apto")
-                );
+                Consultorio c = new Consultorio();
+                c.setNroConsultorio(rs.getInt("idConsultorio"));
+                c.setUsos(rs.getInt("usos"));
+                c.setApto(rs.getString("apto"));
+
+                // cargar equipamientp
+                String sqlEq = "SELECT * FROM equipamiento WHERE idConsultorio = ?";
+                PreparedStatement psEq = con.prepareStatement(sqlEq);
+                psEq.setInt(1, c.getNroConsultorio());
+                ResultSet rsEq = psEq.executeQuery();
+                ArrayList<Equipamiento> listaEq = new ArrayList<>();
+                while (rsEq.next()) {
+                    Equipamiento e = new Equipamiento();
+                    e.setIdEquipamiento(rsEq.getInt("idEquipamiento"));
+                    e.setNroConsultorio(rsEq.getInt("idConsultorio"));
+                    e.setNombre_equipamiento(rsEq.getString("nombre"));
+                    e.setDescripcion_equipamiento(rsEq.getString("descripcion"));
+                    listaEq.add(e);
+                }
+                c.setEquipamiento(new ArrayList<>(listaEq));
+                rsEq.close();
+                psEq.close();
+
                 consultorios.add(c);
             }
 
             ps.close();
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al listar consultorios. " + ex.getMessage());
         }
-
         return consultorios;
     }
 }

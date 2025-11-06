@@ -416,4 +416,31 @@ public class TratamientoData {
         }
         return tipoTratamiento;
     }
+    
+    public Tratamiento buscarTratamiento(int idTratamiento) {
+        String sql = "SELECT * FROM tratamiento WHERE idTratamiento = ?";
+        Tratamiento t = null;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idTratamiento);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                t = new Tratamiento();
+                t.setCodTratam(rs.getInt("idTratamiento"));
+                t.setNombre(rs.getString("nombre"));
+                t.setDetalle(rs.getString("detalle"));
+                t.setDuracion(rs.getTime("duracion").toLocalTime());
+                t.setCosto(rs.getDouble("costo"));
+                t.setEstado(rs.getBoolean("estado"));
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar tratamiento. " + ex.getMessage());
+        }
+
+        return t;
+    }
 }
