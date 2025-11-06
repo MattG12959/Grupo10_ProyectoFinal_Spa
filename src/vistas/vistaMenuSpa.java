@@ -112,9 +112,14 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jbCargarCliente1.setBackground(new java.awt.Color(155, 216, 185));
         jbCargarCliente1.setForeground(new java.awt.Color(0, 0, 0));
-        jbCargarCliente1.setText("Cargar Cliente");
+        jbCargarCliente1.setText("Cliente");
         jbCargarCliente1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jbCargarCliente1.setBorderPainted(false);
+        jbCargarCliente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCargarCliente1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(155, 216, 185));
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
@@ -259,6 +264,16 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }//GEN-LAST:event_jbCargarSesionActionPerformed
+
+    private void jbCargarCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarCliente1ActionPerformed
+        vistaCargarCliente ventana = new vistaCargarCliente();
+        Escritorio.add(ventana);
+        // Centrar la ventana en el Escritorio
+        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jbCargarCliente1ActionPerformed
 
     public void musica() {
         AudioClip sound;

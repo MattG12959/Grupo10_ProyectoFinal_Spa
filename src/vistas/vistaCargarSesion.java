@@ -4,11 +4,19 @@
  */
 package vistas;
 
+import Persistencia.ClienteData;
+import Persistencia.ConsultorioData;
+import Persistencia.MasajistaData;
+import Persistencia.TratamientoData;
+import Persistencia.miConexion;
+import control.ControlSesion;
+import Persistencia.InstalacionData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -20,8 +28,36 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
     /**
      * Creates new form vistaCargarSesion
      */
+    private miConexion connection;
+    private ControlSesion controlSesion;
+    private vistaCargarSesion vistaCargarSesion;
+    private ClienteData clienteData;
+    private TratamientoData tratamientoData;
+    private ConsultorioData consultorioData;
+    private InstalacionData instalacionesData;
+    private MasajistaData masajistaData;
+    
     public vistaCargarSesion() {
         initComponents();
+        try{
+            connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+            clienteData = new ClienteData(connection);
+            tratamientoData = new TratamientoData(connection);
+            consultorioData = new ConsultorioData(connection);
+            instalacionesData = new InstalacionData(connection);
+            masajistaData = new MasajistaData(connection);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos (vistaCargarSesion): " + e.getMessage());
+        }
+        //Este constructor se utiliza para conectar con la clase Control
+        this.controlSesion = new ControlSesion(this,
+            clienteData,
+            tratamientoData,
+            consultorioData,
+            instalacionesData,
+            masajistaData
+        );
     }
 
     /**
@@ -33,79 +69,40 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpFondo = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jtfClienteSesion = new javax.swing.JTextField();
-        jcbConsultorios = new javax.swing.JComboBox<>();
-        jcbInstalaciones = new javax.swing.JComboBox<>();
-        jcbMasajistas = new javax.swing.JComboBox<>();
-        jbBuscarClienteSesion = new javax.swing.JButton();
-        jbCargarClienteSesion = new javax.swing.JButton();
-        jdcFechaInicial = new com.toedter.calendar.JDateChooser();
+        jdpSubEscritorio = new javax.swing.JDesktopPane();
+        jpDetalleSesion = new javax.swing.JPanel();
         jdcFechaFinal = new com.toedter.calendar.JDateChooser();
-        jcbTratamientos = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jdcFechaInicial = new com.toedter.calendar.JDateChooser();
         jcbTiposTratamientos = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jpDetalleSesion = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jcbTratamientos = new javax.swing.JComboBox<>();
+        jtfClienteSesion = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jcbMasajistas = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jcbInstalaciones = new javax.swing.JComboBox<>();
+        jcbConsultorios = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jbCargarClienteSesion = new javax.swing.JButton();
+        jbBuscarClienteSesion = new javax.swing.JButton();
+        jlToolTipTipoTratamiento = new javax.swing.JLabel();
         jbCargarSesion = new javax.swing.JButton();
         jbLimpiarSesion = new javax.swing.JButton();
-        jlToolTipTipoTratamiento = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(115, 179, 147));
         setClosable(true);
         setTitle("Cargar Sesion");
+        setOpaque(true);
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jpFondo.setBackground(new java.awt.Color(115, 179, 147));
-
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Cliente:");
-
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Tratamiento:");
-
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Consultorio:");
-
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Instalaciones:");
-
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Masajistas:");
-
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Fecha Inicial:");
-
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Fecha Final:");
-
-        jcbConsultorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sala 1: Masaje Corporal" }));
-
-        jcbInstalaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 1: Café" }));
-
-        jcbMasajistas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Juan Perez" }));
-
-        jbBuscarClienteSesion.setText("Buscar");
-
-        jbCargarClienteSesion.setText("Cargar");
-
-        jdcFechaInicial.setDateFormatString("dd/MM/yyyy HH:mm");
-
-        jdcFechaFinal.setDateFormatString("dd/MM/yyyy HH:mm");
-
-        jcbTratamientos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masaje Corporal" }));
-
-        jcbTiposTratamientos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Exfoliación Corporal" }));
-
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Tipo de Tratamiento:");
+        jdpSubEscritorio.setBackground(new java.awt.Color(115, 179, 147));
+        jdpSubEscritorio.setForeground(new java.awt.Color(115, 179, 147));
+        jdpSubEscritorio.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jpDetalleSesion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -120,8 +117,64 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
             .addGap(0, 230, Short.MAX_VALUE)
         );
 
+        jdcFechaFinal.setDateFormatString("dd/MM/yyyy HH:mm");
+
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Fecha Final:");
+
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Fecha Inicial:");
+
+        jdcFechaInicial.setDateFormatString("dd/MM/yyyy HH:mm");
+
+        jcbTiposTratamientos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Exfoliación Corporal" }));
+
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Tipo de Tratamiento:");
+
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Tratamiento:");
+
+        jcbTratamientos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masaje Corporal" }));
+
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Cliente:");
+
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("(Buscar por DNI)");
+
+        jcbMasajistas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Juan Perez" }));
+
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Masajistas:");
+
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Instalaciones:");
+
+        jcbInstalaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 1: Café" }));
+
+        jcbConsultorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sala 1: Masaje Corporal" }));
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Consultorio:");
+
+        jbCargarClienteSesion.setText("Cargar");
+        jbCargarClienteSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCargarClienteSesionActionPerformed(evt);
+            }
+        });
+
+        jbBuscarClienteSesion.setText("Buscar");
+        jbBuscarClienteSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarClienteSesionActionPerformed(evt);
+            }
+        });
+
+        jlToolTipTipoTratamiento.setForeground(new java.awt.Color(0, 0, 0));
+        jlToolTipTipoTratamiento.setText("O");
+        jlToolTipTipoTratamiento.setToolTipText("[Descripción del tratamiento]");
 
         jbCargarSesion.setText("Cargar Sesión");
         jbCargarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -132,128 +185,163 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         jbLimpiarSesion.setText("Limpiar");
 
-        jlToolTipTipoTratamiento.setForeground(new java.awt.Color(0, 0, 0));
-        jlToolTipTipoTratamiento.setText("O");
-        jlToolTipTipoTratamiento.setToolTipText("[Descripción del tratamiento]");
+        jdpSubEscritorio.setLayer(jpDetalleSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jdcFechaFinal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jdcFechaInicial, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jcbTiposTratamientos, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jcbTratamientos, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jtfClienteSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jcbMasajistas, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jcbInstalaciones, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jcbConsultorios, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jbCargarClienteSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jbBuscarClienteSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jlToolTipTipoTratamiento, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jbCargarSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdpSubEscritorio.setLayer(jbLimpiarSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout jpFondoLayout = new javax.swing.GroupLayout(jpFondo);
-        jpFondo.setLayout(jpFondoLayout);
-        jpFondoLayout.setHorizontalGroup(
-            jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFondoLayout.createSequentialGroup()
-                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jpFondoLayout.createSequentialGroup()
-                        .addContainerGap(56, Short.MAX_VALUE)
-                        .addComponent(jpDetalleSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpFondoLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpFondoLayout.createSequentialGroup()
-                                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jdcFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                                    .addComponent(jcbTiposTratamientos, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jtfClienteSesion, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jcbTratamientos, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jdcFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jpFondoLayout.createSequentialGroup()
-                                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFondoLayout.createSequentialGroup()
-                                                .addGap(137, 137, 137)
-                                                .addComponent(jLabel5))
-                                            .addGroup(jpFondoLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jpFondoLayout.createSequentialGroup()
-                                                        .addComponent(jlToolTipTipoTratamiento)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jLabel4))
-                                                    .addGroup(jpFondoLayout.createSequentialGroup()
-                                                        .addComponent(jbBuscarClienteSesion)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(jbCargarClienteSesion)
-                                                        .addGap(0, 40, Short.MAX_VALUE))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFondoLayout.createSequentialGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
-                                                        .addComponent(jLabel3)))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jcbConsultorios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jcbInstalaciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jcbMasajistas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(jpFondoLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbLimpiarSesion))))
-                            .addGroup(jpFondoLayout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(jLabel9)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jpFondoLayout.createSequentialGroup()
+        javax.swing.GroupLayout jdpSubEscritorioLayout = new javax.swing.GroupLayout(jdpSubEscritorio);
+        jdpSubEscritorio.setLayout(jdpSubEscritorioLayout);
+        jdpSubEscritorioLayout.setHorizontalGroup(
+            jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdpSubEscritorioLayout.createSequentialGroup()
+                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbCargarSesion)))
-                .addGap(51, 51, 51))
+                        .addComponent(jbCargarSesion))
+                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jpDetalleSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel1)
+                        .addGap(49, 49, 49)
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jdpSubEscritorioLayout.createSequentialGroup()
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(12, 12, 12)
+                                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jdcFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                    .addComponent(jdcFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                        .addGap(129, 129, 129)
+                                        .addComponent(jLabel2))
+                                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                        .addGap(87, 87, 87)
+                                        .addComponent(jLabel8)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcbTiposTratamientos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jtfClienteSesion)
+                                    .addComponent(jcbTratamientos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                .addComponent(jbBuscarClienteSesion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbCargarClienteSesion)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jbLimpiarSesion)
+                                        .addGap(26, 26, 26))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdpSubEscritorioLayout.createSequentialGroup()
+                                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdpSubEscritorioLayout.createSequentialGroup()
+                                                .addComponent(jlToolTipTipoTratamiento)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel4)))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jcbConsultorios, 0, 187, Short.MAX_VALUE)
+                                            .addComponent(jcbInstalaciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jcbMasajistas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(12, 12, 12)))))
+                .addGap(63, 63, 63))
         );
-        jpFondoLayout.setVerticalGroup(
-            jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpFondoLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
+        jdpSubEscritorioLayout.setVerticalGroup(
+            jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtfClienteSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbBuscarClienteSesion)
-                    .addComponent(jbCargarClienteSesion))
-                .addGap(33, 33, 33)
-                .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpFondoLayout.createSequentialGroup()
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jcbTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jtfClienteSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbBuscarClienteSesion)
+                        .addComponent(jbCargarClienteSesion)))
+                .addGap(18, 18, 18)
+                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jcbTiposTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jcbInstalaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbTiposTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel4)
                             .addComponent(jlToolTipTipoTratamiento))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(17, 17, 17)
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jdcFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(jcbMasajistas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(jpFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jdcFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbLimpiarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcbMasajistas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(30, 30, 30)
+                        .addComponent(jbLimpiarSesion)))
                 .addGap(18, 18, 18)
                 .addComponent(jpDetalleSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jbCargarSesion)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jdpSubEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jdpSubEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -263,6 +351,21 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         getJdcFechaInicial();
     }//GEN-LAST:event_jbCargarSesionActionPerformed
+
+    //Boton buscar cliente
+    private void jbBuscarClienteSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarClienteSesionActionPerformed
+        controlSesion.buscarCliente();
+    }//GEN-LAST:event_jbBuscarClienteSesionActionPerformed
+
+    private void jbCargarClienteSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarClienteSesionActionPerformed
+       vistaCargarCliente ventana = new vistaCargarCliente();
+       jdpSubEscritorio.add(ventana);
+       // Centrar la ventana en el Escritorio
+        int x = (jdpSubEscritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (jdpSubEscritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jbCargarClienteSesionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -286,9 +389,9 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbTratamientos;
     private com.toedter.calendar.JDateChooser jdcFechaFinal;
     private com.toedter.calendar.JDateChooser jdcFechaInicial;
+    private javax.swing.JDesktopPane jdpSubEscritorio;
     private javax.swing.JLabel jlToolTipTipoTratamiento;
     private javax.swing.JPanel jpDetalleSesion;
-    private javax.swing.JPanel jpFondo;
     private javax.swing.JTextField jtfClienteSesion;
     // End of variables declaration//GEN-END:variables
 
@@ -323,7 +426,6 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         Date sFechaInicial = jdcFechaInicial.getDate();
         LocalDateTime fechaInicial = sFechaInicial.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();        
         String formateada = fechaInicial.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        
         return formateada;
     }
 }
