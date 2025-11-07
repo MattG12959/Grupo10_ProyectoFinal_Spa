@@ -29,6 +29,7 @@ public class EquipamientoData {
             
             if (!equipamientos.isEmpty()) {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                
                 for (Equipamiento aux : equipamientos) {
                     ps.setInt(1, aux.getNroConsultorio());
                     ps.setString(2, aux.getNombre_equipamiento());
@@ -41,14 +42,17 @@ public class EquipamientoData {
                     if (rs.next()) {
                         aux.setIdEquipamiento(rs.getInt(1));
                     }
+                    
+                    JOptionPane.showMessageDialog(null, "Equipamiento dado de alta con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
                 }
                 ps.close();
             } else {
+                JOptionPane.showMessageDialog(null, "No se ha podido guardar el equipamiento a la base de datos.", "", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Equipamiento dado de alta con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Equipamientos", "", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(VendedorData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

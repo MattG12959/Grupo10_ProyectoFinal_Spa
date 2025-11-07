@@ -28,15 +28,13 @@ public class ConsultorioData {
 
     public void cargaConsultorio(Consultorio consultorio) {
         String sql = "INSERT INTO `consultorio`(`usos`, `apto`) VALUES (?, ?)";
-        String existe = "SELECT * FROM `consultorio` WHERE `idConsultorio`= ?";
 
-        // Creo una nueva conexion, ya que siempre va a tirar error por una imcompatiblidad entre miConexion y Connection
+        // Creo una nueva conexion (como en tu patrón)
         miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-
         EquipamientoData ed = new EquipamientoData(conexion);
 
         try {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conexion.buscarConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, consultorio.getUsos());
             ps.setString(2, consultorio.getApto());
@@ -44,36 +42,24 @@ public class ConsultorioData {
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                consultorio.setNroConsultorio(rs.getInt(1));
-            }
-            
-             // Guardar equipamiento asociado (tabla equipamiento)
-            String sqlEq = "INSERT INTO equipamiento (idConsultorio, nombre, descripcion) VALUES (?, ?, ?)";
-            
-            PreparedStatement psEq = con.prepareStatement(sqlEq, Statement.RETURN_GENERATED_KEYS);
-            
-            for (Equipamiento e : consultorio.getEquipamiento()) {
-                psEq.setInt(1, consultorio.getNroConsultorio());
-                psEq.setString(2, e.getNombre_equipamiento());
-                psEq.setString(3, e.getDescripcion_equipamiento());
-                psEq.executeUpdate();
-                ResultSet rsEq = psEq.getGeneratedKeys();
-                if (rsEq.next()) {
-                    e.setIdEquipamiento(rsEq.getInt(1));
-                }
-                rsEq.close();
-            }
-            psEq.close();
-
+            rs.next();
+            consultorio.setNroConsultorio(rs.getInt(1));
+            rs.close();
             ps.close();
+
+            for (Equipamiento e : consultorio.getEquipamiento()) {
+                e.setNroConsultorio(consultorio.getNroConsultorio());
+            }
+
+            // delego la inserción a EquipamientoData 
+            ed.cargaEquipamiento(consultorio.getEquipamiento());
 
             JOptionPane.showMessageDialog(null, "Consultorio dado de alta", "", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de tratamientos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de consultorios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public Consultorio buscarConsultorio(int idConsultorio) {
         String sql = "SELECT * FROM consultorio WHERE idConsultorio = ?";
         try {
@@ -90,14 +76,14 @@ public class ConsultorioData {
 
                 // cargar equipamiento
                 String sqlEq = "SELECT * FROM equipamiento WHERE idConsultorio = ?";
-                
+
                 PreparedStatement psEq = con.prepareStatement(sqlEq);
-                
+
                 psEq.setInt(1, idConsultorio);
                 ResultSet rsEq = psEq.executeQuery();
-                
+
                 ArrayList<Equipamiento> listaEq = new ArrayList<>();
-                
+
                 while (rsEq.next()) {
                     Equipamiento e = new Equipamiento();
                     e.setIdEquipamiento(rsEq.getInt("idEquipamiento"));
@@ -106,7 +92,7 @@ public class ConsultorioData {
                     e.setDescripcion_equipamiento(rsEq.getString("descripcion"));
                     listaEq.add(e);
                 }
-                
+
                 consultorio.setEquipamiento(new ArrayList<>(listaEq));
                 rsEq.close();
                 psEq.close();
@@ -119,7 +105,7 @@ public class ConsultorioData {
             return null;
         }
     }
-    
+
     public void eliminarConsultorio(int idConsultorio) {
         String sql = "DELETE FROM consultorio WHERE idConsultorio = ?";
 
@@ -139,7 +125,7 @@ public class ConsultorioData {
             JOptionPane.showMessageDialog(null, "Error al eliminar consultorio. " + ex.getMessage());
         }
     }
-    
+
     public ArrayList<Consultorio> listarConsultorios() {
         ArrayList<Consultorio> consultorios = new ArrayList<>();
         String sql = "SELECT * FROM consultorio";

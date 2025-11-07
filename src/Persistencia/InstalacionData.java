@@ -16,14 +16,14 @@ public class InstalacionData {
     }
     // ----------------- GUARDAR INSTALACIÓN -----------------
     public void guardarInstalacion(Instalacion i) {
-        String sql = "INSERT INTO instalacion (nombre, detalle_de_uso, usos, precio30m, estado) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO instalacion (nombre, detalle_de_uso, usos, precio, estado) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, i.getNombre());
             ps.setString(2, i.getDetalleDeUso());
             ps.setInt(3, i.getUsos());
-            ps.setDouble(4, i.getPrecio30m());
+            ps.setDouble(4, i.getPrecio());
             ps.setBoolean(5, i.isEstado());
             ps.executeUpdate();
 
@@ -42,7 +42,7 @@ public class InstalacionData {
 
     // ----------------- BUSCAR INSTALACIÓN POR ID -----------------
     public Instalacion buscarInstalacion(int codInstal) {
-        String sql = "SELECT * FROM instalacion WHERE codInstal = ?";
+        String sql = "SELECT * FROM instalacion WHERE idInstalacion = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -52,11 +52,11 @@ public class InstalacionData {
 
             while (rs.next()) {
                 instalacion = new Instalacion(
-                        rs.getInt("codInstal"),
+                        rs.getInt("idInstalacion"),
                         rs.getString("nombre"),
                         rs.getString("detalle_de_uso"),
                         rs.getInt("usos"),
-                        rs.getDouble("precio30m"),
+                        rs.getDouble("precio"),
                         rs.getBoolean("estado")
                 );
             }

@@ -34,7 +34,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.Scanner;
 
-
 /**
  * @author Grupo10
  *
@@ -43,8 +42,8 @@ import java.util.Scanner;
  */
 // Clase Testing
 public class Gp10_Spa {
-    private static Scanner scanner;
 
+    private static Scanner scanner;
 
     private static miConexion conexion;
 
@@ -62,16 +61,29 @@ public class Gp10_Spa {
         ClienteData clienteData = new ClienteData(conexion);
 
         try {
-            // -------------- CARGO INSTALACION ----------------------
+            // -------------- CARGO INSTALACION ---------------------- 
+
             Instalacion ins1 = new Instalacion();
-            
+
             ins1.setNombre(AreasDeRelajacion.SALA_DE_INFUCIONES.getNombre());
             ins1.setDetalleDeUso(AreasDeRelajacion.SALA_DE_INFUCIONES.getDescripcion());
             ins1.setUsos(10);
-            ins1.setPrecio30m(500.0);
+            ins1.setPrecio(500.0);
             ins1.setEstado(true);
             instalData.guardarInstalacion(ins1);
-            System.out.println("Instalacion guardada con id: " + ins1.getCodInstal());
+            System.out.println("Instalacion 1 guardada con id: " + ins1.getCodInstal());
+            JOptionPane.showMessageDialog(null, "Instalacion 1 guardada con id: " + ins1.getCodInstal());
+
+            Instalacion ins2 = new Instalacion();
+
+            ins2.setNombre(AreasDeRelajacion.ZONA_DE_RELAX.getNombre());
+            ins2.setDetalleDeUso(AreasDeRelajacion.ZONA_DE_RELAX.getDescripcion());
+            ins2.setUsos(5);
+            ins2.setPrecio(1500.0);
+            ins2.setEstado(true);
+            instalData.guardarInstalacion(ins2);
+            System.out.println("Instalacion 2 guardada con id: " + ins2.getCodInstal());
+            JOptionPane.showMessageDialog(null, "Instalacion 2 guardada con id: " + ins2.getCodInstal());
 
             // -------------- CARGO TRATAMIENTO -------------
             Tratamiento tr = new Tratamiento();
@@ -79,15 +91,16 @@ public class Gp10_Spa {
             tr.setNombre(TratamientosCorporales.ENVOLTURAS_CORPORALES.getNombre());
             tr.settipoTratamiento(Especialidades.CORPORAL.getEspecialidad());
             tr.setDetalle(TratamientosCorporales.ENVOLTURAS_CORPORALES.getDescripcion());
-            tr.setDuracion(LocalTime.of(60, 0));
+            tr.setDuracion(LocalTime.of(2, 30));
             tr.setCosto(1200.0);
             tr.setEstado(true);
             tratData.cargaTratamiento(tr);
             System.out.println("Tratamiento guardado con id: " + tr.getCodTratam());
+            JOptionPane.showMessageDialog(null, "Tratamiento guardado con id: " + tr.getCodTratam());
 
             // ----------------- CARGO MASAJISTA -------------
             Masajista m = new Masajista();
-            
+
             m.setMatricula(368);
             m.setNombre("Juan");
             m.setApellido("Perez");
@@ -97,14 +110,14 @@ public class Gp10_Spa {
             m.setEspecialidad(Especialidades.CORPORAL.getEspecialidad());
             masData.altaMasajista(m);
             System.out.println("Masajista guardado con matricula: " + m.getMatricula());
+            JOptionPane.showMessageDialog(null, "Masajista guardado con matricula: " + m.getMatricula());
 
             // --------------- CARGO CONSULTORIO -------------
             Consultorio c = new Consultorio();
-            
+
             c.setUsos(5);
-            c.setApto("General");
-            consultData.cargaConsultorio(c);
-            
+            c.setApto(Especialidades.CORPORAL.getEspecialidad());
+
             // cargo tres equipamientos para probar todo
             ArrayList<Equipamiento> equipamientos = new ArrayList<>();
 
@@ -126,11 +139,12 @@ public class Gp10_Spa {
 
             // asignar la lista al consultorio antes de persistirlo
             c.setEquipamiento(equipamientos);
-            
-            
-            System.out.println("Consultorio guardado con nro: " + c.getNroConsultorio());
 
-            
+            consultData.cargaConsultorio(c);
+
+            System.out.println("Consultorio guardado con nro: " + c.getNroConsultorio());
+            JOptionPane.showMessageDialog(null, "Consultorio guardado con nro: " + c.getNroConsultorio());
+
             // ------------------- CARGA CLIENTE ------------------
             Cliente cliente = new Cliente();
             // Ajustá el setter/getter de id si tu clase usa otro nombre
@@ -142,28 +156,24 @@ public class Gp10_Spa {
             cliente.setAfecciones("Ninguna");
             cliente.setEstado(true);
             clienteData.guardarCliente(cliente);
-            
-            System.out.println("Cliente guardado con id: " + cliente.getCodCli());
 
-            // 4) Crear una sesión que use las entidades anteriores
+            System.out.println("Cliente guardado con id: " + cliente.getCodCli());
+            JOptionPane.showMessageDialog(null, "Cliente guardado con id: " + cliente.getCodCli());
+
+            // --------------- CARGA SESION - CARGA DIA DE SPA-------------
             Sesion s = new Sesion();
             s.setFechaHoraInicio(LocalDateTime.now());
-            s.setFechaHoraFinal(LocalDateTime.now().plusHours(1));
+            s.setFechaHoraFinal(LocalDateTime.now().plusHours(2));
             s.setTratamiento(tr);
             s.setConsultorio(c);
             s.setMasajista(m);
-            s.getDiaDeSpa().setCodPack(0); // por ahora 0, luego lo seteamos con DiaDeSpa
             s.setEstado(true);
-
-            // Asociar instalaciones a la sesión
             ArrayList<Instalacion> listaIns = new ArrayList<>();
             listaIns.add(ins1);
+            listaIns.add(ins2);
             s.setInsalaciones(listaIns);
 
-            // No guardamos la sesión suelta: la guardamos cuando guardemos DiaDeSpa (pero podés guardarla suelta también)
-            // sesionData.guardarSesion(s);
-
-            // 5) Crear DiaDeSpa con la sesión
+            // --- crear DiaDeSpa y asociar la sesión, fijarse que S tenga referencia al Dia
             DiaDeSpa dia = new DiaDeSpa();
             dia.setFechayhora(LocalDateTime.now());
             dia.setPreferencias("Sin fragancias");
@@ -172,19 +182,43 @@ public class Gp10_Spa {
             dia.setEstado(true);
 
             ArrayList<Sesion> sesiones = new ArrayList<>();
+
+            s.setDiaDeSpa(dia);   // <- crear la referencia hacia el Dia
             sesiones.add(s);
             dia.setSesiones(sesiones);
 
-            // 6) Guardar DiaDeSpa (esto guardará las sesiones y las relaciones)
+            // Ahora guardar SOLO el DiaDeSpa; él guardará las sesiones internamente
             diaData.guardarDiaDeSpa(dia);
-            System.out.println("DiaDeSpa guardado con codPack: " + dia.getCodPack());
 
-            // 7) Recuperar y mostrar lo guardado
+            // 5) Recuperar y mostrar lo guardado como prueba
             DiaDeSpa buscado = diaData.buscarDiaDeSpa(dia.getCodPack());
+
+            JOptionPane.showMessageDialog(null, "DiaDeSpa: \n\ncodPack: " + buscado.getCodPack() + "\nFecha y hora: " + buscado.getFechayhora()
+                    + "\nPreferencias: " + buscado.getPreferencias() + "Cliente: " + buscado.getCliente().getNombre() + " " + buscado.getCliente().getApellido()
+                    + "\n\nCantidad de sesiones: " + buscado.getSesiones().size() + "\nMonto: $" + buscado.getMonto() + "\nEstado: " + buscado.isEstado()
+                    + "\n\nAcontinuacion las sesiones asociadas a dia de spa numero " + buscado.getCodPack() + "...");
+
             System.out.println("Buscado codPack: " + buscado.getCodPack());
             System.out.println("Fecha: " + buscado.getFechayhora());
             System.out.println("Cliente: " + buscado.getCliente().getNombre() + " " + buscado.getCliente().getApellido());
             System.out.println("Cantidad sesiones: " + buscado.getSesiones().size());
+            
+            String instalaciones = "";
+
+            for (Sesion aux : buscado.getSesiones()) {
+                
+                for (Instalacion ii : aux.getInsalaciones()) {
+                    instalaciones += "\nInstalacion id: " + ii.getCodInstal() + "\nNombre: " + ii.getNombre() + "\nDetalle de uso: " + ii.getDetalleDeUso() + "\nUsos: " + ii.getUsos() + "\nPrecio: $" + ii.getPrecio() + "\nEstado: " + ii.isEstado() + "\n\n";
+                }
+                JOptionPane.showMessageDialog(null,
+                        "Sesion ID: " + aux.getCodSesion() + "\nFecha hora inicio: " + aux.getFechaHoraInicio() + "\nFecha hora final: " + aux.getFechaHoraFinal() 
+                        + "\n\n" + "------------------------------------------------------------------------" + "\nTratamiento id: " + aux.getTratamiento().getCodTratam() + "\nNombre tratamiento: " + aux.getTratamiento().getNombre() + "\nTipo de tratamiento: " + aux.getTratamiento().gettipoTratamiento() + "\nDetalle tratamiento: " + aux.getTratamiento().getDetalle() + "\nDuracion tratamiento: " + aux.getTratamiento().getDuracion() + "hs" + "\nCosto tratamiento: " + aux.getTratamiento().getCosto() + "\nEstado tratamiento: " + aux.getTratamiento().isEstado()
+                        + "\n\n" + "------------------------------------------------------------------------" + "\nConsultorio id: " + aux.getConsultorio().getNroConsultorio() + "\nUsos consultorio: " + aux.getConsultorio().getUsos() + "\nApto consultorio: " + aux.getConsultorio().getApto()
+                        + "\n\n" + "------------------------------------------------------------------------" + "\nMasajista matricula: " + aux.getMasajista().getMatricula() + "\nIdEmpleado: " + aux.getMasajista().getIdEmpleado() + "\nApellido y Nombre: " + aux.getMasajista().getApellido() + " " + aux.getMasajista().getNombre() + "\nTelefono: " + aux.getMasajista().getTelefono() + "\nDNI: " + aux.getMasajista().getDni() + "\nPuesto: " + aux.getMasajista().getPuesto() + "\nEspecialidad: " + aux.getMasajista().getEspecialidad() + "\nEstado: " + aux.getMasajista().isEstado()
+                        + "\n\n" + "------------------------------------------------------------------------" + instalaciones + "\n\n\"------------------------------------------------------------------------\"\nEstado de la sesion: " + aux.isEstado() 
+                );
+            }
+
             for (Sesion s2 : buscado.getSesiones()) {
                 System.out.println("  Sesion id: " + s2.getCodSesion() + " Tratamiento: " + s2.getTratamiento().getNombre());
                 System.out.println("    Instalaciones usadas: ");
@@ -193,11 +227,10 @@ public class Gp10_Spa {
                 }
             }
 
+            System.out.println("--------------- FINAL DE EJECUCION-----------------");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 }
-        
-        
-        

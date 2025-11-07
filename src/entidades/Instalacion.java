@@ -8,7 +8,7 @@ public class Instalacion {
    private String nombre;
    private String detalleDeUso;
    private int usos;
-   private double precio30m;
+   private double precio;
    private boolean estado;
 
     public Instalacion() {
@@ -18,7 +18,7 @@ public class Instalacion {
         this.nombre = nombre;
         this.detalleDeUso = detalleDeUso;
         this.usos = usos;
-        this.precio30m = precio30m;
+        this.precio = precio30m;
         this.estado = estado;
     }
 
@@ -27,7 +27,7 @@ public class Instalacion {
         this.nombre = nombre;
         this.detalleDeUso = detalleDeUso;
         this.usos = usos;
-        this.precio30m = precio30m;
+        this.precio = precio30m;
         this.estado = estado;
     }
 
@@ -63,12 +63,12 @@ public class Instalacion {
         this.usos = usos;
     }
 
-    public double getPrecio30m() {
-        return precio30m;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setPrecio30m(double precio30m) {
-        this.precio30m = precio30m;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public boolean isEstado() {
@@ -81,7 +81,7 @@ public class Instalacion {
 
     @Override
     public String toString() {
-        return "Instalacion{" + "codInstal=" + codInstal + ", nombre=" + nombre + ", precio30m=" + precio30m + '}';
+        return "Instalacion{" + "codInstal=" + codInstal + ", nombre=" + nombre + ", precio30m=" + precio + '}';
     }
 
 }

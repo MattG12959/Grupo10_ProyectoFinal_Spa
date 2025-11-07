@@ -8,6 +8,7 @@ import entidades.Instalacion;
 import entidades.Sesion;
 import entidades.Tratamiento;
 import entidades.Consultorio;
+import entidades.DiaDeSpa;
 import entidades.Masajista;
 import java.sql.*;
 import java.util.ArrayList;
@@ -117,6 +118,7 @@ public class SesionData {
     }
 
     // Listar sesionrs por pack
+    /*
     public ArrayList<Sesion> listarSesionesPorPack(int codPack) {
         ArrayList<Sesion> sesiones = new ArrayList<>();
         String sql = "SELECT * FROM sesion WHERE codPack = ?";
@@ -184,5 +186,83 @@ public class SesionData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al eliminar sesión. " + ex.getMessage());
         }
+    } */
+    public ArrayList<Sesion> listarSesionesPorPack(int codPack) {
+        String sql = "SELECT * FROM sesion WHERE codPack = ?";
+        ArrayList<Sesion> lista = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codPack);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Sesion s = new Sesion();
+                    s.setCodSesion(rs.getInt("codSesion"));
+
+                    Timestamp tsInicio = rs.getTimestamp("fecha_hora_inicio");
+                    Timestamp tsFin = rs.getTimestamp("fecha_hora_fin");
+                    if (tsInicio != null) {
+                        s.setFechaHoraInicio(tsInicio.toLocalDateTime());
+                    }
+                    if (tsFin != null) {
+                        s.setFechaHoraFinal(tsFin.toLocalDateTime());
+                    }
+
+                    // --- crear un DiaDeSpa mínimo para evitar NullPointerException ---
+                    DiaDeSpa dd = new DiaDeSpa();
+                    int codPackFromRs = rs.getInt("codPack");
+                    if (!rs.wasNull()) {
+                        dd.setCodPack(codPackFromRs);
+                    }
+                    s.setDiaDeSpa(dd);
+                    // -------------------------------------------------------------------
+
+                    // Reconstruir tratamiento, consultorio, masajista (usar tus Data classes)
+                    int idTrat = rs.getInt("idTratamiento");
+                    if (!rs.wasNull()) {
+                        TratamientoData td = new TratamientoData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                        s.setTratamiento(td.buscarTratamiento(idTrat));
+                    }
+
+                    int idCons = rs.getInt("idConsultorio");
+                    if (!rs.wasNull()) {
+                        ConsultorioData cd = new ConsultorioData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                        s.setConsultorio(cd.buscarConsultorio(idCons));
+                    }
+
+                    int idMas = rs.getInt("idMasajista");
+                    if (!rs.wasNull()) {
+                        MasajistaData md = new MasajistaData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                        s.setMasajista(md.buscarMasajistaPorMatricula(idMas));
+                    }
+
+                    s.setEstado(rs.getBoolean("estado"));
+
+                    // recuperar instalaciones asociadas (si aplica)
+                    String sqlIns = "SELECT idInstalacion FROM sesion_instalacion WHERE codSesion = ?";
+                    try (PreparedStatement psIns = con.prepareStatement(sqlIns)) {
+                        psIns.setInt(1, s.getCodSesion());
+                        try (ResultSet rsIns = psIns.executeQuery()) {
+                            List<Instalacion> instalaciones = new ArrayList<>();
+                            miConexion conexionInst = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                            InstalacionData idata = new InstalacionData(conexionInst);
+                            while (rsIns.next()) {
+                                Instalacion insObj = idata.buscarInstalacion(rsIns.getInt("idInstalacion"));
+                                instalaciones.add(insObj);
+                            }
+                            s.setInsalaciones(new ArrayList<>(instalaciones));
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    lista.add(s);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar sesiones por pack. " + ex.getMessage());
+        }
+
+        return lista;
     }
 }

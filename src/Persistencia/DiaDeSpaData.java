@@ -82,7 +82,6 @@ public class DiaDeSpaData {
                 miConexion conexionCliente = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
                 ClienteData cd = new ClienteData(conexionCliente);
                 
-                // TERMINAR CUANDO ESTE CLIENTE DATA
                 d.setCliente(cd.buscarCliente(rs.getInt("idCliente")));
 
                 d.setMonto(rs.getDouble("monto"));

@@ -229,7 +229,7 @@ public class MasajistaData {
 
             while (rs.next()) {
                 masajista = new Masajista(
-                        rs.getInt("idEmpledo"),
+                        rs.getInt("idEmpleado"),
                         rs.getInt("matricula"),
                         rs.getString("nombre"),
                         rs.getString("apellido"),
