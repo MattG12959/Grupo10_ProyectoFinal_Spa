@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Persistencia;
 
 import entidades.Instalacion;
@@ -23,23 +19,44 @@ public class SesionData {
         this.con = conexion.buscarConexion();
     }
 
-    // Guardar sesion
+    // --------------------------------------------------
+// Método: guardarSesion    ACLARACIÓN IMPORTANTE: SOLO FUNCIONA DENTRO DE GUARDAR DIA DE SPA
+// Inserta una nueva sesión y sus instalaciones asociadas en la BD
+// --------------------------------------------------
     public void guardarSesion(Sesion s) {
+        // SQL para insertar una fila en la tabla 'sesion' (se usan placeholders ? para PreparedStatement)
         String sql = "INSERT INTO sesion (fecha_hora_inicio, fecha_hora_fin, idTratamiento, idConsultorio, idMasajista, codPack, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try {
+            // Preparamos la sentencia para poder setear los parámetros de forma segura
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
+            // Convertimos y seteamos la fecha/hora de inicio (LocalDateTime -> Timestamp)
             ps.setTimestamp(1, Timestamp.valueOf(s.getFechaHoraInicio()));
+
+            // Convertimos y seteamos la fecha/hora de fin (LocalDateTime -> Timestamp)
             ps.setTimestamp(2, Timestamp.valueOf(s.getFechaHoraFinal()));
+
+            // Seteamos el id del tratamiento asociado
             ps.setInt(3, s.getTratamiento().getCodTratam());
+
+            // Seteamos el número de consultorio utilizado
             ps.setInt(4, s.getConsultorio().getNroConsultorio());
+
+            // Seteamos la matrícula del masajista
             ps.setInt(5, s.getMasajista().getMatricula());
+
+            // Seteamos el código de pack (dia de spa) asociado
             ps.setInt(6, s.getDiaDeSpa().getCodPack());
+
+            // Seteamos el estado (boolean) de la sesión
             ps.setBoolean(7, s.isEstado());
 
+            // Ejecutamos la inserción en la tabla sesion
             ps.executeUpdate();
 
-            ResultSet rs = ps.getGeneratedKeys();
+            // Recuperamos la clave generada automáticamente (codSesion)
+            ResultSet rs = ps.getGeneratedKeys(); // obtiene ResultSet con las keys generadas
             if (rs.next()) {
                 s.setCodSesion(rs.getInt(1));
             }
@@ -52,16 +69,19 @@ public class SesionData {
                 psIns.setInt(2, ins.getCodInstal());
                 psIns.executeUpdate();
             }
-            psIns.close();
+            psIns.close(); // cerramos el PreparedStatement de SESION_instalacion
 
-            ps.close();
+            ps.close(); // cerramos el PreparedStatement principal
             JOptionPane.showMessageDialog(null, "Sesión guardada correctamente.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar la sesión. " + ex.getMessage());
         }
     }
 
-    // Buscar sesion por id
+    // --------------------------------------------------
+// Método: buscarSesion
+// Recupera una Sesion completa por su codSesion (incluye relaciones)
+// --------------------------------------------------
     public Sesion buscarSesion(int codSesion) {
         String sql = "SELECT * FROM sesion WHERE codSesion = ?";
         try {
@@ -69,14 +89,19 @@ public class SesionData {
             ps.setInt(1, codSesion);
             ResultSet rs = ps.executeQuery();
 
+            // variable que contendrá la sesión encontrada o null
             Sesion s = null;
-            if (rs.next()) {
+
+            if (rs.next()) { // si el ResultSet tiene una fila (existe la sesión)
                 s = new Sesion();
                 s.setCodSesion(rs.getInt("codSesion"));
+                // Obtener fecha/hora de inicio desde la columna tipo TIMESTAMP y convertir a LocalDateTime
                 s.setFechaHoraInicio(rs.getTimestamp("fecha_hora_inicio").toLocalDateTime());
+                // Obtener fecha/hora de fin desde la columna tipo TIMESTAMP y convertir a LocalDateTime
                 s.setFechaHoraFinal(rs.getTimestamp("fecha_hora_fin").toLocalDateTime());
 
                 // reconstruir Tratamiento, Consultorio y Masajista usando sus Data
+                // Crea una nueva conexión temporal
                 miConexion conexion1 = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
                 TratamientoData td = new TratamientoData(conexion1);
                 s.setTratamiento(td.buscarTratamiento(rs.getInt("idTratamiento")));
@@ -117,76 +142,10 @@ public class SesionData {
         }
     }
 
-    // Listar sesionrs por pack
-    /*
-    public ArrayList<Sesion> listarSesionesPorPack(int codPack) {
-        ArrayList<Sesion> sesiones = new ArrayList<>();
-        String sql = "SELECT * FROM sesion WHERE codPack = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codPack);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Sesion s = new Sesion();
-                s.setCodSesion(rs.getInt("codSesion"));
-                s.setFechaHoraInicio(rs.getTimestamp("fecha_hora_inicio").toLocalDateTime());
-                s.setFechaHoraFinal(rs.getTimestamp("fecha_hora_fin").toLocalDateTime());
-
-                miConexion conexion1 = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-                TratamientoData td = new TratamientoData(conexion1);
-                s.setTratamiento(td.buscarTratamiento(rs.getInt("idTratamiento")));
-
-                miConexion conexion2 = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-                ConsultorioData cd = new ConsultorioData(conexion2);
-                s.setConsultorio(cd.buscarConsultorio(rs.getInt("idConsultorio")));
-
-                miConexion conexion3 = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-                MasajistaData md = new MasajistaData(conexion3);
-                s.setMasajista(md.buscarMasajistaPorMatricula(rs.getInt("idMasajista")));
-
-                s.getDiaDeSpa().setCodPack(rs.getInt("codPack"));
-                s.setEstado(rs.getBoolean("estado"));
-
-                // instalaciones asociadas
-                String sqlIns = "SELECT idInstalacion FROM sesion_instalacion WHERE codSesion = ?";
-                PreparedStatement psIns = con.prepareStatement(sqlIns);
-                psIns.setInt(1, s.getCodSesion());
-                ResultSet rsIns = psIns.executeQuery();
-                List<Instalacion> instalaciones = new ArrayList<>();
-                miConexion conexionInst = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-                InstalacionData idata = new InstalacionData(conexionInst);
-                while (rsIns.next()) {
-                    Instalacion insObj = idata.buscarInstalacion(rsIns.getInt("idInstalacion"));
-                    instalaciones.add(insObj);
-                }
-                s.setInsalaciones(new ArrayList<>(instalaciones));
-                rsIns.close();
-                psIns.close();
-
-                sesiones.add(s);
-            }
-
-            ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar sesiones por pack. " + ex.getMessage());
-        }
-        return sesiones;
-    }
-
-    // Eliminar Sesion fisico
-    public void eliminarSesion(int codSesion) {
-        String sql = "DELETE FROM sesion WHERE codSesion = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codSesion);
-            ps.executeUpdate();
-            ps.close();
-            JOptionPane.showMessageDialog(null, "Sesión eliminada correctamente.");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar sesión. " + ex.getMessage());
-        }
-    } */
+    // --------------------------------------------------
+// Método: listarSesionesPorPack
+// Lista todas las sesiones que tengan el codPack indicado
+// --------------------------------------------------
     public ArrayList<Sesion> listarSesionesPorPack(int codPack) {
         String sql = "SELECT * FROM sesion WHERE codPack = ?";
         ArrayList<Sesion> lista = new ArrayList<>();
