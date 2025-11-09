@@ -21,15 +21,21 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu4">
+        <Menu class="javax.swing.JMenu" name="jmTratamientos">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tratamientos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmTratamientosActionPerformed"/>
+          </Events>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="jmVerTratamientos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver Tratamientos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmVerTratamientosActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

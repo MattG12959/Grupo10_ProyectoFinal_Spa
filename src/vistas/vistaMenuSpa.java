@@ -8,6 +8,9 @@ import java.applet.AudioClip;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+
+
 
 /**
  *
@@ -24,7 +27,11 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         musica();
         //estiloBoton();
+        
+        
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,8 +55,8 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jmTratamientos = new javax.swing.JMenu();
+        jmVerTratamientos = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -198,12 +205,22 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Tratamientos");
+        jmTratamientos.setText("Tratamientos");
+        jmTratamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmTratamientosActionPerformed(evt);
+            }
+        });
 
-        jMenuItem3.setText("Ver Tratamientos");
-        jMenu4.add(jMenuItem3);
+        jmVerTratamientos.setText("Ver Tratamientos");
+        jmVerTratamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmVerTratamientosActionPerformed(evt);
+            }
+        });
+        jmTratamientos.add(jmVerTratamientos);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(jmTratamientos);
 
         jMenu3.setText("Busquedas");
 
@@ -275,6 +292,34 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jbCargarCliente1ActionPerformed
 
+    private void jmTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmTratamientosActionPerformed
+         vistaTratamientos ventana = new vistaTratamientos();
+         Escritorio.add(ventana);
+         for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaTratamientos) {
+            frame.toFront();
+            return;
+            }
+        }
+    }//GEN-LAST:event_jmTratamientosActionPerformed
+
+    private void jmVerTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVerTratamientosActionPerformed
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+        if (frame instanceof vistaTratamientos) {
+            frame.toFront();
+            return;
+        }
+    }
+    
+        vistaTratamientos ventana = new vistaTratamientos();
+        Escritorio.add(ventana);
+        ventana.setSize(650, 500);
+        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jmVerTratamientosActionPerformed
+
     public void musica() {
         AudioClip sound;
         sound = java.applet.Applet.newAudioClip(getClass().getResource("/resources/sounds/wet_hands_c418.wav"));
@@ -333,11 +378,9 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -348,6 +391,8 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JButton jbConsultorios;
     private javax.swing.JButton jbPlay;
     private javax.swing.JButton jbStop;
+    private javax.swing.JMenu jmTratamientos;
+    private javax.swing.JMenuItem jmVerTratamientos;
     private javax.swing.JPanel jpFondoMenu;
     // End of variables declaration//GEN-END:variables
 }
