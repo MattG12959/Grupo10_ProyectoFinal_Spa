@@ -70,6 +70,7 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         jScrollPane3.setViewportView(jTable1);
 
         setBackground(new java.awt.Color(155, 216, 185));
+        setClosable(true);
         setTitle("Tratamientos");
         setPreferredSize(new java.awt.Dimension(400, 600));
 
@@ -215,7 +216,7 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(341, 341, 341))))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -133,6 +133,11 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jButton1.setText("Reservas");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpFondoMenuLayout = new javax.swing.GroupLayout(jpFondoMenu);
         jpFondoMenu.setLayout(jpFondoMenuLayout);
@@ -319,6 +324,18 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }//GEN-LAST:event_jmVerTratamientosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        vistaReservas ventana = new vistaReservas();
+        Escritorio.add(ventana);
+        // Centrar la ventana en el Escritorio
+        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+     
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void musica() {
         AudioClip sound;
