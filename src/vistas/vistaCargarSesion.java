@@ -97,7 +97,6 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(115, 179, 147));
         setClosable(true);
         setTitle("Cargar Sesion");
-        setOpaque(true);
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         jdpSubEscritorio.setBackground(new java.awt.Color(115, 179, 147));
@@ -136,6 +135,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         jLabel2.setText("Tratamiento:");
 
         jcbTratamientos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masaje Corporal" }));
+        jcbTratamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTratamientosActionPerformed(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Cliente:");
@@ -316,7 +320,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                         .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jdcFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 12, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jdpSubEscritorioLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jdpSubEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -366,6 +370,10 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }//GEN-LAST:event_jbCargarClienteSesionActionPerformed
+
+    private void jcbTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTratamientosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTratamientosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

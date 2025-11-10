@@ -10,11 +10,13 @@ import Persistencia.MasajistaData;
 import Persistencia.TratamientoData;
 import Persistencia.miConexion;
 import control.ControlSesion;
+import entidades.Masajista;
 import java.awt.Color;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -68,9 +70,9 @@ import javax.swing.JOptionPane;
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jcbConsultorios = new javax.swing.JComboBox<>();
+        jcbEspecialistas = new javax.swing.JComboBox<>();
+        jcbInstalacion = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -122,11 +124,21 @@ import javax.swing.JOptionPane;
 
         jLabel4.setText("Especialista:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbConsultorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbConsultorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbConsultoriosActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbEspecialistas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbEspecialistas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEspecialistasActionPerformed(evt);
+            }
+        });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbInstalacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,13 +174,13 @@ import javax.swing.JOptionPane;
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jComboBox2, 0, 138, Short.MAX_VALUE))
+                                        .addComponent(jcbEspecialistas, 0, 138, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(90, 90, 90)
@@ -189,13 +201,13 @@ import javax.swing.JOptionPane;
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel4)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcbEspecialistas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(162, 162, 162))
@@ -204,15 +216,32 @@ import javax.swing.JOptionPane;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcbEspecialistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEspecialistasActionPerformed
+        // TODO add your handling code here:
+
+// 2. Obtener la lista de masajistas
+List<Masajista> listaMasajistas = masajistaData.listarMasajistas(); // o el método que uses para obtener todos
+
+// 3. Limpiar el JComboBox si ya tiene elementos
+jcbEspecialistas.removeAllItems();
+
+// 4. Agregar los masajistas al JComboBox
+for (Masajista masajista : listaMasajistas) {
+    jcbEspecialistas.addItem(masajista.getApellido()+masajista.getNombre());
+}
+       
+    }//GEN-LAST:event_jcbEspecialistasActionPerformed
+
+    private void jcbConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbConsultoriosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbConsultoriosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBConsultarR;
     private javax.swing.JButton jBEliminarR;
     private javax.swing.JButton jBModificarR;
     private javax.swing.JButton jBNuevaR;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -220,15 +249,27 @@ import javax.swing.JOptionPane;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> jcbConsultorios;
+    private javax.swing.JComboBox<String> jcbEspecialistas;
+    private javax.swing.JComboBox<String> jcbInstalacion;
     private com.toedter.calendar.JDateChooser jdcFechaR;
     // End of variables declaration//GEN-END:variables
 
 
- public String getJdcFechaR(){
-        Date sFechaR = jdcFechaR.getDate();
-        LocalDateTime fechaR = sFechaR.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();        
-        String formateada = fechaR.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+  public String getJdcFechaR(){
+        java.util.Date sFechaR = jdcFechaR.getDate();
+        LocalDateTime fechaInicial = sFechaR.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();        
+        String formateada = fechaInicial.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         return formateada;
     }
-
+    
+    public String getjcbEspecialista(){
+        return (String)jcbEspecialistas.getSelectedItem();
+    }
+     public String getJcbConsultorios(){
+        return (String)jcbConsultorios.getSelectedItem();
+    }
+       public String getJcbInstalacion(){
+        return (String)jcbInstalacion.getSelectedItem();
+    }
 }
