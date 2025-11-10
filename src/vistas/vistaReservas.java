@@ -18,12 +18,17 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
  * @author Usuario
  */
-    public class vistaReservas extends javax.swing.JInternalFrame {
+public class vistaReservas extends javax.swing.JInternalFrame {
+
     private miConexion connection;
     private ControlSesion controlSesion;
     private vistaCargarSesion vistaCargarSesion;
@@ -31,6 +36,11 @@ import javax.swing.JOptionPane;
     private ConsultorioData consultorioData;
     private InstalacionData instalacionesData;
     private MasajistaData masajistaData;
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
+    };
 
     /**
      * Creates new form vistaReservas
@@ -38,17 +48,18 @@ import javax.swing.JOptionPane;
     public vistaReservas() {
         initComponents();
         this.getContentPane().setBackground(new Color(155, 216, 185));
-         try{
+        try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-            
+
             tratamientoData = new TratamientoData(connection);
             consultorioData = new ConsultorioData(connection);
             instalacionesData = new InstalacionData(connection);
             masajistaData = new MasajistaData(connection);
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos (vistaReservas): " + e.getMessage());
         }
+        armarCabecera();
     }
 
     /**
@@ -74,10 +85,12 @@ import javax.swing.JOptionPane;
         jcbEspecialistas = new javax.swing.JComboBox<>();
         jcbInstalacion = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtDescripcion = new javax.swing.JTable();
 
         setClosable(true);
         setTitle("Reservas");
+
+        jPanel1.setBackground(new java.awt.Color(155, 216, 185));
 
         jBNuevaR.setText("Nueva Reserva");
 
@@ -92,7 +105,7 @@ import javax.swing.JOptionPane;
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addContainerGap()
                 .addComponent(jBNuevaR)
                 .addGap(18, 18, 18)
                 .addComponent(jBEliminarR)
@@ -100,12 +113,12 @@ import javax.swing.JOptionPane;
                 .addComponent(jBModificarR)
                 .addGap(18, 18, 18)
                 .addComponent(jBConsultarR)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevaR)
                     .addComponent(jBEliminarR)
@@ -140,7 +153,7 @@ import javax.swing.JOptionPane;
 
         jcbInstalacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtDescripcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -151,21 +164,21 @@ import javax.swing.JOptionPane;
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtDescripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
                                 .addComponent(jdcFechaR, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -178,21 +191,22 @@ import javax.swing.JOptionPane;
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jcbEspecialistas, 0, 138, Short.MAX_VALUE))
+                                        .addComponent(jcbEspecialistas, 0, 174, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jScrollPane1)))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jdcFechaR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -208,9 +222,9 @@ import javax.swing.JOptionPane;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -220,20 +234,21 @@ import javax.swing.JOptionPane;
         // TODO add your handling code here:
 
 // 2. Obtener la lista de masajistas
-List<Masajista> listaMasajistas = masajistaData.listarMasajistas(); // o el método que uses para obtener todos
+        List<Masajista> listaMasajistas = masajistaData.listarMasajistas(); // o el método que uses para obtener todos
 
 // 3. Limpiar el JComboBox si ya tiene elementos
-jcbEspecialistas.removeAllItems();
+        jcbEspecialistas.removeAllItems();
 
 // 4. Agregar los masajistas al JComboBox
-for (Masajista masajista : listaMasajistas) {
-    jcbEspecialistas.addItem(masajista.getApellido()+masajista.getNombre());
-}
-       
+        for (Masajista masajista : listaMasajistas) {
+            jcbEspecialistas.addItem(masajista.getApellido() + masajista.getNombre());
+        }
+
     }//GEN-LAST:event_jcbEspecialistasActionPerformed
 
     private void jcbConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbConsultoriosActionPerformed
         // TODO add your handling code here:
+        consultorioData.buscarConsultorio(HIDE_ON_CLOSE);
     }//GEN-LAST:event_jcbConsultoriosActionPerformed
 
 
@@ -248,28 +263,73 @@ for (Masajista masajista : listaMasajistas) {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> jcbConsultorios;
     private javax.swing.JComboBox<String> jcbEspecialistas;
     private javax.swing.JComboBox<String> jcbInstalacion;
     private com.toedter.calendar.JDateChooser jdcFechaR;
+    private javax.swing.JTable jtDescripcion;
     // End of variables declaration//GEN-END:variables
 
+    private void armarCabecera() {
 
-  public String getJdcFechaR(){
+        modelo.addColumn("Horaio");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Consultorio / Instalación");
+        modelo.addColumn("Especialista");
+        jtDescripcion.setModel(modelo);
+
+        for (int hora = 8; hora < 20; hora++) {
+            modelo.addRow(new Object[]{String.format("%02d:00", hora)});
+            modelo.addRow(new Object[]{String.format("%02d:30", hora)});
+        }
+// Agregar la última fila (20:00)
+        modelo.addRow(new Object[]{"20:00"});
+
+        jtDescripcion.setModel(modelo);
+
+        // Crear un renderer centrado
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+// Aplicarlo a la cabecera
+        jtDescripcion.getTableHeader().setDefaultRenderer(centerRenderer);
+
+        DefaultTableCellRenderer centrarCeldas = new DefaultTableCellRenderer();
+        centrarCeldas.setHorizontalAlignment(SwingConstants.CENTER);
+
+// Aplicar a todas las columnas
+        for (int i = 0; i < jtDescripcion.getColumnCount(); i++) {
+            jtDescripcion.getColumnModel().getColumn(i).setCellRenderer(centrarCeldas);
+        }
+//Ancho de columna
+        jtDescripcion.getColumnModel().getColumn(0).setPreferredWidth(50); // Primera columna
+        jtDescripcion.getColumnModel().getColumn(1).setPreferredWidth(100); // Segunda columna
+        jtDescripcion.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jtDescripcion.getColumnModel().getColumn(3).setPreferredWidth(100);
+
+// Mostrar líneas
+        jtDescripcion.setShowGrid(true);
+        jtDescripcion.setGridColor(Color.LIGHT_GRAY);
+        jtDescripcion.setShowHorizontalLines(true);
+        jtDescripcion.setShowVerticalLines(true);
+    }
+
+    public String getJdcFechaR() {
         java.util.Date sFechaR = jdcFechaR.getDate();
-        LocalDateTime fechaInicial = sFechaR.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();        
+        LocalDateTime fechaInicial = sFechaR.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         String formateada = fechaInicial.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         return formateada;
     }
-    
-    public String getjcbEspecialista(){
-        return (String)jcbEspecialistas.getSelectedItem();
+
+    public String getjcbEspecialista() {
+        return (String) jcbEspecialistas.getSelectedItem();
     }
-     public String getJcbConsultorios(){
-        return (String)jcbConsultorios.getSelectedItem();
+
+    public String getJcbConsultorios() {
+        return (String) jcbConsultorios.getSelectedItem();
     }
-       public String getJcbInstalacion(){
-        return (String)jcbInstalacion.getSelectedItem();
+
+    public String getJcbInstalacion() {
+        return (String) jcbInstalacion.getSelectedItem();
     }
 }
