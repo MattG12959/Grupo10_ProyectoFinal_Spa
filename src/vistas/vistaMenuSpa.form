@@ -133,10 +133,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jpFondoMenu" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="700" max="32767" attributes="0"/>
-                  <Component id="jbPlay" min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace pref="658" max="32767" attributes="0"/>
+                  <Component id="jbPlay" min="-2" pref="65" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jbStop" min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="jbStop" min="-2" pref="59" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -168,6 +168,9 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/img/icono-play.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Play"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -187,6 +190,9 @@
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/img/icono-stop.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Stop"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -223,6 +229,7 @@
                           <Component id="jbCargarSesion" pref="140" max="32767" attributes="0"/>
                           <Component id="jbCargarCliente1" min="-2" pref="139" max="-2" attributes="0"/>
                           <Component id="jButton1" max="32767" attributes="0"/>
+                          <Component id="jbEmpleados" min="-2" pref="139" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="152" max="32767" attributes="0"/>
                   </Group>
@@ -234,6 +241,8 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jbCargarCliente1" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jbEmpleados" min="-2" pref="54" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jbCargarSesion" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" pref="54" max="-2" attributes="0"/>
@@ -241,7 +250,7 @@
                       <Component id="jbConsultorios" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jButton3" min="-2" pref="54" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="307" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -339,6 +348,26 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jbEmpleados">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="b9" green="d8" red="9b" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Empleados"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder/>
+                  </Border>
+                </Property>
+                <Property name="borderPainted" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbEmpleadosActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
