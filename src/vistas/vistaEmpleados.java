@@ -96,6 +96,11 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Cerrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-activo-inactivo.png"))); // NOI18N
         jButton2.setText("Modif. Activo / Inactivo");
@@ -331,6 +336,11 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         } catch (java.beans.PropertyVetoException e) {}
         
     }//GEN-LAST:event_btnRegistrarMasajistaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

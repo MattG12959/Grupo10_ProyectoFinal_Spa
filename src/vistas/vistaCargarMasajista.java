@@ -29,14 +29,16 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         initComponents();
 
         try {
-            connection = new miConexion("jdbc:mariadb://localhost:3306/prubamvc", "root", "");
+            connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
             masajistaData = new MasajistaData(connection);
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
         }
 
         if (masajistaData != null) {
             this.controlMasajista = new ControlMasajista(this, masajistaData);
+            controlMasajista.preCargarCb();
         }
     }
 
@@ -61,17 +63,19 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         txtDni = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtMatricula = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
         cbEspecialidades = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        btnCargar1 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Cargar Masajista");
         setMinimumSize(new java.awt.Dimension(80, 34));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(450, 400));
+        setPreferredSize(new java.awt.Dimension(450, 270));
 
         jPanel1.setBackground(new java.awt.Color(115, 179, 147));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 270));
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nombre:");
@@ -90,13 +94,24 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
-        jButton1.setText("Cargar");
-
-        cbEspecialidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
+        btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Especialidad:");
+
+        btnCargar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
+        btnCargar1.setText("Limpiar");
+        btnCargar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,16 +121,19 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCargar)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtTelefono)
                             .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -124,21 +142,22 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel5)
-                                    .addComponent(jLabel8)))))
+                                    .addComponent(jLabel8))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbEspecialidades, 0, 120, Short.MAX_VALUE)
+                            .addComponent(txtMatricula)
+                            .addComponent(txtDni))
+                        .addGap(45, 45, 45))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbEspecialidades, 0, 120, Short.MAX_VALUE)
-                    .addComponent(txtMatricula)
-                    .addComponent(txtDni))
-                .addGap(45, 45, 45))
+                        .addGap(57, 57, 57)
+                        .addComponent(btnCargar1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,31 +185,46 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbEspecialidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel8)))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCargar1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
         );
-
-        getAccessibleContext().setAccessibleName("Cargar Masajista");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        // TODO add your handling code here:
+        controlMasajista.cargarMasajista();
+    }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void btnCargar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargar1ActionPerformed
+        // TODO add your handling code here:
+        txtApellido.setText("");
+        txtNombre.setText("");
+        txtDni.setText("");
+        txtTelefono.setText("");
+        txtMatricula.setText("");
+    }//GEN-LAST:event_btnCargar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCargar;
+    private javax.swing.JButton btnCargar1;
     private javax.swing.JComboBox<String> cbEspecialidades;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
