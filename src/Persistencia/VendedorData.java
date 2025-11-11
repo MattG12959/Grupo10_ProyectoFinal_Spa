@@ -9,20 +9,19 @@ import java.sql.Connection;
 import entidades.Vendedor;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * @author Grupo10 
- * 
- * Altamirano Karina 
- * Gianfranco Antonacci Matías 
- * Bequis Marcos Ezequiel 
- * Dave Natalia 
- * Quiroga Dorzan Alejo
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia Quiroga Dorzan Alejo
  */
 public class VendedorData {
 
@@ -32,8 +31,6 @@ public class VendedorData {
         this.con = conexion.buscarConexion();
         //con = miConexion.buscarConexion();
     }
-
-    
 
     public void altaVendedor(Vendedor vendedor) {
         try {
@@ -51,7 +48,7 @@ public class VendedorData {
             // 4) Llamo al metodo "AltaEmpleado"
             EmpleadoData empleadoData = new EmpleadoData(conexion);
             empleadoData.altaEmpleado(empleado);
-            
+
             // 5) Inserto en la tabla VENDEDOR con el idEmpleado ya generado, el DNI y el puesto
             String sql = "INSERT INTO `vendedor` (`idEmpleado`, `nombre`, `apellido`, `telefono`, `dni`, `puesto`, `estado`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -77,8 +74,7 @@ public class VendedorData {
         }
     }
 
-    
-    public void actualizarVendedor(Vendedor a) {        
+    public void actualizarVendedor(Vendedor a) {
         String query = "UPDATE Vendedor SET nombre = ?, apellido = ?, telefono=?, dni=? WHERE idEmpleado = ?";
         //System.out.println("["+a.getNombre()+"]"+a.getApellido()+"]"a.getTelefono()+"] "+a.getDni()+"]"+a.getEspecialidad()+"]"+a.getEstado()+"]"+a.getIdEmpleado()+"] ");
         try {
@@ -98,7 +94,8 @@ public class VendedorData {
             Logger.getLogger(VendedorData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    //-------------BAJA LOGICA
     public void bajaLogica(int idEmpleado) {
         String query = "UPDATE vendedor SET estado=0 WHERE idEmpleado = ?";
         try {
@@ -116,5 +113,54 @@ public class VendedorData {
         } catch (SQLException ex) {
             Logger.getLogger(VendedorData.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    // ---------------------ALTA LOGICA
+    public void altaLogica(int idEmpleado) {
+        String query = "UPDATE vendedor SET estado=1 WHERE idEmpleado = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idEmpleado);
+            int i = ps.executeUpdate();
+
+            if (i == 1) {
+                JOptionPane.showMessageDialog(null, "Empleado activado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VendedorData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ----------------- LISTAR TODAS LAS VENDEDORAS -----------------
+    public ArrayList<Vendedor> listarVendedores() {
+        ArrayList<Vendedor> vendedores = new ArrayList<>();
+        String sql = "SELECT * FROM vendedor";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Vendedor m = new Vendedor(
+                        rs.getInt("idEmpleado"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getBoolean("estado")
+                );
+                vendedores.add(m);
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar masajistas. " + ex.getMessage());
+        }
+
+        return vendedores;
     }
 }

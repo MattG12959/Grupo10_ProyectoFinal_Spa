@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  */
 public class MasajistaData {
 
-     private Connection con = null;
+    private Connection con = null;
 
     public MasajistaData(miConexion conexion) {
         this.con = conexion.buscarConexion();
@@ -111,7 +111,7 @@ public class MasajistaData {
     }
 
     // ----------------- ELIMINAR MASAJISTA -----------------
-     public void eliminarMasajista(int idEmpleado) {
+    public void eliminarMasajista(int idEmpleado) {
         String sql = "DELETE FROM masajista WHERE idEmpleado = ?";
 
         try {
@@ -130,9 +130,10 @@ public class MasajistaData {
             JOptionPane.showMessageDialog(null, "Error al eliminar al masajista. " + ex.getMessage());
         }
     }
+
     // ----------------- LISTAR TODAS LAS MASAJISTAS -----------------
-    public List<Masajista> listarMasajistas() {
-        List<Masajista> masajista = new ArrayList<>();
+    public ArrayList<Masajista> listarMasajistas() {
+        ArrayList<Masajista> masajista = new ArrayList<>();
         String sql = "SELECT * FROM masajista";
 
         try {
@@ -141,7 +142,7 @@ public class MasajistaData {
 
             while (rs.next()) {
                 Masajista m = new Masajista(
-                        rs.getInt("idEmpledo"),
+                        rs.getInt("idEmpleado"),
                         rs.getInt("matricula"),
                         rs.getString("nombre"),
                         rs.getString("apellido"),
@@ -163,6 +164,40 @@ public class MasajistaData {
         return masajista;
     }
 
+    // ----------------- LISTAR TODAS LAS MASAJISTAS POR ESPECIALIDAD -----------------
+    public ArrayList<Masajista> listarMasajistasPorEspecialidad(String especialidad) {
+        ArrayList<Masajista> masajistas = new ArrayList<>();
+        String sql = "SELECT * FROM masajista WHERE especialidad = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, especialidad);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Masajista m = new Masajista(
+                        rs.getInt("idEmpleado"),
+                        rs.getInt("matricula"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getString("especialidad"),
+                        rs.getBoolean("estado")
+                );
+                masajistas.add(m);
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar masajistas por especialidad. " + ex.getMessage());
+        }
+
+        return masajistas;
+    }
+
     //------------------BAJA LOGICA-----------------------
     public void bajaLogica(int idEmpleado) {
         String query = "UPDATE masajista SET estado=0 WHERE idEmpleado = ?";
@@ -182,9 +217,26 @@ public class MasajistaData {
             Logger.getLogger(MasajistaData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    //-------------------------BUSCAR MASAJISTA POR DNI
 
+    // ---------------- ALTA LOGICA
+    public void altaLogica(int idEmpleado) {
+        String query = "UPDATE masajista SET estado=1 WHERE idEmpleado = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idEmpleado);
+            int i = ps.executeUpdate();
+
+            if (i == 1) {
+                JOptionPane.showMessageDialog(null, "Empleado activado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MasajistaData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //-------------------------BUSCAR MASAJISTA POR DNI
     public Masajista buscarMasajistaPorDNI(int dni) {
         String sql = "SELECT * FROM masajista WHERE dni=?";
 
@@ -216,9 +268,9 @@ public class MasajistaData {
             return null;
         }
     }
-    
+
     //--------------BUSCAR MASAJISTA POR MATRICULA-----------
-       public Masajista buscarMasajistaPorMatricula(int matricula) {
+    public Masajista buscarMasajistaPorMatricula(int matricula) {
         String sql = "SELECT * FROM masajista WHERE matricula=?";
 
         try {
@@ -249,12 +301,13 @@ public class MasajistaData {
             return null;
         }
     }
-       //trae las especialidades
+    //trae las especialidades
+
     public String obtenerEspecialidadPorNombre(String nombreTratamiento) {
         for (TratamientosFaciales tf : TratamientosFaciales.values()) {
             if (tf.getNombre().equalsIgnoreCase(nombreTratamiento)) {
                 // Asume que si está en TratamientosFaciales, la especialidad es FACIAL
-                return Especialidades.FACIAL.getEspecialidad(); 
+                return Especialidades.FACIAL.getEspecialidad();
             }
         }
 
@@ -264,7 +317,6 @@ public class MasajistaData {
                 return Especialidades.CORPORAL.getEspecialidad();
             }
         }
-
 
         return null; // Si el nombre no coincide con ningún tratamiento definido
     }

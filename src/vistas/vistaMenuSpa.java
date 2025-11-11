@@ -50,8 +50,9 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jbEmpleados = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        lmCargarEmpleados = new javax.swing.JMenuItem();
         jmVerEmpleados = new javax.swing.JMenuItem();
+        lmCargarMasajista = new javax.swing.JMenuItem();
+        lmCargarVendedor = new javax.swing.JMenuItem();
         jmTratamientos = new javax.swing.JMenu();
         jmVerTratamientos = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -215,9 +216,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jMenu2.setText("Empleados");
 
-        lmCargarEmpleados.setText("Cargar Empleados");
-        jMenu2.add(lmCargarEmpleados);
-
         jmVerEmpleados.setText("Ver Empleados");
         jmVerEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,6 +223,22 @@ public class vistaMenuSpa extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmVerEmpleados);
+
+        lmCargarMasajista.setText("Cargar Masajista");
+        lmCargarMasajista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lmCargarMasajistaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(lmCargarMasajista);
+
+        lmCargarVendedor.setText("Cargar Vendedor");
+        lmCargarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lmCargarVendedorActionPerformed(evt);
+            }
+        });
+        jMenu2.add(lmCargarVendedor);
 
         jMenuBar1.add(jMenu2);
 
@@ -427,6 +441,78 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmVerEmpleadosActionPerformed
 
+    private void lmCargarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lmCargarVendedorActionPerformed
+        // TODO add your handling code here: 
+        vistaCargarVendedor ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaCargarVendedor) {
+                ventana = (vistaCargarVendedor) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaCargarVendedor();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_lmCargarVendedorActionPerformed
+
+    private void lmCargarMasajistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lmCargarMasajistaActionPerformed
+        // TODO add your handling code here:
+        vistaCargarMasajista ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaCargarMasajista) {
+                ventana = (vistaCargarMasajista) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaCargarMasajista();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_lmCargarMasajistaActionPerformed
+
     public void musica() {
         AudioClip sound;
         sound = java.applet.Applet.newAudioClip(getClass().getResource("/resources/sounds/wet_hands_c418.wav"));
@@ -501,7 +587,8 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmVerEmpleados;
     private javax.swing.JMenuItem jmVerTratamientos;
     private javax.swing.JPanel jpFondoMenu;
-    private javax.swing.JMenuItem lmCargarEmpleados;
+    private javax.swing.JMenuItem lmCargarMasajista;
+    private javax.swing.JMenuItem lmCargarVendedor;
     // End of variables declaration//GEN-END:variables
 
 

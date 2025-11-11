@@ -5,8 +5,10 @@
 package vistas;
 
 import Persistencia.MasajistaData;
+import Persistencia.VendedorData;
 import Persistencia.miConexion;
 import control.ControlMasajista;
+import control.ControlVendedor;
 import java.sql.Connection;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -16,29 +18,28 @@ import javax.swing.JTextField;
  *
  * @author matia
  */
-public class vistaCargarMasajista extends javax.swing.JInternalFrame {
+public class vistaCargarVendedor extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form vistaCargarCliente
      */
     private miConexion connection = null;
-    private MasajistaData masajistaData = null;
-    private ControlMasajista controlMasajista = null;
+    private VendedorData vendedorData = null;
+    private ControlVendedor controlVendedor = null;
 
-    public vistaCargarMasajista() {
+    public vistaCargarVendedor() {
         initComponents();
 
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-            masajistaData = new MasajistaData(connection);
+            vendedorData = new VendedorData(connection);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
         }
 
-        if (masajistaData != null) {
-            this.controlMasajista = new ControlMasajista(this, masajistaData);
-            controlMasajista.preCargarCb();
+        if (vendedorData != null) {
+            this.controlVendedor = new ControlVendedor(this, vendedorData);
         }
     }
 
@@ -55,21 +56,17 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtApellido = new javax.swing.JTextField();
         txtDni = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
-        txtMatricula = new javax.swing.JTextField();
         btnCargar = new javax.swing.JButton();
-        cbEspecialidades = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
         btnCargar1 = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("Cargar Masajista");
+        setTitle("Cargar Vendedor");
         setMinimumSize(new java.awt.Dimension(80, 34));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(450, 270));
@@ -86,19 +83,10 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Telefono:");
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Matricula");
-
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("DNI:");
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
 
         btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnCargar.setText("Cargar");
@@ -107,9 +95,6 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
                 btnCargarActionPerformed(evt);
             }
         });
-
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Especialidad:");
 
         btnCargar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         btnCargar1.setText("Limpiar");
@@ -125,45 +110,40 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCargar)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtTelefono)
                             .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel8))))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbEspecialidades, 0, 120, Short.MAX_VALUE)
-                            .addComponent(txtMatricula)
-                            .addComponent(txtDni))
-                        .addGap(45, 45, 45))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(57, 57, 57)
                         .addComponent(btnCargar1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTelefono))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 51, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(45, 45, 45))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,24 +154,14 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbEspecialidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8)))
-                .addGap(31, 31, 31)
+                        .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)))
+                .addGap(71, 71, 71)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCargar1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,7 +184,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
         // TODO add your handling code here:
-        controlMasajista.cargarMasajista();
+        controlVendedor.cargarVendedor();
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnCargar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargar1ActionPerformed
@@ -223,40 +193,23 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         txtNombre.setText("");
         txtDni.setText("");
         txtTelefono.setText("");
-        txtMatricula.setText("");
     }//GEN-LAST:event_btnCargar1ActionPerformed
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnCargar1;
-    private javax.swing.JComboBox<String> cbEspecialidades;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDni;
-    private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
-
-    public JComboBox<String> getCbEspecialidades() {
-        return cbEspecialidades;
-    }
-
-    public void setCbEspecialidades(JComboBox<String> cbEspecialidades) {
-        this.cbEspecialidades = cbEspecialidades;
-    }
 
     public JTextField getTxtApellido() {
         return txtApellido;
@@ -272,14 +225,6 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
 
     public void setTxtDni(JTextField txtDni) {
         this.txtDni = txtDni;
-    }
-
-    public JTextField getTxtMatricula() {
-        return txtMatricula;
-    }
-
-    public void setTxtMatricula(JTextField txtMatricula) {
-        this.txtMatricula = txtMatricula;
     }
 
     public JTextField getTxtNombre() {

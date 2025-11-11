@@ -4,8 +4,15 @@
  */
 package vistas;
 
+import Persistencia.*;
+import control.ControlMasajista;
+import control.ControlVistaEmpleados;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,10 +25,30 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
      */
     
     private final JDesktopPane Escritorio;
+    private miConexion connection = null;
+    private MasajistaData masajistaData = null;
+    private VendedorData vendedorData = null;
+    private ControlVistaEmpleados controlVistaEmpleados = null;
 
     public vistaEmpleados(JDesktopPane escritorio) {
         this.Escritorio = escritorio;
         initComponents();
+        
+        try {
+            connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+            masajistaData = new MasajistaData(connection);
+            vendedorData = new VendedorData(connection);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
+        }
+
+        if (masajistaData != null && vendedorData != null) {
+            this.controlVistaEmpleados = new ControlVistaEmpleados(this, masajistaData, vendedorData);
+            controlVistaEmpleados.preCargarCbTipoDeEmpleado();
+            controlVistaEmpleados.agregarListenerTipoEmpleado();
+            controlVistaEmpleados.actualizarTabla();
+        }
     }
 
     // Busca si ya existe un JInternalFrame en el JDesktopPane
@@ -49,29 +76,30 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbTipoDeEmpleado = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtEmpleados = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnModfActivoOInactivo = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnRegistrarMasajista = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnRegistrarVendedor = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtBusquedaPorDni = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtBusquedaPorId = new javax.swing.JTextField();
         txtBusquedaPorMatricula = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbEspecialidades = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
+        btnLimpiarCampos = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1112, 650));
         setRequestFocusEnabled(false);
@@ -82,18 +110,18 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Tipo de empleado:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtEmpleados);
 
         jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -102,16 +130,16 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-activo-inactivo.png"))); // NOI18N
-        jButton2.setText("Modif. Activo / Inactivo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnModfActivoOInactivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-activo-inactivo.png"))); // NOI18N
+        btnModfActivoOInactivo.setText("Modif. Activo / Inactivo");
+        btnModfActivoOInactivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnModfActivoOInactivoActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
-        jButton3.setText("Modificar");
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
+        btnModificar.setText("Modificar");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -126,13 +154,18 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
-        jButton5.setText("Registrar Vendedor");
-        jButton5.setMaximumSize(new java.awt.Dimension(156, 31));
-        jButton5.setMinimumSize(new java.awt.Dimension(156, 31));
-        jButton5.setPreferredSize(new java.awt.Dimension(156, 31));
+        btnRegistrarVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
+        btnRegistrarVendedor.setText("Registrar Vendedor");
+        btnRegistrarVendedor.setMaximumSize(new java.awt.Dimension(156, 31));
+        btnRegistrarVendedor.setMinimumSize(new java.awt.Dimension(156, 31));
+        btnRegistrarVendedor.setPreferredSize(new java.awt.Dimension(156, 31));
+        btnRegistrarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarVendedorActionPerformed(evt);
+            }
+        });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/lupa.png"))); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/lupa.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Busqueda por DNI:");
@@ -161,11 +194,18 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Para editar un empleado: haga doble clic en una celda, ingrese el nuevo valor y presione ‘Modificar’");
 
-        jButton7.setText("limpiar campos");
-        jButton7.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnLimpiarCampos.setText("limpiar campos");
+        btnLimpiarCampos.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnLimpiarCamposActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-actualizar.png"))); // NOI18N
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
             }
         });
 
@@ -180,16 +220,19 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8))
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(128, 128, 128)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8))
+                                    .addComponent(cbEspecialidades, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbTipoDeEmpleado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRegistrarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnRegistrarMasajista, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -215,8 +258,8 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                                             .addComponent(txtBusquedaPorMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -225,9 +268,9 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jButton1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3)
+                                    .addComponent(btnModificar)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jButton2))
+                                    .addComponent(btnModfActivoOInactivo))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1046, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(30, Short.MAX_VALUE))))
         );
@@ -241,17 +284,20 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnRegistrarMasajista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnRegistrarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(7, 7, 7)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cbTipoDeEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(7, 7, 7)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(cbEspecialidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -265,12 +311,12 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel4)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBusquedaPorMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jButton7))
+                            .addComponent(btnLimpiarCampos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -281,8 +327,8 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
+                    .addComponent(btnModfActivoOInactivo)
+                    .addComponent(btnModificar)
                     .addComponent(jButton1))
                 .addGap(85, 85, 85))
         );
@@ -301,20 +347,22 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnModfActivoOInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModfActivoOInactivoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        controlVistaEmpleados.cambiarEstadoSeleccionado();
+    }//GEN-LAST:event_btnModfActivoOInactivoActionPerformed
 
     private void txtBusquedaPorMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaPorMatriculaActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_txtBusquedaPorMatriculaActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
         // TODO add your handling code here:
         txtBusquedaPorDni.setText("");
         txtBusquedaPorId.setText("");
         txtBusquedaPorMatricula.setText("");
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnLimpiarCamposActionPerformed
 
     private void btnRegistrarMasajistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarMasajistaActionPerformed
         // TODO add your handling code here:
@@ -342,17 +390,44 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnRegistrarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVendedorActionPerformed
+        // TODO add your handling code here:
+        JInternalFrame abierto = buscarFrame(vistaCargarVendedor.class);
+        if (abierto != null) {
+            try { abierto.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
+            abierto.toFront();
+            centrarFrame(abierto);
+            return;
+        }
+
+        vistaCargarVendedor frm = new vistaCargarVendedor();
+        Escritorio.add(frm);
+        frm.pack(); 
+        centrarFrame(frm);
+        frm.setVisible(true);
+        try { 
+            frm.setSelected(true); 
+        } catch (java.beans.PropertyVetoException e) {}
+        
+    }//GEN-LAST:event_btnRegistrarVendedorActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        controlVistaEmpleados.actualizarTabla();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnLimpiarCampos;
+    private javax.swing.JButton btnModfActivoOInactivo;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrarMasajista;
+    private javax.swing.JButton btnRegistrarVendedor;
+    private javax.swing.JComboBox<String> cbEspecialidades;
+    private javax.swing.JComboBox<String> cbTipoDeEmpleado;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -364,9 +439,57 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtEmpleados;
     private javax.swing.JTextField txtBusquedaPorDni;
     private javax.swing.JTextField txtBusquedaPorId;
     private javax.swing.JTextField txtBusquedaPorMatricula;
     // End of variables declaration//GEN-END:variables
+
+    public JComboBox<String> getCbEspecialidades() {
+        return cbEspecialidades;
+    }
+
+    public void setCbEspecialidades(JComboBox<String> cbEspecialidades) {
+        this.cbEspecialidades = cbEspecialidades;
+    }
+
+    public JComboBox<String> getCbTipoDeEmpleado() {
+        return cbTipoDeEmpleado;
+    }
+
+    public void setCbTipoDeEmpleado(JComboBox<String> cbTipoDeEmpleado) {
+        this.cbTipoDeEmpleado = cbTipoDeEmpleado;
+    }
+
+    public JTable getJtEmpleados() {
+        return jtEmpleados;
+    }
+
+    public void setJtEmpleados(JTable jtEmpleados) {
+        this.jtEmpleados = jtEmpleados;
+    }
+
+    public JTextField getTxtBusquedaPorDni() {
+        return txtBusquedaPorDni;
+    }
+
+    public void setTxtBusquedaPorDni(JTextField txtBusquedaPorDni) {
+        this.txtBusquedaPorDni = txtBusquedaPorDni;
+    }
+
+    public JTextField getTxtBusquedaPorId() {
+        return txtBusquedaPorId;
+    }
+
+    public void setTxtBusquedaPorId(JTextField txtBusquedaPorId) {
+        this.txtBusquedaPorId = txtBusquedaPorId;
+    }
+
+    public JTextField getTxtBusquedaPorMatricula() {
+        return txtBusquedaPorMatricula;
+    }
+
+    public void setTxtBusquedaPorMatricula(JTextField txtBusquedaPorMatricula) {
+        this.txtBusquedaPorMatricula = txtBusquedaPorMatricula;
+    }
 }

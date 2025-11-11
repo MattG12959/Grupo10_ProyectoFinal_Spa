@@ -27,12 +27,12 @@ public class Vendedor {
         this.estado = estado;
     }
 
-    public Vendedor(String nombre, String apellido, String teléfono, int dni, String especialidad, boolean estado) {
+    public Vendedor(String nombre, String apellido, String teléfono, int dni, String puesto, boolean estado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = teléfono;
         this.dni = dni;
-        this.puesto = especialidad;
+        this.puesto = puesto;
         this.estado = estado;
     }
 

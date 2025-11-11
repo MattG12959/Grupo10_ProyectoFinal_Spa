@@ -9,17 +9,28 @@
             <Property name="text" type="java.lang.String" value="Empleados"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="lmCargarEmpleados">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cargar Empleados"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmVerEmpleados">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver Empleados"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmVerEmpleadosActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="lmCargarMasajista">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cargar Masajista"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lmCargarMasajistaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="lmCargarVendedor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cargar Vendedor"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lmCargarVendedorActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
