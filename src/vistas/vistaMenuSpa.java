@@ -7,10 +7,9 @@ package vistas;
 import java.applet.AudioClip;
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-
-
 
 /**
  *
@@ -22,16 +21,13 @@ public class vistaMenuSpa extends javax.swing.JFrame {
      * Creates new form vistaMenuSpa
      */
     public vistaMenuSpa() {
-        initComponents();        
+        initComponents();
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         musica();
         //estiloBoton();
-        
-        
+
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,8 +50,8 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jbEmpleados = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        lmCargarEmpleados = new javax.swing.JMenuItem();
+        jmVerEmpleados = new javax.swing.JMenuItem();
         jmTratamientos = new javax.swing.JMenu();
         jmVerTratamientos = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -219,11 +215,16 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jMenu2.setText("Empleados");
 
-        jMenuItem1.setText("Cargar Empleados");
-        jMenu2.add(jMenuItem1);
+        lmCargarEmpleados.setText("Cargar Empleados");
+        jMenu2.add(lmCargarEmpleados);
 
-        jMenuItem2.setText("Ver Empleados");
-        jMenu2.add(jMenuItem2);
+        jmVerEmpleados.setText("Ver Empleados");
+        jmVerEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmVerEmpleadosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmVerEmpleados);
 
         jMenuBar1.add(jMenu2);
 
@@ -315,24 +316,24 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCargarCliente1ActionPerformed
 
     private void jmTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmTratamientosActionPerformed
-         vistaTratamientos ventana = new vistaTratamientos();
-         Escritorio.add(ventana);
-         for (JInternalFrame frame : Escritorio.getAllFrames()) {
+        vistaTratamientos ventana = new vistaTratamientos();
+        Escritorio.add(ventana);
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
             if (frame instanceof vistaTratamientos) {
-            frame.toFront();
-            return;
+                frame.toFront();
+                return;
             }
         }
     }//GEN-LAST:event_jmTratamientosActionPerformed
 
     private void jmVerTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVerTratamientosActionPerformed
         for (JInternalFrame frame : Escritorio.getAllFrames()) {
-        if (frame instanceof vistaTratamientos) {
-            frame.toFront();
-            return;
+            if (frame instanceof vistaTratamientos) {
+                frame.toFront();
+                return;
+            }
         }
-    }
-    
+
         vistaTratamientos ventana = new vistaTratamientos();
         Escritorio.add(ventana);
         ventana.setSize(650, 500);
@@ -351,19 +352,80 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
         ventana.setLocation(x, y);
         ventana.setVisible(true);
-     
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmpleadosActionPerformed
         // TODO add your handling code here:
-        vistaEmpleados ventana = new vistaEmpleados();
-        Escritorio.add(ventana);
-        // Centrar la ventana en el Escritorio
-        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
-        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);
-        ventana.setVisible(true);
+        vistaEmpleados ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaEmpleados) {
+                ventana = (vistaEmpleados) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaEmpleados(Escritorio);
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jbEmpleadosActionPerformed
+
+    private void jmVerEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVerEmpleadosActionPerformed
+        // TODO add your handling code here:
+        vistaEmpleados ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaEmpleados) {
+                ventana = (vistaEmpleados) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaEmpleados(Escritorio);
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jmVerEmpleadosActionPerformed
 
     public void musica() {
         AudioClip sound;
@@ -424,8 +486,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -438,7 +498,20 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JButton jbPlay;
     private javax.swing.JButton jbStop;
     private javax.swing.JMenu jmTratamientos;
+    private javax.swing.JMenuItem jmVerEmpleados;
     private javax.swing.JMenuItem jmVerTratamientos;
     private javax.swing.JPanel jpFondoMenu;
+    private javax.swing.JMenuItem lmCargarEmpleados;
     // End of variables declaration//GEN-END:variables
+
+
+    // Busca si ya está abierto un frame de ese tipo
+    private JInternalFrame buscarFrame(Class<? extends JInternalFrame> clase) {
+        for (JInternalFrame f : Escritorio.getAllFrames()) {
+            if (clase.isInstance(f)) {
+                return f;
+            }
+        }
+        return null;
+    }
 }
