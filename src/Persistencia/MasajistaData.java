@@ -248,7 +248,7 @@ public class MasajistaData {
 
             while (rs.next()) {
                 masajista = new Masajista(
-                        rs.getInt("idEmpledo"),
+                        rs.getInt("idEmpleado"),
                         rs.getInt("matricula"),
                         rs.getString("nombre"),
                         rs.getString("apellido"),
@@ -296,6 +296,34 @@ public class MasajistaData {
             ps.close();
             return masajista;
 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar al masajista. " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public Masajista buscarMasajistaPorId(int idEmpleado) {
+        String sql = "SELECT * FROM masajista WHERE idEmpleado=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            ResultSet rs = ps.executeQuery();
+            Masajista masajista = null;
+            while (rs.next()) {
+                masajista = new Masajista(
+                        rs.getInt("idEmpleado"),
+                        rs.getInt("matricula"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getString("especialidad"),
+                        rs.getBoolean("estado")
+                );
+            }
+            ps.close();
+            return masajista;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar al masajista. " + ex.getMessage());
             return null;

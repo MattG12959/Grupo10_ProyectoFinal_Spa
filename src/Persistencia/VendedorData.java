@@ -163,4 +163,64 @@ public class VendedorData {
 
         return vendedores;
     }
+
+    // Buscar vendedor por DNI
+    public Vendedor buscarVendedorPorDNI(int dni) {
+        String sql = "SELECT * FROM vendedor WHERE dni=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            Vendedor vendedor = null;
+            while (rs.next()) {
+                vendedor = new Vendedor(
+                        rs.getInt("idEmpleado"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getBoolean("estado")
+                );
+            }
+            ps.close();
+            return vendedor;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar al vendedor. " + ex.getMessage());
+            return null;
+        }
+    }
+
+    // Buscar vendedor por ID
+    public Vendedor buscarVendedorPorId(int idEmpleado) {
+        String sql = "SELECT * FROM vendedor WHERE idEmpleado=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            ResultSet rs = ps.executeQuery();
+            Vendedor vendedor = null;
+            while (rs.next()) {
+                vendedor = new Vendedor(
+                        rs.getInt("idEmpleado"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getBoolean("estado")
+                );
+            }
+            ps.close();
+            return vendedor;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar al vendedor. " + ex.getMessage());
+            return null;
+        }
+    }
+
+    // Buscar vendedor por matrícula (no tiene matrícula, así que devuelve null)
+    public Vendedor buscarVendedorPorMatricula(int matricula) {
+        // Los vendedores no tienen matrícula, así que siempre retorna null
+        return null;
+    }
 }
