@@ -14,12 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.*;
-import Persistencia.ProductoData;
 import entidades.Producto;
-import java.util.HashMap;
 
 /**
  *
@@ -204,82 +201,6 @@ public class TratamientoData {
         }
     }
 
-    public void bajaTratamiento(int codTratam) {
-        String sql = "UPDATE tratamiento SET estado = false WHERE codTratamiento = ?";
-
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codTratam);
-
-            int filas = ps.executeUpdate();
-
-            if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Tratamiento dado de baja exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el tratamiento");
-            }
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al dar de baja tratamiento: " + ex.getMessage());
-        }
-    }
-
-    public void altaTratamiento(int codTratam) {
-        String sql = "UPDATE tratamiento SET estado = true WHERE codTratamiento = ?";
-
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codTratam);
-
-            int filas = ps.executeUpdate();
-
-            if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Tratamiento dado de alta exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el tratamiento");
-            }
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al dar de alta tratamiento: " + ex.getMessage());
-        }
-    }
-
-    // Método para listar tratamientos por tipo 
-    public ArrayList<Tratamiento> listarTratamientosPorTipo(String tipo) {
-        ArrayList<Tratamiento> lista = new ArrayList<>();
-        String sql = "SELECT * FROM tratamiento WHERE tipoTratamiento = ? AND estado = true";
-
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, tipo);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Tratamiento tratamiento = new Tratamiento();
-                tratamiento.setCodTratam(rs.getInt("codTratamiento"));
-                tratamiento.setNombre(rs.getString("nombre"));
-                tratamiento.settipoTratamiento(rs.getString("tipoTratamiento"));
-                tratamiento.setDetalle(rs.getString("detalle"));
-                tratamiento.setDuracion(rs.getTime("duracion").toLocalTime());
-                tratamiento.setCosto(rs.getDouble("costo"));
-                tratamiento.setEstado(rs.getBoolean("estado"));
-
-                lista.add(tratamiento);
-            }
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar tratamientos por tipo: " + ex.getMessage());
-        }
-
-        return lista;
-    }
-
     // Método para listar todos los tratamientos 
     public ArrayList<Tratamiento> listarTodosTratamientos() {
         ArrayList<Tratamiento> lista = new ArrayList<>();
@@ -311,118 +232,21 @@ public class TratamientoData {
         return lista;
     }
 
-    public void borrarTratamiento(int codTratam) {
-        try {
-            eliminarProductosTratamiento(codTratam);
-
-            String sql = "DELETE FROM tratamiento WHERE codTratamiento = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, codTratam);
-
-            int filas = ps.executeUpdate();
-
-            if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Tratamiento eliminado exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el tratamiento a eliminar");
-            }
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al borrar tratamiento: " + ex.getMessage());
-        }
-    }
-
-    // Obtener todos los tratamientos faciales disponibles
-    public ArrayList<String> obtenerTiposTratamientosFaciales() {
-        ArrayList<String> tipos = new ArrayList<>();
-        for (TratamientosFaciales tf : TratamientosFaciales.values()) {
-            tipos.add(tf.getNombre() + " - " + tf.getDescripcion());
-        }
-        return tipos;
-    }
-
-    // Obtener todos los tratamientos corporales disponibles
-    public ArrayList<String> obtenerTiposTratamientosCorporales() {
-        ArrayList<String> tipos = new ArrayList<>();
-        for (TratamientosCorporales tc : TratamientosCorporales.values()) {
-            tipos.add(tc.getNombre() + " - " + tc.getDescripcion());
-        }
-        return tipos;
-    }
-
-    // Obtener todos los tipos de tratamientos (faciales + corporales)
-    public ArrayList<String> obtenerTodosTiposTratamientos() {
-        ArrayList<String> tipos = new ArrayList<>();
-
-        // Agregar tratamientos faciales
-        for (TratamientosFaciales tf : TratamientosFaciales.values()) {
-            tipos.add(tf.getNombre() + " - " + tf.getDescripcion());
-        }
-
-        // Agregar tratamientos corporales
-        for (TratamientosCorporales tc : TratamientosCorporales.values()) {
-            tipos.add(tc.getNombre() + " - " + tc.getDescripcion());
-        }
-
-        return tipos;
-    }
-
-    // Obtener descripción de un tratamiento facial por nombre
-    public String obtenerDescripcionTratamientoFacial(String nombre) {
+    // Obtener descripción de cualquier tipo de tratamiento
+    public String obtenerDescripcionTratamiento(String nombre) {
+        // Buscar en tratamientos faciales
         for (TratamientosFaciales tf : TratamientosFaciales.values()) {
             if (tf.getNombre().equals(nombre)) {
                 return tf.getDescripcion();
             }
         }
-        return null;
-    }
-
-    // Obtener descripción de un tratamiento corporal por nombre
-    public String obtenerDescripcionTratamientoCorporal(String nombre) {
+        // Buscar en tratamientos corporales
         for (TratamientosCorporales tc : TratamientosCorporales.values()) {
             if (tc.getNombre().equals(nombre)) {
                 return tc.getDescripcion();
             }
         }
         return null;
-    }
-
-    // Obtener descripción de cualquier tipo de tratamiento
-    public String obtenerDescripcionTratamiento(String nombre) {
-        String descripcion = obtenerDescripcionTratamientoFacial(nombre);
-        if (descripcion != null) {
-            return descripcion;
-        }
-        return obtenerDescripcionTratamientoCorporal(nombre);
-    }
-
-    // Obtener un mapa con nombre y descripción de todos los tratamientos faciales
-    public HashMap<String, String> obtenerMapaTratamientosFaciales() {
-        HashMap<String, String> mapa = new HashMap<>();
-        for (TratamientosFaciales tf : TratamientosFaciales.values()) {
-            mapa.put(tf.getNombre(), tf.getDescripcion());
-        }
-        return mapa;
-    }
-
-    // Obtener un mapa con nombre y descripción de todos los tratamientos corporales
-    public HashMap<String, String> obtenerMapaTratamientosCorporales() {
-        HashMap<String, String> mapa = new HashMap<>();
-        for (TratamientosCorporales tc : TratamientosCorporales.values()) {
-            mapa.put(tc.getNombre(), tc.getDescripcion());
-        }
-        return mapa;
-    }
-
-    // NUEVO: Obtener nombre y descripción completos de un tratamiento por su tipo
-    public String obtenerNombreYDescripcionCompleta(String tipoTratamiento) {
-        String descripcion = obtenerDescripcionTratamiento(tipoTratamiento);
-        if (descripcion != null) {
-            return tipoTratamiento + " - " + descripcion;
-        }
-        return tipoTratamiento;
     }
 
     public Tratamiento buscarTratamiento(int idTratamiento) {
