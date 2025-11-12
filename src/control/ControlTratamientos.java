@@ -27,6 +27,7 @@ public class ControlTratamientos {
     private vistaTratamientos vista;
     private TratamientoData tratamientoData;
     private Tratamiento tratamientoSeleccionado;
+    private boolean cargandoDesdeTabla = false;
     
     public ControlTratamientos(vistaTratamientos vista, TratamientoData tratamientoData) {
         this.vista = vista;
@@ -119,6 +120,11 @@ public class ControlTratamientos {
     private void configurarListeners() {
         // Listener para el combo de tipo
         vista.getJcbTipo().addActionListener(e -> {
+            // No procesar si estamos cargando desde la tabla
+            if (cargandoDesdeTabla) {
+                return;
+            }
+            
             String tipoSeleccionado = (String) vista.getJcbTipo().getSelectedItem();
             // Solo procesar si no es el item por defecto
             if (tipoSeleccionado != null && !"Seleccione un tipo...".equals(tipoSeleccionado)) {
@@ -156,37 +162,59 @@ public class ControlTratamientos {
         if (filaSeleccionada == -1) {
             return;
         }
+        cargandoDesdeTabla = true;
         
-        DefaultTableModel modelo = (DefaultTableModel) vista.getJtTratamiento().getModel();
-        int codigo = (Integer) modelo.getValueAt(filaSeleccionada, 0);
-        
-        tratamientoSeleccionado = tratamientoData.buscarTratamiento(codigo);
-        if (tratamientoSeleccionado != null) {
-            // Cargar código
-            vista.getJtfCodigo().setText(String.valueOf(tratamientoSeleccionado.getCodTratam()));
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) vista.getJtTratamiento().getModel();
+            int codigo = (Integer) modelo.getValueAt(filaSeleccionada, 0);
             
-            // Cargar tipo
-            String tipo = tratamientoSeleccionado.gettipoTratamiento();
-            vista.getJcbTipo().setSelectedItem(tipo);
-            cargarComboNombre();
-            
-            // Cargar nombre
-            vista.getJcbNombre().setSelectedItem(tratamientoSeleccionado.getNombre());
-            
-            // Cargar detalle
-            vista.getJtfDetalle().setText(tratamientoSeleccionado.getDetalle());
-            
-            // Cargar duración
-            LocalTime duracion = tratamientoSeleccionado.getDuracion();
-            if (duracion != null) {
-                vista.getJftfDuracion().setText(duracion.format(DateTimeFormatter.ofPattern("HH:mm")));
+            tratamientoSeleccionado = tratamientoData.buscarTratamiento(codigo);
+            if (tratamientoSeleccionado != null) {
+                // Cargar código
+                vista.getJtfCodigo().setText(String.valueOf(tratamientoSeleccionado.getCodTratam()));
+                
+                // Cargar tipo - primero obtener el tipo desde la BD
+                String tipo = tratamientoSeleccionado.gettipoTratamiento();
+                if (tipo != null) {
+                    // Seleccionar el tipo en el combobox (esto disparará el listener, pero lo ignoraremos)
+                    vista.getJcbTipo().setSelectedItem(tipo);
+                    // Cargar los nombres correspondientes al tipo seleccionado
+                    cargarComboNombre();
+                    
+                    // Cargar nombre después de que se haya poblado el combobox
+                    String nombre = tratamientoSeleccionado.getNombre();
+                    if (nombre != null) {
+                        // Intentar seleccionar el nombre
+                        vista.getJcbNombre().setSelectedItem(nombre);
+                        // Cargar el detalle automáticamente
+                        cargarDetalle();
+                    }
+                }
+                
+                // Cargar detalle (por si acaso no se cargó automáticamente)
+                String detalle = tratamientoSeleccionado.getDetalle();
+                if (detalle != null && !detalle.isEmpty()) {
+                    vista.getJtfDetalle().setText(detalle);
+                }
+                
+                // Cargar duración
+                LocalTime duracion = tratamientoSeleccionado.getDuracion();
+                if (duracion != null) {
+                    vista.getJftfDuracion().setText(duracion.format(DateTimeFormatter.ofPattern("HH:mm")));
+                } else {
+                    vista.getJftfDuracion().setText("");
+                }
+                
+                // Cargar costo
+                vista.getJtfCosto().setText(String.valueOf(tratamientoSeleccionado.getCosto()));
+                
+                // Cargar estado
+                vista.getChboxActivo().setSelected(tratamientoSeleccionado.isEstado());
             }
-            
-            // Cargar costo
-            vista.getJtfCosto().setText(String.valueOf(tratamientoSeleccionado.getCosto()));
-            
-            // Cargar estado
-            vista.getChboxActivo().setSelected(tratamientoSeleccionado.isEstado());
+        } finally {
+            // Restaurar el flag
+            cargandoDesdeTabla = false;
+        
         }
     }
     

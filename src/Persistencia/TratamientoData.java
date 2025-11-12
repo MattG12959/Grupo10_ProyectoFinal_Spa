@@ -262,6 +262,7 @@ public class TratamientoData {
                 t = new Tratamiento();
                 t.setCodTratam(rs.getInt("codTratamiento"));
                 t.setNombre(rs.getString("nombre"));
+                t.settipoTratamiento(rs.getString("tipoTratamiento"));
                 t.setDetalle(rs.getString("detalle"));
                 t.setDuracion(rs.getTime("duracion").toLocalTime());
                 t.setCosto(rs.getDouble("costo"));
