@@ -4,21 +4,61 @@
  */
 package vistas;
 
+import Persistencia.*;
+import Persistencia.miConexion;
+import control.ControlConsultorio;
+import control.ControlVistaEmpleados;
+import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
- * @author thyetix
+ * @author ezequiel
  */
 public class vistaConsultorios extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form vistaConsultorios
      */
-    public vistaConsultorios() {
+    private final JDesktopPane Escritorio;
+    private miConexion connection = null;
+    private ConsultorioData consultorioData = null;
+    private EquipamientoData equipamientoData = null;
+    private ControlConsultorio controlConsultorio = null;
+    private MasajistaData masajistaData = null;
+
+    public vistaConsultorios(JDesktopPane escritorio) {
+        this.Escritorio = escritorio;
         initComponents();
 
-        tablaEquipamientos.getColumnModel().getColumn(0).setPreferredWidth(100); // Equipamiento
-        tablaEquipamientos.getColumnModel().getColumn(1).setPreferredWidth(410); // Descripcion
-        tablaEquipamientos.getColumnModel().getColumn(2).setPreferredWidth(20);  // Stock
+        //Modifica el tamaño de cada columna
+        tablaEquipamientos.getColumnModel().getColumn(0).setPreferredWidth(80); // Equipamiento
+        tablaEquipamientos.getColumnModel().getColumn(1).setPreferredWidth(440); // Descripcion
+        tablaEquipamientos.getColumnModel().getColumn(2).setPreferredWidth(10);  // Stock
+
+        try {
+            connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+            consultorioData = new ConsultorioData(connection);
+            equipamientoData = new EquipamientoData(connection);
+            masajistaData = new MasajistaData(connection);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
+        }
+
+        if (consultorioData != null && equipamientoData != null) {
+            this.controlConsultorio = new ControlConsultorio(this, consultorioData, equipamientoData, masajistaData);
+
+            controlConsultorio.cargarComboConsultoriosPorApto();
+            controlConsultorio.agregarListenerComboConsultorio();
+            controlConsultorio.cargarEquipamientosDeConsultorio();
+            controlConsultorio.cargarMasajistasAptosPorEspecialidad();
+            controlConsultorio.cargarUsosPorConsultorio();
+        }
     }
 
     /**
@@ -32,16 +72,19 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cbConsultorio = new javax.swing.JComboBox<>();
+        btnEliminarEquipamientos = new javax.swing.JButton();
+        btnAgregarEquipamientos = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaMasajistas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEquipamientos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaUsos = new javax.swing.JTable();
 
         setMinimumSize(new java.awt.Dimension(560, 13));
 
@@ -52,13 +95,23 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Consultorio:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
-        jButton1.setText("Eliminar equipamientos");
+        btnEliminarEquipamientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
+        btnEliminarEquipamientos.setText("Eliminar equipamiento");
+        btnEliminarEquipamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarEquipamientosActionPerformed(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
-        jButton2.setText("Agregar equipamientos");
+        btnAgregarEquipamientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
+        btnAgregarEquipamientos.setText("Agregar equipamiento");
+        btnAgregarEquipamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarEquipamientosActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMasajistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -74,7 +127,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaMasajistas);
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -111,6 +164,29 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Cantidad de usos de cada consultorio:");
+
+        tablaUsos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Facial", "Corporal", "Estetico", "Relajacion"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tablaUsos);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,29 +194,28 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cbConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(177, 177, 177)
+                            .addComponent(btnAgregarEquipamientos)
+                            .addGap(31, 31, 31)
+                            .addComponent(btnEliminarEquipamientos))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(75, 75, 75)
-                                .addComponent(jButton2)
-                                .addGap(31, 31, 31)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(29, 29, 29))))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,9 +223,9 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbConsultorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarEquipamientos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarEquipamientos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -160,7 +235,11 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCerrar)
                 .addGap(12, 12, 12))
@@ -185,19 +264,99 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    private void btnAgregarEquipamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEquipamientosActionPerformed
+        // TODO add your handling code here:
+        JInternalFrame abierto = buscarFrame(vistaCargarEquipamientos.class);
+        if (abierto != null) {
+            try {
+                abierto.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+            abierto.toFront();
+            centrarFrame(abierto);
+            return;
+        }
+
+        vistaCargarEquipamientos frm = new vistaCargarEquipamientos();
+        Escritorio.add(frm);
+        frm.pack();
+        centrarFrame(frm);
+        frm.setVisible(true);
+        try {
+            frm.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {
+        }
+
+    }//GEN-LAST:event_btnAgregarEquipamientosActionPerformed
+
+    private void btnEliminarEquipamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEquipamientosActionPerformed
+        // TODO add your handling code here:
+        controlConsultorio.eliminarEquipamientoSeleccionado();
+    }//GEN-LAST:event_btnEliminarEquipamientosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarEquipamientos;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnEliminarEquipamientos;
+    private javax.swing.JComboBox<String> cbConsultorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable tablaEquipamientos;
+    private javax.swing.JTable tablaMasajistas;
+    private javax.swing.JTable tablaUsos;
     // End of variables declaration//GEN-END:variables
+
+    public JComboBox<String> getCbConsultorio() {
+        return cbConsultorio;
+    }
+
+    public void setCbConsultorio(JComboBox<String> cbConsultorio) {
+        this.cbConsultorio = cbConsultorio;
+    }
+
+    public JTable getTablaEquipamientos() {
+        return tablaEquipamientos;
+    }
+
+    public void setTablaEquipamientos(JTable tablaEquipamientos) {
+        this.tablaEquipamientos = tablaEquipamientos;
+    }
+
+    public JTable getTablaMasajistas() {
+        return tablaMasajistas;
+    }
+
+    public void setTablaMasajistas(JTable tablaMasajistas) {
+        this.tablaMasajistas = tablaMasajistas;
+    }
+
+    public JTable getTablaUsos() {
+        return tablaUsos;
+    }
+
+    public void setTablaUsos(JTable tablaUsos) {
+        this.tablaUsos = tablaUsos;
+    }
+    
+    // Busca si ya existe un JInternalFrame en el JDesktopPane
+    private JInternalFrame buscarFrame(Class<? extends JInternalFrame> clase) {
+        for (JInternalFrame f : Escritorio.getAllFrames()) {
+            if (clase.isInstance(f)) return f;
+        }
+        return null;
+    }
+    
+    private void centrarFrame(JInternalFrame f) {
+        int x = (Escritorio.getWidth() - f.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - f.getHeight()) / 2;
+        f.setLocation(Math.max(x, 0), Math.max(y, 0));
+    }
+
 }

@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- * Clase de testing ampliada: crea varias entidades y persiste un DiaDeSpa con 5 sesiones.
- * Adaptá ids/valores si tu modelo de datos difiere.
+ * Clase de testing ampliada: crea varias entidades y persiste un DiaDeSpa con 5
+ * sesiones. Adaptá ids/valores si tu modelo de datos difiere.
  */
 public class Gp10_Spa {
 
@@ -46,6 +46,7 @@ public class Gp10_Spa {
 
         try {
             // -------------- CARGO INSTALACION ---------------------- 
+            /*
             Instalacion ins1 = new Instalacion();
             ins1.setNombre(AreasDeRelajacion.SALA_DE_INFUCIONES.getNombre());
             ins1.setDetalleDeUso(AreasDeRelajacion.SALA_DE_INFUCIONES.getDescripcion());
@@ -152,12 +153,12 @@ public class Gp10_Spa {
             masData.altaMasajista(m5);
 
             System.out.println("Masajistas guardados: " + m1.getMatricula() + ", " + m2.getMatricula() + ", " + m3.getMatricula() + ", " + m4.getMatricula() + ", " + m5.getMatricula());
-
+            
             // --------------- CARGO CONSULTORIO -------------
             Consultorio c = new Consultorio();
             c.setUsos(5);
             c.setApto(Especialidades.CORPORAL.getEspecialidad());
-
+            
             // equipamientos (3) y asignación al consultorio
             ArrayList<Equipamiento> equipamientos = new ArrayList<>();
             Equipamiento e1 = new Equipamiento();
@@ -313,9 +314,180 @@ public class Gp10_Spa {
             }
 
             System.out.println("--------------- FINAL DE EJECUCION-----------------");
-
+             */
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public static void cargarDatosDePrueba() {
+        miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+
+        DiaDeSpaData diaData = new DiaDeSpaData(conexion);
+        SesionData sesionData = new SesionData(conexion);
+        InstalacionData instalData = new InstalacionData(conexion);
+        ConsultorioData consultData = new ConsultorioData(conexion);
+        TratamientoData tratData = new TratamientoData(conexion);
+        MasajistaData masData = new MasajistaData(conexion);
+        ClienteData clienteData = new ClienteData(conexion);
+
+        try {
+            // ----------- INSTALACIONES -----------
+            Instalacion ins1 = new Instalacion();
+            ins1.setNombre(AreasDeRelajacion.ZONA_DE_RELAX.getNombre());
+            ins1.setDetalleDeUso(AreasDeRelajacion.ZONA_DE_RELAX.getDescripcion());
+            ins1.setUsos(12);
+            ins1.setPrecio(800.0);
+            ins1.setEstado(true);
+            instalData.guardarInstalacion(ins1);
+
+            Instalacion ins2 = new Instalacion();
+            ins2.setNombre(AreasDeRelajacion.SALA_DE_TE.getNombre());
+            ins2.setDetalleDeUso(AreasDeRelajacion.SALA_DE_TE.getDescripcion());
+            ins2.setUsos(8);
+            ins2.setPrecio(400.0);
+            ins2.setEstado(true);
+            instalData.guardarInstalacion(ins2);
+
+            Instalacion ins3 = new Instalacion();
+            ins3.setNombre(AreasDeRelajacion.SALA_DE_INFUCIONES.getNombre());
+            ins3.setDetalleDeUso(AreasDeRelajacion.SALA_DE_INFUCIONES.getDescripcion());
+            ins3.setUsos(10);
+            ins3.setPrecio(500.0);
+            ins3.setEstado(true);
+            instalData.guardarInstalacion(ins3);
+
+            // ----------- TRATAMIENTOS CORPORALES -----------
+            Tratamiento tr1 = new Tratamiento();
+            tr1.setNombre(TratamientosCorporales.EXFOLIACION_CORPORAL.getNombre());
+            tr1.settipoTratamiento("Corporal");
+            tr1.setDetalle(TratamientosCorporales.EXFOLIACION_CORPORAL.getDescripcion());
+            tr1.setDuracion(java.time.LocalTime.of(1, 0));
+            tr1.setCosto(1000.0);
+            tr1.setEstado(true);
+            tratData.cargaTratamiento(tr1);
+
+            Tratamiento tr2 = new Tratamiento();
+            tr2.setNombre(TratamientosCorporales.ENVOLTURAS_CORPORALES.getNombre());
+            tr2.settipoTratamiento("Corporal");
+            tr2.setDetalle(TratamientosCorporales.ENVOLTURAS_CORPORALES.getDescripcion());
+            tr2.setDuracion(java.time.LocalTime.of(1, 30));
+            tr2.setCosto(1200.0);
+            tr2.setEstado(true);
+            tratData.cargaTratamiento(tr2);
+
+            Tratamiento tr3 = new Tratamiento();
+            tr3.setNombre(TratamientosCorporales.HIDROTERAPIA.getNombre());
+            tr3.settipoTratamiento("Corporal");
+            tr3.setDetalle(TratamientosCorporales.HIDROTERAPIA.getDescripcion());
+            tr3.setDuracion(java.time.LocalTime.of(1, 0));
+            tr3.setCosto(900.0);
+            tr3.setEstado(true);
+            tratData.cargaTratamiento(tr3);
+
+            // ----------- TRATAMIENTOS FACIALES -----------
+            Tratamiento tr4 = new Tratamiento();
+            tr4.setNombre(TratamientosFaciales.FACIAL_BASICO.getNombre());
+            tr4.settipoTratamiento("Facial");
+            tr4.setDetalle(TratamientosFaciales.FACIAL_BASICO.getDescripcion());
+            tr4.setDuracion(java.time.LocalTime.of(0, 45));
+            tr4.setCosto(800.0);
+            tr4.setEstado(true);
+            tratData.cargaTratamiento(tr4);
+
+            Tratamiento tr5 = new Tratamiento();
+            tr5.setNombre(TratamientosFaciales.MICRODERMOABRASION.getNombre());
+            tr5.settipoTratamiento("Facial");
+            tr5.setDetalle(TratamientosFaciales.MICRODERMOABRASION.getDescripcion());
+            tr5.setDuracion(java.time.LocalTime.of(1, 0));
+            tr5.setCosto(1100.0);
+            tr5.setEstado(true);
+            tratData.cargaTratamiento(tr5);
+
+            Tratamiento tr6 = new Tratamiento();
+            tr6.setNombre(TratamientosFaciales.RADIOFRECUENCIA.getNombre());
+            tr6.settipoTratamiento("Facial");
+            tr6.setDetalle(TratamientosFaciales.RADIOFRECUENCIA.getDescripcion());
+            tr6.setDuracion(java.time.LocalTime.of(1, 0));
+            tr6.setCosto(1300.0);
+            tr6.setEstado(true);
+            tratData.cargaTratamiento(tr6);
+
+            // ----------- MASAJISTAS (3 de cada tipo) -----------
+            // FACIAL
+            masData.altaMasajista(new Masajista(2001, "Ana", "Pérez", "111111111", 40111222, "Masajista", "Facial", true));
+            masData.altaMasajista(new Masajista(2002, "Bruno", "Sosa", "111111112", 40111223, "Masajista", "Facial", true));
+            masData.altaMasajista(new Masajista(2003, "Carla", "Mendez", "111111113", 40111224, "Masajista", "Facial", true));
+            // CORPORAL
+            masData.altaMasajista(new Masajista(2101, "Lucas", "Gonzalez", "222222221", 40222331, "Masajista", "Corporal", true));
+            masData.altaMasajista(new Masajista(2102, "Martina", "Lopez", "222222222", 40222332, "Masajista", "Corporal", true));
+            masData.altaMasajista(new Masajista(2103, "Diego", "Ferreira", "222222223", 40222333, "Masajista", "Corporal", true));
+            // ESTETICO
+            masData.altaMasajista(new Masajista(2201, "Sofia", "Martinez", "333333331", 40333441, "Masajista", "Estetico", true));
+            masData.altaMasajista(new Masajista(2202, "Federico", "Ramos", "333333332", 40333442, "Masajista", "Estetico", true));
+            masData.altaMasajista(new Masajista(2203, "Valentina", "Suarez", "333333333", 40333443, "Masajista", "Estetico", true));
+            // RELAJACION
+            masData.altaMasajista(new Masajista(2301, "Pedro", "Alvarez", "444444441", 40444551, "Masajista", "Relajacion", true));
+            masData.altaMasajista(new Masajista(2302, "Luciana", "Vega", "444444442", 40444552, "Masajista", "Relajacion", true));
+            masData.altaMasajista(new Masajista(2303, "Emilia", "Castro", "444444443", 40444553, "Masajista", "Relajacion", true));
+
+            // ----------- CONSULTORIOS (Facial, Corporal, Estetico, Relajacion) -----------
+            // FACIAL
+            Consultorio c1 = new Consultorio();
+            c1.setUsos(7);
+            c1.setApto("Facial");
+            ArrayList<Equipamiento> eq1 = new ArrayList<>();
+            eq1.add(new Equipamiento(0, 0, Equipamientos.VAPORIZADOR_FACIAL.getNombre(), Equipamientos.VAPORIZADOR_FACIAL.getDescripcion()));
+            eq1.add(new Equipamiento(0, 0, Equipamientos.LAMPARA_LUZ_PULSADA.getNombre(), Equipamientos.LAMPARA_LUZ_PULSADA.getDescripcion()));
+            eq1.add(new Equipamiento(0, 0, Equipamientos.EQUIPO_MICRODERMOABRASION.getNombre(), Equipamientos.EQUIPO_MICRODERMOABRASION.getDescripcion()));
+            c1.setEquipamiento(eq1);
+            consultData.cargaConsultorio(c1);
+
+            // CORPORAL
+            Consultorio c2 = new Consultorio();
+            c2.setUsos(10);
+            c2.setApto("Corporal");
+            ArrayList<Equipamiento> eq2 = new ArrayList<>();
+            eq2.add(new Equipamiento(0, 0, Equipamientos.CAMILLA_MASAJES.getNombre(), Equipamientos.CAMILLA_MASAJES.getDescripcion()));
+            eq2.add(new Equipamiento(0, 0, Equipamientos.CAMILLA_HIDROMASAJE.getNombre(), Equipamientos.CAMILLA_HIDROMASAJE.getDescripcion()));
+            eq2.add(new Equipamiento(0, 0, Equipamientos.PIEDRAS_CALIENTES.getNombre(), Equipamientos.PIEDRAS_CALIENTES.getDescripcion()));
+            c2.setEquipamiento(eq2);
+            consultData.cargaConsultorio(c2);
+
+            // ESTETICO
+            Consultorio c3 = new Consultorio();
+            c3.setUsos(8);
+            c3.setApto("Estetico");
+            ArrayList<Equipamiento> eq3 = new ArrayList<>();
+            eq3.add(new Equipamiento(0, 0, Equipamientos.EQUIPO_RADIOFRECUENCIA.getNombre(), Equipamientos.EQUIPO_RADIOFRECUENCIA.getDescripcion()));
+            eq3.add(new Equipamiento(0, 0, Equipamientos.MAQUINA_ULTRASONIDO.getNombre(), Equipamientos.MAQUINA_ULTRASONIDO.getDescripcion()));
+            eq3.add(new Equipamiento(0, 0, Equipamientos.EQUIPO_MICRODERMOABRASION.getNombre(), Equipamientos.EQUIPO_MICRODERMOABRASION.getDescripcion()));
+            c3.setEquipamiento(eq3);
+            consultData.cargaConsultorio(c3);
+
+            // RELAJACION
+            Consultorio c4 = new Consultorio();
+            c4.setUsos(12);
+            c4.setApto("Relajacion");
+            ArrayList<Equipamiento> eq4 = new ArrayList<>();
+            eq4.add(new Equipamiento(0, 0, Equipamientos.CABINA_SAUNA.getNombre(), Equipamientos.CABINA_SAUNA.getDescripcion()));
+            eq4.add(new Equipamiento(0, 0, Equipamientos.DUCHA_SENSORIAL.getNombre(), Equipamientos.DUCHA_SENSORIAL.getDescripcion()));
+            eq4.add(new Equipamiento(0, 0, Equipamientos.SILLON_RELAX.getNombre(), Equipamientos.SILLON_RELAX.getDescripcion()));
+            c4.setEquipamiento(eq4);
+            consultData.cargaConsultorio(c4);
+
+            // ----------- CLIENTES -----------
+            clienteData.guardarCliente(new Cliente(50111222, "Marcos", "Bequis", "2664880438", 22, "Ninguna", true));
+            clienteData.guardarCliente(new Cliente(50111223, "Julieta", "Molina", "2664880439", 28, "Alergia a cremas", true));
+            clienteData.guardarCliente(new Cliente(50111224, "Santiago", "Paz", "2664880440", 35, "Hipertensión", true));
+            clienteData.guardarCliente(new Cliente(50111225, "Camila", "Rossi", "2664880441", 30, "Ninguna", true));
+            clienteData.guardarCliente(new Cliente(50111226, "Valeria", "Gomez", "2664880442", 40, "Diabetes", true));
+
+            JOptionPane.showMessageDialog(null, "¡Datos de prueba cargados exitosamente!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar datos de prueba: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

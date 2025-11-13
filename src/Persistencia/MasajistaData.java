@@ -349,4 +349,31 @@ public class MasajistaData {
         return null; // Si el nombre no coincide con ningún tratamiento definido
     }
 
+    public ArrayList<Masajista> listarMasajistasAptosPorEspecialidad(String especialidad) {
+        ArrayList<Masajista> masajistas = new ArrayList<>();
+        String sql = "SELECT * FROM masajista WHERE especialidad = ? AND estado = 1";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, especialidad);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Masajista m = new Masajista(
+                        rs.getInt("idEmpleado"),
+                        rs.getInt("matricula"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("telefono"),
+                        rs.getInt("dni"),
+                        rs.getString("puesto"),
+                        rs.getString("especialidad"),
+                        rs.getBoolean("estado")
+                );
+                masajistas.add(m);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar masajistas aptos. " + ex.getMessage());
+        }
+        return masajistas;
+    }
 }

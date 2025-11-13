@@ -166,4 +166,54 @@ public class ConsultorioData {
         }
         return consultorios;
     }
+
+    public ArrayList<String> obtenerAptos() {
+        ArrayList<String> aptos = new ArrayList<>();
+        String sql = "SELECT apto FROM consultorio";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                aptos.add(rs.getString("apto"));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al obtener aptos de consultorios. " + ex.getMessage());
+        }
+        return aptos;
+    }
+
+    public ArrayList<Integer> obtenerUsos() {
+        ArrayList<Integer> usos = new ArrayList<>();
+        String sql = "SELECT usos FROM consultorio";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                usos.add(rs.getInt("usos"));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al obtener usos de consultorios. " + ex.getMessage());
+        }
+        return usos;
+    }
+
+    public void sumarUsosConsultorio(int nroConsultorio, int cantidad) {
+        String sql = "UPDATE consultorio SET usos = usos + ? WHERE nroConsultorio = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, nroConsultorio);
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+ 
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el consultorio.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar los usos del consultorio: " + ex.getMessage());
+        }
+    }
 }

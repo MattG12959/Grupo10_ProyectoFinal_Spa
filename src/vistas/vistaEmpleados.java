@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author thyetix
+ * @author ezequiel
  */
 public class vistaEmpleados extends javax.swing.JInternalFrame {
 

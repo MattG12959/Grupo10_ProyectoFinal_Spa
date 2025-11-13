@@ -19,7 +19,7 @@ public class Consultorio {
     private int nroConsultorio = -1;
     private int usos; // Cantidad de veces que fue utilizado el consultorio para mantenimiento, estadísticas, etc
     private ArrayList<Equipamiento> equipamiento = new ArrayList<>(); // enum: constantes para equipamientos
-    private String apto; // enum: constantes para especialidades
+    private String apto; // nombre o especialidad
     
     // Constructores
     public Consultorio() {
