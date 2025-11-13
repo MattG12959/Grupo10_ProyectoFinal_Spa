@@ -99,6 +99,11 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jButton3.setText("Tienda");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButton3.setBorderPainted(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jbConsultorios.setBackground(new java.awt.Color(155, 216, 185));
         jbConsultorios.setForeground(new java.awt.Color(0, 0, 0));
@@ -512,6 +517,17 @@ public class vistaMenuSpa extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_lmCargarMasajistaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        vistaTienda ventana = new vistaTienda();
+        Escritorio.add(ventana);
+        // Centrar la ventana en el Escritorio
+        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public void musica() {
         AudioClip sound;
