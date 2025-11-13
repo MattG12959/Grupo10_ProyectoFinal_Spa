@@ -83,6 +83,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jbEliminarArticuloDeVentas = new javax.swing.JButton();
         jbConfirmarVenta = new javax.swing.JButton();
+        jbLimpiarCampos2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jtNombre = new javax.swing.JTextField();
@@ -106,8 +107,11 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         setTitle("Tienda");
         setMinimumSize(new java.awt.Dimension(1000, 600));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1200, 500));
+        setPreferredSize(new java.awt.Dimension(1200, 600));
 
+        jPanel1.setBackground(new java.awt.Color(155, 216, 185));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setForeground(new java.awt.Color(155, 216, 185));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -123,6 +127,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jcbSinT1.setText("Sin TACC");
 
+        jtTienda.setForeground(new java.awt.Color(155, 216, 185));
         jtTienda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -134,6 +139,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                 "ID Producto", "Nombre", "Fabricante", "Detalle", "Precio", "Stock", "Vegano", "Sin Tacc"
             }
         ));
+        jtTienda.setToolTipText("");
         jScrollPane1.setViewportView(jtTienda);
 
         jbAgregarAVentas.setText("Agregar a Ventas");
@@ -167,16 +173,13 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         jLabel10.setText("Lista de Ventas");
 
         jbEliminarArticuloDeVentas.setText("Eliminar Artículo de Ventas");
-        jbEliminarArticuloDeVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEliminarArticuloDeVentasActionPerformed(evt);
-            }
-        });
 
         jbConfirmarVenta.setText("Confirmar Venta");
-        jbConfirmarVenta.addActionListener(new java.awt.event.ActionListener() {
+
+        jbLimpiarCampos2.setText("Limpiar Campos");
+        jbLimpiarCampos2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbConfirmarVentaActionPerformed(evt);
+                jbLimpiarCampos2ActionPerformed(evt);
             }
         });
 
@@ -200,27 +203,29 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbVegano1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbSinT1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbAgregarAVentas)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbLimpiarCampos2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jLabel10))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jbBuscar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbVegano1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbSinT1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbAgregarAVentas))
-                            .addComponent(jLabel6))))
-                .addContainerGap(262, Short.MAX_VALUE))
+                        .addComponent(jLabel6)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +240,8 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jLabel8)
                     .addComponent(jcbVegano1)
                     .addComponent(jcbSinT1)
-                    .addComponent(jbAgregarAVentas))
+                    .addComponent(jbAgregarAVentas)
+                    .addComponent(jbLimpiarCampos2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
@@ -247,8 +253,12 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jbConfirmarVenta)
                     .addComponent(jbEliminarArticuloDeVentas)
                     .addComponent(jbLimpiarTabladeVentas))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
+
+        jPanel2.setBackground(new java.awt.Color(155, 216, 185));
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setForeground(new java.awt.Color(155, 216, 185));
 
         jLabel1.setText("Nombre:");
 
@@ -303,7 +313,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                             .addComponent(jbGuardarP)
                             .addComponent(jcbProdSinTacc)
                             .addComponent(jcbProdVegano))
-                        .addGap(0, 36, Short.MAX_VALUE)))
+                        .addGap(0, 48, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -347,11 +357,11 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(14, 14, 14)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
-                .addGap(57, 57, 57))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,6 +543,11 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jbConfirmarVentaActionPerformed
 
+    private void jbLimpiarCampos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarCampos2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jbLimpiarCampos2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Stock;
@@ -557,6 +572,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbConfirmarVenta;
     private javax.swing.JButton jbEliminarArticuloDeVentas;
     private javax.swing.JButton jbGuardarP;
+    private javax.swing.JButton jbLimpiarCampos2;
     private javax.swing.JButton jbLimpiarTabladeVentas;
     private javax.swing.JCheckBox jcbProdSinTacc;
     private javax.swing.JCheckBox jcbProdVegano;
