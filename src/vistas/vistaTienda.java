@@ -25,6 +25,12 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             return false;
         }
     };
+    
+    private DefaultTableModel modeloVentas = new DefaultTableModel() {
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
+    };
 
     /**
      * Creates new form vistaTienda
@@ -33,6 +39,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         initComponents();
         this.getContentPane().setBackground(new Color(155, 216, 185));
         armarCabecera();
+        armarCabeceraVentas();
 
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
@@ -69,8 +76,13 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         jcbSinT1 = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtTienda = new javax.swing.JTable();
-        jbBorrar = new javax.swing.JButton();
-        jbLimpiarTabla = new javax.swing.JButton();
+        jbAgregarAVentas = new javax.swing.JButton();
+        jbLimpiarTabladeVentas = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtVentas = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jbEliminarArticuloDeVentas = new javax.swing.JButton();
+        jbConfirmarVenta = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jtNombre = new javax.swing.JTextField();
@@ -113,28 +125,58 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jtTienda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Producto", "Nombre", "Fabricante", "Detalle", "Precio", "Stock", "Vegano", "Sin Tacc"
             }
         ));
         jScrollPane1.setViewportView(jtTienda);
 
-        jbBorrar.setText("Borrar ítem");
-        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+        jbAgregarAVentas.setText("Agregar a Ventas");
+        jbAgregarAVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBorrarActionPerformed(evt);
+                jbAgregarAVentasActionPerformed(evt);
             }
         });
 
-        jbLimpiarTabla.setText("Limpiar Tabla");
-        jbLimpiarTabla.addActionListener(new java.awt.event.ActionListener() {
+        jbLimpiarTabladeVentas.setText("Limpiar Tabla de Ventas");
+        jbLimpiarTabladeVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbLimpiarTablaActionPerformed(evt);
+                jbLimpiarTabladeVentasActionPerformed(evt);
+            }
+        });
+
+        jtVentas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID Producto", "Nombre", "Fabricante", "Detalle", "Precio", "Stock", "Vegano", "SIn Tacc"
+            }
+        ));
+        jScrollPane2.setViewportView(jtVentas);
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel10.setText("Lista de Ventas");
+
+        jbEliminarArticuloDeVentas.setText("Eliminar Artículo de Ventas");
+        jbEliminarArticuloDeVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarArticuloDeVentasActionPerformed(evt);
+            }
+        });
+
+        jbConfirmarVenta.setText("Confirmar Venta");
+        jbConfirmarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConfirmarVentaActionPerformed(evt);
             }
         });
 
@@ -144,7 +186,22 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbConfirmarVenta)
+                .addGap(46, 46, 46)
+                .addComponent(jbEliminarArticuloDeVentas)
+                .addGap(43, 43, 43)
+                .addComponent(jbLimpiarTabladeVentas)
+                .addGap(35, 35, 35))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel10))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,19 +211,16 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
                                 .addComponent(jbBuscar)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
                                 .addComponent(jcbVegano1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jcbSinT1))
-                            .addComponent(jLabel6)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(402, 402, 402)
-                        .addComponent(jbBorrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbLimpiarTabla)))
-                .addContainerGap(191, Short.MAX_VALUE))
+                                .addComponent(jcbSinT1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbAgregarAVentas))
+                            .addComponent(jLabel6))))
+                .addContainerGap(262, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,14 +234,20 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jbBuscar)
                     .addComponent(jLabel8)
                     .addComponent(jcbVegano1)
-                    .addComponent(jcbSinT1))
+                    .addComponent(jcbSinT1)
+                    .addComponent(jbAgregarAVentas))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbBorrar)
-                    .addComponent(jbLimpiarTabla))
-                .addContainerGap(65, Short.MAX_VALUE))
+                    .addComponent(jbConfirmarVenta)
+                    .addComponent(jbEliminarArticuloDeVentas)
+                    .addComponent(jbLimpiarTabladeVentas))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Nombre:");
@@ -277,8 +337,9 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                 .addComponent(jcbProdSinTacc)
                 .addGap(18, 18, 18)
                 .addComponent(jbGuardarP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -289,17 +350,17 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                 .addGap(55, 55, 55)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
                 .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -309,7 +370,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         // Al presionar Enter en el campo nombre, pasa al siguiente campo
         jtFabricante.requestFocus();
-    }//GEN-LAST:event_jtNombreActionPerformed
+    }                                        
 
     // Configura todos los listeners de los componentes
     
@@ -443,37 +504,41 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jtNombreActionPerformed
 
-    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
+    private void jbAgregarAVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarAVentasActionPerformed
         // TODO add your handling code here:
-        // Botón Borrar
         if (controlTienda != null) {
-            controlTienda.eliminarProducto();
+            controlTienda.agregarProductoAVentas();
         }
   
-    }//GEN-LAST:event_jbBorrarActionPerformed
+    }//GEN-LAST:event_jbAgregarAVentasActionPerformed
 
-    private void jbLimpiarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarTablaActionPerformed
+    private void jbLimpiarTabladeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarTabladeVentasActionPerformed
         // TODO add your handling code here:
         if (controlTienda != null) {
-            int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Está seguro de que desea limpiar la tabla? Esto no eliminará los datos de la base de datos.",
-                "Confirmar limpieza de tabla",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-            );
-            
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                controlTienda.limpiarTabla();
-            }
+            controlTienda.limpiarTablaVentas();
         }
-    }//GEN-LAST:event_jbLimpiarTablaActionPerformed
+    }//GEN-LAST:event_jbLimpiarTabladeVentasActionPerformed
+
+    private void jbEliminarArticuloDeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarArticuloDeVentasActionPerformed
+        // TODO add your handling code here:
+        if (controlTienda != null) {
+            controlTienda.eliminarArticuloDeVentas();
+        }
+    }//GEN-LAST:event_jbEliminarArticuloDeVentasActionPerformed
+
+    private void jbConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarVentaActionPerformed
+        // TODO add your handling code here:
+        if (controlTienda != null) {
+            controlTienda.confirmarVenta();
+        }
+    }//GEN-LAST:event_jbConfirmarVentaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Stock;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -485,11 +550,14 @@ public class vistaTienda extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbAgregarAVentas;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbConfirmarVenta;
+    private javax.swing.JButton jbEliminarArticuloDeVentas;
     private javax.swing.JButton jbGuardarP;
-    private javax.swing.JButton jbLimpiarTabla;
+    private javax.swing.JButton jbLimpiarTabladeVentas;
     private javax.swing.JCheckBox jcbProdSinTacc;
     private javax.swing.JCheckBox jcbProdVegano;
     private javax.swing.JCheckBox jcbSinT1;
@@ -499,6 +567,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtNombre;
     private javax.swing.JTextField jtPrecio;
     private javax.swing.JTable jtTienda;
+    private javax.swing.JTable jtVentas;
     // End of variables declaration//GEN-END:variables
 
     private void armarCabecera() {
@@ -513,6 +582,18 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         modelo.addColumn("Sin TACC");
         jtTienda.setModel(modelo);
 
+    }
+    
+    private void armarCabeceraVentas() {
+        modeloVentas.addColumn("ID");
+        modeloVentas.addColumn("Nombre");
+        modeloVentas.addColumn("Fabricante");
+        modeloVentas.addColumn("Detalle");
+        modeloVentas.addColumn("Precio");
+        modeloVentas.addColumn("Cantidad");
+        modeloVentas.addColumn("Vegano");
+        modeloVentas.addColumn("Sin TACC");
+        jtVentas.setModel(modeloVentas);
     }
     // Getters para acceso desde ControlTienda
 
@@ -574,6 +655,22 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
     public DefaultTableModel getModelo() {
         return modelo;
+    }
+    
+    public DefaultTableModel getModeloVentas() {
+        return modeloVentas;
+    }
+    
+    public javax.swing.JTable getJtVentas() {
+        return jtVentas;
+    }
+    
+    public javax.swing.JButton getJbConfirmarVenta() {
+        return jbConfirmarVenta;
+    }
+    
+    public javax.swing.JButton getJbEliminarArticuloDeVentas() {
+        return jbEliminarArticuloDeVentas;
     }
 
 }

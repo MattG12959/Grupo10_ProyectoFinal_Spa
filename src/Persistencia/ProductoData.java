@@ -29,7 +29,7 @@ public class ProductoData {
     
     //------------ Buscar en la base de datos el Producto por ID ------------
     public Producto buscarProducto(int idProducto){
-        String query = "SELECT * FROM `producto` WHERE `idProdcuto` = ?";
+        String query = "SELECT * FROM `producto` WHERE `idProducto` = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(query);
@@ -202,6 +202,88 @@ public class ProductoData {
             JOptionPane.showMessageDialog(null, "Error al filtrar los Productos." + ex.getMessage());
         }
         return lista;
+    }
+    
+    //------------ Buscar Productos por ID o Nombre ------------
+    public ArrayList<Producto> buscarProductosPorIdONombre(String busqueda, boolean filtroVegano, boolean filtroSinTacc){
+        ArrayList<Producto> lista = new ArrayList<>();
+        String query = "SELECT * FROM producto WHERE 1=1";
+        
+        // Determinar si la búsqueda es por ID o nombre
+        boolean esNumero = false;
+        int idBusqueda = -1;
+        try {
+            idBusqueda = Integer.parseInt(busqueda.trim());
+            esNumero = true;
+        } catch (NumberFormatException e) {
+            esNumero = false;
+        }
+        
+        // Agregar condición de búsqueda
+        if (esNumero) {
+            query += " AND idProducto = ?";
+        } else {
+            query += " AND nombre LIKE ?";
+        }
+        
+        // Agregar filtros
+        if(filtroVegano){
+            query += " AND vegano = true";
+        }
+        if(filtroSinTacc){
+            query += " AND sinTacc = true";
+        }
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(query);
+            if (esNumero) {
+                ps.setInt(1, idBusqueda);
+            } else {
+                ps.setString(1, "%" + busqueda.trim() + "%");
+            }
+            
+            ResultSet resultado = ps.executeQuery();
+            
+            while(resultado.next()){
+                Producto producto = new Producto(
+                    resultado.getInt("idProducto"),
+                    resultado.getString("nombre"),
+                    resultado.getString("fabricante"),
+                    resultado.getString("detalle"),
+                    resultado.getDouble("precio"),
+                    resultado.getInt("stock"),
+                    resultado.getBoolean("vegano"),
+                    resultado.getBoolean("sinTacc")
+                );
+                lista.add(producto);
+            }
+            ps.close();
+            
+        }catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al buscar los Productos." + ex.getMessage());
+        }
+        return lista;
+    }
+    
+    //------------ Actualizar Stock del Producto ------------
+    public void actualizarStock(int idProducto, int cantidadVendida) throws SQLException{
+        String query = "UPDATE producto SET stock = stock - ? WHERE idProducto = ? AND stock >= ?";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, cantidadVendida);
+            ps.setInt(2, idProducto);
+            ps.setInt(3, cantidadVendida);
+            
+            int filas = ps.executeUpdate();
+            if(filas == 0){
+                throw new SQLException("No se pudo actualizar el stock. Verifique que haya suficiente stock disponible.");
+            }
+            ps.close();
+            
+        }catch (SQLException ex){
+            throw new SQLException("Error al actualizar el stock del producto: " + ex.getMessage());
+        }
     }
     
 }

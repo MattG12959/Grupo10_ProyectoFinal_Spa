@@ -98,39 +98,44 @@ public class ControlTienda {
     }
     
     /**
-     * Busca un producto por ID
+     * Busca productos por ID o nombre y los muestra en la tabla
      */
     public void buscarProductoPorId() {
         try {
-            String idStr = vista.getJTextField1().getText().trim();
-            if (idStr.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Ingrese un ID de producto para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            String busqueda = vista.getJTextField1().getText().trim();
+            if (busqueda.isEmpty()) {
+                // Si está vacío, cargar todos los productos
+                aplicarFiltros();
                 return;
             }
             
-            int idProducto = Integer.parseInt(idStr);
-            Producto producto = productoData.buscarProducto(idProducto);
+            boolean filtroVegano = vista.getJcbVegano1().isSelected();
+            boolean filtroSinTacc = vista.getJcbSinT1().isSelected();
             
-            if (producto != null) {
-                cargandoDesdeTabla = true;
-                vista.getJtNombre().setText(producto.getNombre());
-                vista.getJtFabricante().setText(producto.getFabricante());
-                vista.getJtDetalle().setText(producto.getDetalle());
-                vista.getJtPrecio().setText(String.valueOf(producto.getPrecio()));
-                vista.getStock().setText(String.valueOf(producto.getStock()));
-                vista.getJcbProdVegano().setSelected(producto.isVegano());
-                vista.getJcbProdSinTacc().setSelected(producto.isSinTacc());
-                productoSeleccionado = producto;
-                cargandoDesdeTabla = false;
-                
-                // Seleccionar en la tabla si existe
-                seleccionarEnTabla(idProducto);
+            ArrayList<Producto> productos = productoData.buscarProductosPorIdONombre(busqueda, filtroVegano, filtroSinTacc);
+            
+            DefaultTableModel modelo = vista.getModelo();
+            modelo.setRowCount(0); // Limpiar la tabla
+            
+            if (productos.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No se encontraron productos con la búsqueda: " + busqueda, "Información", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontró un producto con el ID: " + idProducto, "Información", JOptionPane.INFORMATION_MESSAGE);
+                for (Producto p : productos) {
+                    modelo.addRow(new Object[]{
+                        p.getIdProducto(),
+                        p.getNombre(),
+                        p.getFabricante(),
+                        p.getDetalle(),
+                        p.getPrecio(),
+                        p.getStock(),
+                        p.isVegano() ? "Sí" : "No",
+                        p.isSinTacc() ? "Sí" : "No"
+                    });
+                }
             }
             
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -268,6 +273,136 @@ public class ControlTienda {
     }
     
     /**
+     * Agrega el producto seleccionado en jtTienda a la tabla de ventas
+     */
+    public void agregarProductoAVentas() {
+        int filaSeleccionada = vista.getJtTienda().getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto de la tabla para agregar a ventas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+            DefaultTableModel modelo = vista.getModelo();
+            int idProducto = (Integer) modelo.getValueAt(filaSeleccionada, 0);
+            int stockDisponible = (Integer) modelo.getValueAt(filaSeleccionada, 5);
+            
+            // Verificar si el producto ya está en la tabla de ventas
+            DefaultTableModel modeloVentas = vista.getModeloVentas();
+            for (int i = 0; i < modeloVentas.getRowCount(); i++) {
+                if (modeloVentas.getValueAt(i, 0).equals(idProducto)) {
+                    // Si ya existe, incrementar la cantidad
+                    int cantidadActual = (Integer) modeloVentas.getValueAt(i, 5);
+                    if (cantidadActual + 1 > stockDisponible) {
+                        JOptionPane.showMessageDialog(null, "No hay suficiente stock disponible. Stock disponible: " + stockDisponible, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    modeloVentas.setValueAt(cantidadActual + 1, i, 5);
+                    return;
+                }
+            }
+            
+            // Si no existe, agregarlo con cantidad 1
+            if (stockDisponible <= 0) {
+                JOptionPane.showMessageDialog(null, "No hay stock disponible para este producto.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            modeloVentas.addRow(new Object[]{
+                modelo.getValueAt(filaSeleccionada, 0), // ID
+                modelo.getValueAt(filaSeleccionada, 1), // Nombre
+                modelo.getValueAt(filaSeleccionada, 2), // Fabricante
+                modelo.getValueAt(filaSeleccionada, 3), // Detalle
+                modelo.getValueAt(filaSeleccionada, 4), // Precio
+                1, // Cantidad inicial
+                modelo.getValueAt(filaSeleccionada, 6), // Vegano
+                modelo.getValueAt(filaSeleccionada, 7)  // Sin TACC
+            });
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar producto a ventas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Elimina el artículo seleccionado de la tabla de ventas
+     */
+    public void eliminarArticuloDeVentas() {
+        int filaSeleccionada = vista.getJtVentas().getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un artículo de la tabla de ventas para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel modeloVentas = vista.getModeloVentas();
+        modeloVentas.removeRow(filaSeleccionada);
+    }
+    
+    /**
+     * Limpia la tabla de ventas
+     */
+    public void limpiarTablaVentas() {
+        int confirmacion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Está seguro de que desea limpiar la tabla de ventas?",
+            "Confirmar limpieza",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            DefaultTableModel modeloVentas = vista.getModeloVentas();
+            modeloVentas.setRowCount(0);
+        }
+    }
+    
+    /**
+     * Confirma la venta, actualiza el stock en la base de datos y muestra mensaje de éxito
+     */
+    public void confirmarVenta() {
+        DefaultTableModel modeloVentas = vista.getModeloVentas();
+        
+        if (modeloVentas.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay productos en la lista de ventas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int confirmacion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Confirma la venta de " + modeloVentas.getRowCount() + " producto(s)?",
+            "Confirmar Venta",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+        
+        try {
+            // Actualizar el stock de cada producto vendido
+            for (int i = 0; i < modeloVentas.getRowCount(); i++) {
+                int idProducto = (Integer) modeloVentas.getValueAt(i, 0);
+                int cantidad = (Integer) modeloVentas.getValueAt(i, 5);
+                
+                productoData.actualizarStock(idProducto, cantidad);
+            }
+            
+            // Limpiar la tabla de ventas
+            modeloVentas.setRowCount(0);
+            
+            // Recargar la tabla de productos para reflejar los cambios de stock
+            cargarTabla();
+            
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Venta realizada", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al confirmar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
      * Selecciona una fila en la tabla según el ID del producto
      */
     private void seleccionarEnTabla(int idProducto) {
@@ -356,3 +491,4 @@ public class ControlTienda {
         return true;
     }
 }
+
