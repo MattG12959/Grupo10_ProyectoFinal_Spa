@@ -189,9 +189,7 @@ public class TratamientoData {
                 if (tratamiento.getProducto() != null && !tratamiento.getProducto().isEmpty()) {
                     insertarProductosTratamiento(tratamiento.getCodTratam(), tratamiento.getProducto());
                 }
-                JOptionPane.showMessageDialog(null, "Tratamiento actualizado exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el tratamiento a actualizar");
+                
             }
 
             ps.close();
