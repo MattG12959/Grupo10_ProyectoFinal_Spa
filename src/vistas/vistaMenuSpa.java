@@ -110,6 +110,11 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jbConsultorios.setText("Consultorios");
         jbConsultorios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jbConsultorios.setBorderPainted(false);
+        jbConsultorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConsultoriosActionPerformed(evt);
+            }
+        });
 
         jbCargarSesion.setBackground(new java.awt.Color(155, 216, 185));
         jbCargarSesion.setForeground(new java.awt.Color(0, 0, 0));
@@ -124,7 +129,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jbCargarCliente1.setBackground(new java.awt.Color(155, 216, 185));
         jbCargarCliente1.setForeground(new java.awt.Color(0, 0, 0));
-        jbCargarCliente1.setText("Cliente");
+        jbCargarCliente1.setText("Clientes");
         jbCargarCliente1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jbCargarCliente1.setBorderPainted(false);
         jbCargarCliente1.addActionListener(new java.awt.event.ActionListener() {
@@ -528,6 +533,42 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jbConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultoriosActionPerformed
+        // TODO add your handling code here:
+        vistaConsultorios ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaConsultorios) {
+                ventana = (vistaConsultorios) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaConsultorios();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jbConsultoriosActionPerformed
 
     public void musica() {
         AudioClip sound;

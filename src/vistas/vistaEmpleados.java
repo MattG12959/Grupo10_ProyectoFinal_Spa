@@ -101,6 +101,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         btnLimpiarCampos = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
 
+        setTitle("Gestion de Empleados");
         setPreferredSize(new java.awt.Dimension(1112, 650));
         setRequestFocusEnabled(false);
 
