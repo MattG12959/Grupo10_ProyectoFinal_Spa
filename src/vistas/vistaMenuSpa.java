@@ -323,6 +323,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //------ Boton Stop de Música ------
     private void jbStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbStopMouseClicked
         // TODO add your handling code here:
         AudioClip sound;
@@ -330,10 +331,12 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         sound.stop();
     }//GEN-LAST:event_jbStopMouseClicked
 
+    //------ Boton play de Música ------
     private void jbPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbPlayMouseClicked
         musica();
     }//GEN-LAST:event_jbPlayMouseClicked
 
+    //------ Boton Cargar Sesión ------
     private void jbCargarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarSesionActionPerformed
         vistaCargarSesion ventana = new vistaCargarSesion();
         Escritorio.add(ventana);
@@ -344,6 +347,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jbCargarSesionActionPerformed
 
+    //------ Boton Cargar Cliente ------
     private void jbCargarCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarCliente1ActionPerformed
         vistaCargarCliente ventana = new vistaCargarCliente();
         Escritorio.add(ventana);
@@ -354,6 +358,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jbCargarCliente1ActionPerformed
 
+    //------ Item del menu Tratamiento ------
     private void jmTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmTratamientosActionPerformed
         vistaTratamientos ventana = new vistaTratamientos();
         Escritorio.add(ventana);
@@ -365,6 +370,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmTratamientosActionPerformed
 
+    //------ Item del sub menu Ver Tratamiento ------
     private void jmVerTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVerTratamientosActionPerformed
         for (JInternalFrame frame : Escritorio.getAllFrames()) {
             if (frame instanceof vistaTratamientos) {
@@ -382,6 +388,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jmVerTratamientosActionPerformed
 
+    //------ Boton de Reservas ------
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         vistaReservas ventana = new vistaReservas();
@@ -394,6 +401,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //------ Boton de Empleados ------
     private void jbEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmpleadosActionPerformed
         // TODO add your handling code here:
         vistaEmpleados ventana = null;
@@ -430,6 +438,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbEmpleadosActionPerformed
 
+    //------ Item del Menu Ver Empleados ------
     private void jmVerEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVerEmpleadosActionPerformed
         // TODO add your handling code here:
         vistaEmpleados ventana = null;
@@ -466,6 +475,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmVerEmpleadosActionPerformed
 
+    //------ Item del sub menu Cargar Vendedor ------
     private void lmCargarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lmCargarVendedorActionPerformed
         // TODO add your handling code here: 
         vistaCargarVendedor ventana = null;
@@ -502,6 +512,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lmCargarVendedorActionPerformed
 
+    //------ Item del sub menu Cargar Masajistas ------
     private void lmCargarMasajistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lmCargarMasajistaActionPerformed
         // TODO add your handling code here:
         vistaCargarMasajista ventana = null;
@@ -538,6 +549,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lmCargarMasajistaActionPerformed
 
+    //------ Boton de Tienda ------
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         vistaTienda ventana = new vistaTienda();
@@ -549,6 +561,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    //------ Boton de Consultorios ------
     private void jbConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultoriosActionPerformed
         // TODO add your handling code here:
         vistaConsultorios ventana = null;
@@ -585,6 +598,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbConsultoriosActionPerformed
 
+    //------ Item del menu Herramientas - Cargar datos de prueba ------
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
 
@@ -597,6 +611,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    //------ Método para implementar Música ------
     public void musica() {
         AudioClip sound;
         sound = java.applet.Applet.newAudioClip(getClass().getResource("/resources/sounds/wet_hands_c418.wav"));
