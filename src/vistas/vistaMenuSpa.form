@@ -256,7 +256,7 @@
                           <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
                           <Component id="jbConsultorios" alignment="1" max="32767" attributes="0"/>
                           <Component id="jbCargarSesion" max="32767" attributes="0"/>
-                          <Component id="jbCargarCliente1" min="-2" pref="139" max="-2" attributes="0"/>
+                          <Component id="jbCliente" min="-2" pref="139" max="-2" attributes="0"/>
                           <Component id="jButton1" min="-2" pref="140" max="-2" attributes="0"/>
                           <Component id="jbEmpleados" min="-2" pref="139" max="-2" attributes="0"/>
                       </Group>
@@ -268,7 +268,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jbCargarCliente1" min="-2" pref="54" max="-2" attributes="0"/>
+                      <Component id="jbCliente" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jbEmpleados" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -345,7 +345,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCargarSesionActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jbCargarCliente1">
+            <Component class="javax.swing.JButton" name="jbCliente">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="b9" green="d8" red="9b" type="rgb"/>
@@ -362,7 +362,7 @@
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCargarCliente1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbClienteActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">

@@ -225,7 +225,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel6)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +253,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jbConfirmarVenta)
                     .addComponent(jbEliminarArticuloDeVentas)
                     .addComponent(jbLimpiarTabladeVentas))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(155, 216, 185));

@@ -46,7 +46,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jbConsultorios = new javax.swing.JButton();
         jbCargarSesion = new javax.swing.JButton();
-        jbCargarCliente1 = new javax.swing.JButton();
+        jbCliente = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jbEmpleados = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -130,14 +130,14 @@ public class vistaMenuSpa extends javax.swing.JFrame {
             }
         });
 
-        jbCargarCliente1.setBackground(new java.awt.Color(155, 216, 185));
-        jbCargarCliente1.setForeground(new java.awt.Color(0, 0, 0));
-        jbCargarCliente1.setText("Clientes");
-        jbCargarCliente1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jbCargarCliente1.setBorderPainted(false);
-        jbCargarCliente1.addActionListener(new java.awt.event.ActionListener() {
+        jbCliente.setBackground(new java.awt.Color(155, 216, 185));
+        jbCliente.setForeground(new java.awt.Color(0, 0, 0));
+        jbCliente.setText("Clientes");
+        jbCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jbCliente.setBorderPainted(false);
+        jbCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCargarCliente1ActionPerformed(evt);
+                jbClienteActionPerformed(evt);
             }
         });
 
@@ -173,7 +173,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbConsultorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbCargarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbCargarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(151, Short.MAX_VALUE))
@@ -182,7 +182,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
             jpFondoMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFondoMenuLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbCargarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -348,15 +348,25 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCargarSesionActionPerformed
 
     //------ Boton Cargar Cliente ------
-    private void jbCargarCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarCliente1ActionPerformed
+    private void jbClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbClienteActionPerformed
+        vistaCliente ventana = new vistaCliente();
+        Escritorio.add(ventana);
+        // Centrar la ventana en el Escritorio
+        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);        
+        ventana.setVisible(true);
+        
+        /*
         vistaCargarCliente ventana = new vistaCargarCliente();
         Escritorio.add(ventana);
         // Centrar la ventana en el Escritorio
         int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
         int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);
+        ventana.setLocation(x, y);        
         ventana.setVisible(true);
-    }//GEN-LAST:event_jbCargarCliente1ActionPerformed
+        */
+    }//GEN-LAST:event_jbClienteActionPerformed
 
     //------ Item del menu Tratamiento ------
     private void jmTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmTratamientosActionPerformed
@@ -686,8 +696,8 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JButton jbCargarCliente1;
     private javax.swing.JButton jbCargarSesion;
+    private javax.swing.JButton jbCliente;
     private javax.swing.JButton jbConsultorios;
     private javax.swing.JButton jbEmpleados;
     private javax.swing.JButton jbPlay;
