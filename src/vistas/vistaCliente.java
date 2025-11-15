@@ -9,6 +9,7 @@ import Persistencia.miConexion;
 import control.ControlCliente;
 import entidades.Cliente;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -29,11 +30,11 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             clienteData = new ClienteData(connection);            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
-        }
-        
+        }        
         if(clienteData != null){
             controlCliente = new ControlCliente(this, clienteData);
         }
+        controlCliente.listarClientes();
     }
 
     /**
@@ -67,7 +68,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablaClientes = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jtfIDCliente = new javax.swing.JTextField();
@@ -210,7 +211,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setForeground(new java.awt.Color(155, 216, 185));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -221,7 +222,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Apellido", "DNI", "Telefono", "Edad", "Afecciones", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTablaClientes);
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
@@ -308,9 +309,10 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //------- Boton Cargar Cliente --------
     private void jbCargarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarClienteActionPerformed
         // TODO add your handling code here:
-        
+        controlCliente.cargarCliente();
     }//GEN-LAST:event_jbCargarClienteActionPerformed
 
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
@@ -335,7 +337,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablaClientes;
     private javax.swing.JButton jbBuscarCliente;
     private javax.swing.JButton jbCargarCliente;
     private javax.swing.JButton jbLimpiar;
@@ -369,8 +371,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         this.jtfApellido.setText(setJtfApellido);
     }
     
-    public int getJtfDNI(){
-        return Integer.parseInt(jtfDNI.getText());
+    public String getJtfDNI(){
+        return jtfDNI.getText();
     }
     
     public void setJtfDNI(String setJtfDNI){
@@ -385,8 +387,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         this.jtfTelefono.setText(setJtfTelefono);
     }
     
-    public int getJtfEdad(){
-        return Integer.parseInt(jtfEdad.getText());
+    public String getJtfEdad(){
+        return jtfEdad.getText();
     }
     
     public void setJtfEdad(String setJtfEdad){
@@ -417,7 +419,14 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         }
     }
     
+    public JTable getjTablaClientes() {
+        return jTablaClientes;
+    }
+
+    public void setjTablaClientes(JTable jTablaClientes) {
+        this.jTablaClientes = jTablaClientes;
+    }
     // ------ Metodos --------    
-    
+
     
 }
