@@ -274,4 +274,35 @@ public class TratamientoData {
 
         return t;
     }
+    
+    /*Busca un tratamiento por nombre y tipo, retorna El tratamiento encontrado o null si no existe*/
+    public Tratamiento buscarTratamientoPorNombreYTipo(String nombre, String tipo) {
+        String sql = "SELECT * FROM tratamiento WHERE nombre = ? AND tipoTratamiento = ?";
+        Tratamiento t = null;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, tipo);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                t = new Tratamiento();
+                t.setCodTratam(rs.getInt("codTratamiento"));
+                t.setNombre(rs.getString("nombre"));
+                t.settipoTratamiento(rs.getString("tipoTratamiento"));
+                t.setDetalle(rs.getString("detalle"));
+                t.setDuracion(rs.getTime("duracion").toLocalTime());
+                t.setCosto(rs.getDouble("costo"));
+                t.setEstado(rs.getBoolean("estado"));
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar tratamiento por nombre y tipo. " + ex.getMessage());
+        }
+
+        return t;
+    }
+    
 }

@@ -41,6 +41,7 @@ public class ControlTratamientos {
      */
     private void inicializarVista() {
         cargarComboTipo();
+        vista.getJcbNombre().setEnabled(false);
         cargarTabla();
         configurarListeners();
     }
@@ -67,8 +68,11 @@ public class ControlTratamientos {
         if (tipoSeleccionado == null || "Seleccione un tipo...".equals(tipoSeleccionado)) {
             return;
         }
+        // Agregar el placeholder como primer elemento
+        vista.getJcbNombre().addItem("Seleccione un tratamiento");
         
         if (Especialidades.CORPORAL.getEspecialidad().equals(tipoSeleccionado)) {
+            
             // Cargar tratamientos corporales
             for (TratamientosCorporales tc : TratamientosCorporales.values()) {
                 vista.getJcbNombre().addItem(tc.getNombre());
@@ -86,7 +90,10 @@ public class ControlTratamientos {
      */
     public void cargarDetalle() {
         String nombreSeleccionado = (String) vista.getJcbNombre().getSelectedItem();
-        if (nombreSeleccionado == null) {
+        
+        if (nombreSeleccionado == null || "Seleccione un tratamiento".equals(nombreSeleccionado)) {
+            // Limpiar el detalle si se selecciona el placeholder
+            vista.getJtfDetalle().setText("");
             return;
         }
         
@@ -128,6 +135,8 @@ public class ControlTratamientos {
             String tipoSeleccionado = (String) vista.getJcbTipo().getSelectedItem();
             // Solo procesar si no es el item por defecto
             if (tipoSeleccionado != null && !"Seleccione un tipo...".equals(tipoSeleccionado)) {
+                // Habilitar el combobox de nombre cuando se selecciona un tipo válido
+                vista.getJcbNombre().setEnabled(true);
                 // Limpiar solo los campos que no sean el tipo
                 vista.getJcbNombre().removeAllItems();
                 vista.getJtfDetalle().setText("");
@@ -138,11 +147,19 @@ public class ControlTratamientos {
                 vista.getJtTratamiento().clearSelection();
                 // Cargar los nombres según el tipo seleccionado
                 cargarComboNombre();
+            } else {
+                // Deshabilitar el combobox de nombre si no hay tipo seleccionado
+                vista.getJcbNombre().setEnabled(false);
+                vista.getJcbNombre().removeAllItems();
+                vista.getJcbNombre().setSelectedIndex(-1);
             }
         });
         
         // Listener para el combo de nombre
         vista.getJcbNombre().addActionListener(e -> {
+            if (cargandoDesdeTabla) {
+                return;
+            }
             cargarDetalle();
         });
         
@@ -178,6 +195,8 @@ public class ControlTratamientos {
                 if (tipo != null) {
                     // Seleccionar el tipo en el combobox (esto disparará el listener, pero lo ignoraremos)
                     vista.getJcbTipo().setSelectedItem(tipo);
+                    // Habilitar el combobox de nombre ya que hay un tipo seleccionado
+                    vista.getJcbNombre().setEnabled(true);
                     // Cargar los nombres correspondientes al tipo seleccionado
                     cargarComboNombre();
                     
@@ -229,11 +248,23 @@ public class ControlTratamientos {
             }
             
             // Obtener valores del formulario
+            String tipo = (String) vista.getJcbTipo().getSelectedItem();
             String nombre = (String) vista.getJcbNombre().getSelectedItem();
             String detalle = vista.getJtfDetalle().getText().trim();
             String duracionStr = vista.getJftfDuracion().getText().trim();
             String costoStr = vista.getJtfCosto().getText().trim();
             boolean estado = vista.getChboxActivo().isSelected();
+            
+             // Validar que no exista ya un tratamiento con la misma combinación de tipo + nombre
+            Tratamiento tratamientoExistente = tratamientoData.buscarTratamientoPorNombreYTipo(nombre, tipo);
+            if (tratamientoExistente != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "El Tratamiento ya existe con código " + tratamientoExistente.getCodTratam() + ".\n" +
+                    "Si desea editarlo, selecciónelo de la tabla, cambie los datos y haga clic en Editar.", 
+                    "Error - Tratamiento Duplicado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             
             // Parsear duración
             LocalTime duracion = parsearDuracion(duracionStr);
@@ -386,6 +417,7 @@ public class ControlTratamientos {
         vista.getJtfCodigo().setText("");
         vista.getJcbTipo().setSelectedIndex(0);
         vista.getJcbNombre().removeAllItems();
+        vista.getJcbNombre().setEnabled(false);
         vista.getJtfDetalle().setText("");
         vista.getJftfDuracion().setText("");
         vista.getJtfCosto().setText("");
@@ -409,7 +441,7 @@ public class ControlTratamientos {
             return false;
         }
         
-        if (nombre == null) {
+        if (nombre == null || "Seleccione un tratamiento".equals(nombre)) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un nombre de tratamiento.", 
                 "Error", JOptionPane.ERROR_MESSAGE);
             return false;
