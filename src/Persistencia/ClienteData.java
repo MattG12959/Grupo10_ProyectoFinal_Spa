@@ -113,7 +113,8 @@ public class ClienteData {
     // Listar clientes
     public List<Cliente> listarClientes() {
         List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM cliente";
+        String sql = "SELECT * FROM cliente WHERE 1=1";
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -136,5 +137,40 @@ public class ClienteData {
             JOptionPane.showMessageDialog(null, "Error al listar clientes. " + ex.getMessage());
         }
         return clientes;
+    }
+    
+    // Listar Clientes Activos
+    public List<Cliente> listarClientesActivos(boolean activo, boolean inactivo){
+        List<Cliente> clientesActivos = new ArrayList<>();
+        String sql = "SELECT * FROM cliente";
+        
+        if(activo){
+            sql += " AND estado = true";
+        }
+        if(inactivo){
+            sql += " AND estado = false";
+        }
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setCodCli(rs.getInt("codCli"));
+                c.setDni(rs.getInt("dni"));
+                c.setNombre(rs.getString("nombre"));
+                c.setApellido(rs.getString("apellido"));
+                c.setTelefono(rs.getString("teléfono"));
+                c.setEdad(rs.getInt("edad"));
+                c.setAfecciones(rs.getString("afecciones"));
+                c.setEstado(rs.getBoolean("estado"));
+                clientesActivos.add(c);
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar clientes. " + ex.getMessage());
+        }
+        return clientesActivos;
     }
 }

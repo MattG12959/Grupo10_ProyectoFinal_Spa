@@ -71,8 +71,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jTablaClientes = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jtfIDCliente = new javax.swing.JTextField();
-        jbBuscarCliente = new javax.swing.JButton();
+        jtfDniCliente = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jrbActivo = new javax.swing.JRadioButton();
         jrbInactivo = new javax.swing.JRadioButton();
@@ -229,17 +228,31 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jLabel7.setText("Buscar Clientes");
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("ID Cliente:");
+        jLabel8.setText("DNI Cliente:");
 
-        jbBuscarCliente.setText("Buscar");
+        jtfDniCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDniClienteKeyReleased(evt);
+            }
+        });
 
         jLabel9.setText("Filtros:");
 
         btgEstado.add(jrbActivo);
         jrbActivo.setText("Activo");
+        jrbActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbActivoActionPerformed(evt);
+            }
+        });
 
         btgEstado.add(jrbInactivo);
         jrbInactivo.setText("Inactivo");
+        jrbInactivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbInactivoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -252,10 +265,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbBuscarCliente)
-                        .addGap(33, 33, 33)
+                        .addComponent(jtfDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(117, 117, 117)
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
                         .addComponent(jrbActivo)
@@ -275,8 +286,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jtfIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbBuscarCliente)
+                    .addComponent(jtfDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jrbActivo)
                     .addComponent(jrbInactivo))
@@ -311,14 +321,24 @@ public class vistaCliente extends javax.swing.JInternalFrame {
 
     //------- Boton Cargar Cliente --------
     private void jbCargarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarClienteActionPerformed
-        // TODO add your handling code here:
         controlCliente.cargarCliente();
     }//GEN-LAST:event_jbCargarClienteActionPerformed
 
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
-        // TODO add your handling code here:
         controlCliente.limpiarCasilleros();
     }//GEN-LAST:event_jbLimpiarActionPerformed
+
+    private void jtfDniClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniClienteKeyReleased
+        controlCliente.buscarClienteDni();
+    }//GEN-LAST:event_jtfDniClienteKeyReleased
+
+    private void jrbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbActivoActionPerformed
+        
+    }//GEN-LAST:event_jrbActivoActionPerformed
+
+    private void jrbInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInactivoActionPerformed
+        
+    }//GEN-LAST:event_jrbInactivoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -338,7 +358,6 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTablaClientes;
-    private javax.swing.JButton jbBuscarCliente;
     private javax.swing.JButton jbCargarCliente;
     private javax.swing.JButton jbLimpiar;
     private javax.swing.JButton jbModificarCliente;
@@ -348,8 +367,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea jtaAfecciones;
     private javax.swing.JTextField jtfApellido;
     private javax.swing.JTextField jtfDNI;
+    private javax.swing.JTextField jtfDniCliente;
     private javax.swing.JTextField jtfEdad;
-    private javax.swing.JTextField jtfIDCliente;
     private javax.swing.JTextField jtfNombre;
     private javax.swing.JTextField jtfTelefono;
     // End of variables declaration//GEN-END:variables
@@ -426,6 +445,27 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     public void setjTablaClientes(JTable jTablaClientes) {
         this.jTablaClientes = jTablaClientes;
     }
+    
+    public String getJtfDniCliente(){
+        return jtfDniCliente.getText();
+    }
+    
+    public boolean getJrbActivo(){
+        if(jrbActivo.isSelected()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean getJrbInactivo(){
+        if(jrbInactivo.isSelected()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     // ------ Metodos --------    
 
     
