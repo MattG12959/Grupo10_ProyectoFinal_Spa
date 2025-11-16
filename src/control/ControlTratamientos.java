@@ -9,6 +9,8 @@ package control;
 import Persistencia.TratamientoData;
 import constantes.TratamientosCorporales;
 import constantes.TratamientosFaciales;
+import constantes.TratamientosRelajacion;
+import constantes.TratamientosEsteticos;
 import constantes.Especialidades;
 import entidades.Tratamiento;
 import vistas.vistaTratamientos;
@@ -75,13 +77,15 @@ public class ControlTratamientos {
 
 
     /**
-     * Carga el combo box de tipo con "Corporal" y "Facial"
+     * Carga el combo box de tipo 
      */
     public void cargarComboTipo() {
         vista.getJcbTipo().removeAllItems();
         vista.getJcbTipo().addItem("Seleccione un tipo...");
         vista.getJcbTipo().addItem(Especialidades.CORPORAL.getEspecialidad());
         vista.getJcbTipo().addItem(Especialidades.FACIAL.getEspecialidad());
+        vista.getJcbTipo().addItem(Especialidades.RELAJACION.getEspecialidad());
+        vista.getJcbTipo().addItem(Especialidades.ESTETICO.getEspecialidad());
     }
     
     /**
@@ -107,6 +111,16 @@ public class ControlTratamientos {
             // Cargar tratamientos faciales
             for (TratamientosFaciales tf : TratamientosFaciales.values()) {
                 vista.getJcbNombre().addItem(tf.getNombre());
+            }
+        } else if (Especialidades.RELAJACION.getEspecialidad().equals(tipoSeleccionado)) {
+            // Cargar tratamientos de relajación
+            for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
+                vista.getJcbNombre().addItem(tr.getNombre());
+            }
+        } else if (Especialidades.ESTETICO.getEspecialidad().equals(tipoSeleccionado)) {
+            // Cargar tratamientos estéticos
+            for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
+                vista.getJcbNombre().addItem(te.getNombre());
             }
         }
     }
@@ -137,6 +151,20 @@ public class ControlTratamientos {
             for (TratamientosFaciales tf : TratamientosFaciales.values()) {
                 if (tf.getNombre().equals(nombreSeleccionado)) {
                     descripcion = tf.getDescripcion();
+                    break;
+                }
+            }
+        } else if (Especialidades.RELAJACION.getEspecialidad().equals(tipoSeleccionado)) {
+            for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
+                if (tr.getNombre().equals(nombreSeleccionado)) {
+                    descripcion = tr.getDescripcion();
+                    break;
+                }
+            }
+        } else if (Especialidades.ESTETICO.getEspecialidad().equals(tipoSeleccionado)) {
+            for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
+                if (te.getNombre().equals(nombreSeleccionado)) {
+                    descripcion = te.getDescripcion();
                     break;
                 }
             }

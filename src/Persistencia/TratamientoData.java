@@ -8,6 +8,8 @@ import java.sql.Connection;
 import entidades.Tratamiento;
 import constantes.TratamientosCorporales;
 import constantes.TratamientosFaciales;
+import constantes.TratamientosRelajacion;
+import constantes.TratamientosEsteticos;
 import constantes.Especialidades;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,6 +98,17 @@ public class TratamientoData {
                 return tc.getNombre();
             }
         }
+        for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
+            if (tr.getNombre().equalsIgnoreCase(tipoTratamiento)) {
+                return tr.getNombre();
+            }
+        }
+        for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
+            if (te.getNombre().equalsIgnoreCase(tipoTratamiento)) {
+                return te.getNombre();
+            }
+        }
+        
         return null;
     }
 
@@ -112,6 +125,20 @@ public class TratamientoData {
             if (tc.getNombre().equalsIgnoreCase(nombreTratamiento)) {
                 // Asume que si está en TratamientosCorporales, la especialidad es CORPORAL
                 return Especialidades.CORPORAL.getEspecialidad();
+            }
+        }
+        
+        for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTratamiento)) {
+                // Asume que si está en TratamientosRelajacion, la especialidad es RELAJACION
+                return Especialidades.RELAJACION.getEspecialidad();
+            }
+        }
+
+        for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
+            if (te.getNombre().equalsIgnoreCase(nombreTratamiento)) {
+                // Asume que si está en TratamientosEsteticos, la especialidad es ESTETICO
+                return Especialidades.ESTETICO.getEspecialidad();
             }
         }
 
@@ -242,6 +269,19 @@ public class TratamientoData {
         for (TratamientosCorporales tc : TratamientosCorporales.values()) {
             if (tc.getNombre().equals(nombre)) {
                 return tc.getDescripcion();
+            }
+        }
+        
+         // Buscar en tratamientos de relajación
+        for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
+            if (tr.getNombre().equals(nombre)) {
+                return tr.getDescripcion();
+            }
+        }
+        // Buscar en tratamientos estéticos
+        for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
+            if (te.getNombre().equals(nombre)) {
+                return te.getDescripcion();
             }
         }
         return null;
