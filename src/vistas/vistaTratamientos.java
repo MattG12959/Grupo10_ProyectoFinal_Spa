@@ -31,7 +31,7 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         try {
             miConexion connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
             TratamientoData tratamientoData = new TratamientoData(connection);
-            ControlTratamientos control = new ControlTratamientos(this, tratamientoData);
+            this.control = new ControlTratamientos(this, tratamientoData);   
             
             // Conectar los botones con los métodos del control
             jbAgregar.addActionListener(e -> control.agregarTratamiento());
@@ -457,6 +457,21 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         return jbLimpiarLista;
     }
 
+    public javax.swing.JTextField getJtfBusquedaCodigo() {
+        return jTextField10;
+    }
+
+    public javax.swing.JTextField getJtfBusquedaNombre() {
+        return jTextField11;
+    }
+
+    public javax.swing.JButton getJbBusquedaTratamCodigo() {
+        return jbBusquedaTratamCodigo;
+    }
+
+    public javax.swing.JButton getJbBusquedaTratamNombre() {
+        return jbBusquedaTratamNombre;
+    }
     
 
 

@@ -305,4 +305,113 @@ public class TratamientoData {
         return t;
     }
     
+    /**
+     * Busca tratamientos por múltiples códigos separados por comas
+     * @param codigosStr Cadena con códigos separados por comas (ej: "1,2,5,7")
+     * @return Lista de tratamientos encontrados
+     */
+    public ArrayList<Tratamiento> buscarTratamientosPorCodigos(String codigosStr) {
+        ArrayList<Tratamiento> lista = new ArrayList<>();
+        
+        if (codigosStr == null || codigosStr.trim().isEmpty()) {
+            return lista;
+        }
+        
+        // Separar los códigos por comas y limpiar espacios
+        String[] codigosArray = codigosStr.split(",");
+        ArrayList<Integer> codigos = new ArrayList<>();
+        
+        for (String codigoStr : codigosArray) {
+            try {
+                int codigo = Integer.parseInt(codigoStr.trim());
+                codigos.add(codigo);
+            } catch (NumberFormatException e) {
+                // Ignorar códigos inválidos
+            }
+        }
+        
+        if (codigos.isEmpty()) {
+            return lista;
+        }
+        
+        // Construir la consulta SQL con IN
+        StringBuilder sql = new StringBuilder("SELECT * FROM tratamiento WHERE codTratamiento IN (");
+        for (int i = 0; i < codigos.size(); i++) {
+            if (i > 0) {
+                sql.append(",");
+            }
+            sql.append("?");
+        }
+        sql.append(")");
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql.toString());
+            for (int i = 0; i < codigos.size(); i++) {
+                ps.setInt(i + 1, codigos.get(i));
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Tratamiento tratamiento = new Tratamiento();
+                tratamiento.setCodTratam(rs.getInt("codTratamiento"));
+                tratamiento.setNombre(rs.getString("nombre"));
+                tratamiento.settipoTratamiento(rs.getString("tipoTratamiento"));
+                tratamiento.setDetalle(rs.getString("detalle"));
+                tratamiento.setDuracion(rs.getTime("duracion").toLocalTime());
+                tratamiento.setCosto(rs.getDouble("costo"));
+                tratamiento.setEstado(rs.getBoolean("estado"));
+                
+                lista.add(tratamiento);
+            }
+            
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar tratamientos por códigos: " + ex.getMessage());
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Busca tratamientos por nombre (búsqueda dinámica con LIKE)
+     * @param nombrePatron Patrón de búsqueda (se usa LIKE con %)
+     * @return Lista de tratamientos encontrados
+     */
+    public ArrayList<Tratamiento> buscarTratamientosPorNombre(String nombrePatron) {
+        ArrayList<Tratamiento> lista = new ArrayList<>();
+        
+        if (nombrePatron == null || nombrePatron.trim().isEmpty()) {
+            return lista;
+        }
+        
+        String sql = "SELECT * FROM tratamiento WHERE nombre LIKE ? ORDER BY nombre";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "%" + nombrePatron.trim() + "%");
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Tratamiento tratamiento = new Tratamiento();
+                tratamiento.setCodTratam(rs.getInt("codTratamiento"));
+                tratamiento.setNombre(rs.getString("nombre"));
+                tratamiento.settipoTratamiento(rs.getString("tipoTratamiento"));
+                tratamiento.setDetalle(rs.getString("detalle"));
+                tratamiento.setDuracion(rs.getTime("duracion").toLocalTime());
+                tratamiento.setCosto(rs.getDouble("costo"));
+                tratamiento.setEstado(rs.getBoolean("estado"));
+                
+                lista.add(tratamiento);
+            }
+            
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar tratamientos por nombre: " + ex.getMessage());
+        }
+        
+        return lista;
+    }
+    
+    
 }
