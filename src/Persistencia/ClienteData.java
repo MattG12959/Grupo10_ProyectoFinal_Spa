@@ -21,7 +21,7 @@ public class ClienteData {
 
     // Guardar cliente
     public void guardarCliente(Cliente c) {
-        String sql = "INSERT INTO cliente (dni, nombre, apellido, teléfono, edad, afecciones, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (dni, nombre, apellido, telefono, edad, afecciones, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, c.getDni());
@@ -61,7 +61,7 @@ public class ClienteData {
                 c.setDni(rs.getInt("dni"));
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido(rs.getString("apellido"));
-                c.setTelefono(rs.getString("teléfono"));
+                c.setTelefono(rs.getString("telefono"));
                 c.setEdad(rs.getInt("edad"));
                 c.setAfecciones(rs.getString("afecciones"));
                 c.setEstado(rs.getBoolean("estado"));
@@ -76,7 +76,7 @@ public class ClienteData {
 
     // Modificar cliente
     public void modificarCliente(Cliente c) {
-        String sql = "UPDATE cliente SET dni = ?, nombre = ?, apellido = ?, teléfono = ?, edad = ?, afecciones = ?, estado = ? WHERE codCli = ?";
+        String sql = "UPDATE cliente SET dni = ?, nombre = ?, apellido = ?, telefono = ?, edad = ?, afecciones = ?, estado = ? WHERE codCli = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, c.getDni());
@@ -125,7 +125,7 @@ public class ClienteData {
                 c.setDni(rs.getInt("dni"));
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido(rs.getString("apellido"));
-                c.setTelefono(rs.getString("teléfono"));
+                c.setTelefono(rs.getString("telefono"));
                 c.setEdad(rs.getInt("edad"));
                 c.setAfecciones(rs.getString("afecciones"));
                 c.setEstado(rs.getBoolean("estado"));
@@ -160,7 +160,7 @@ public class ClienteData {
                 c.setDni(rs.getInt("dni"));
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido(rs.getString("apellido"));
-                c.setTelefono(rs.getString("teléfono"));
+                c.setTelefono(rs.getString("telefono"));
                 c.setEdad(rs.getInt("edad"));
                 c.setAfecciones(rs.getString("afecciones"));
                 c.setEstado(rs.getBoolean("estado"));
