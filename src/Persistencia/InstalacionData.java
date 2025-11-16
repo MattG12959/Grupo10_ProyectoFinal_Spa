@@ -102,11 +102,11 @@ public class InstalacionData {
 
             while (rs.next()) {
                 Instalacion i = new Instalacion(
-                        rs.getInt("codInstal"),
+                        rs.getInt("idInstalacion"),
                         rs.getString("nombre"),
                         rs.getString("detalle_de_uso"),
                         rs.getInt("usos"),
-                        rs.getDouble("precio30m"),
+                        rs.getDouble("precio"),
                         rs.getBoolean("estado")
                 );
                 instalaciones.add(i);
