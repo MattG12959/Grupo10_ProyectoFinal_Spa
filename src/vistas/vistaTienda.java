@@ -10,6 +10,10 @@ import control.ControlTienda;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 /**
  *
@@ -40,6 +44,8 @@ public class vistaTienda extends javax.swing.JInternalFrame {
         this.getContentPane().setBackground(new Color(155, 216, 185));
         armarCabecera();
         armarCabeceraVentas();
+           // Configurar validación de caracteres en campos de texto
+        configurarValidacionCampos();
 
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
@@ -708,5 +714,59 @@ public class vistaTienda extends javax.swing.JInternalFrame {
     public javax.swing.JButton getJbEliminarArticuloDeVentas() {
         return jbEliminarArticuloDeVentas;
     }
+    /**
+     * Configura la validación de caracteres permitidos en los campos Nombre, Fabricante y Detalle
+     * Solo permite: letras, números, "-", ",", ";", ".", "#"
+     */
+    private void configurarValidacionCampos() {
+        // Crear el filtro de documentos para validar caracteres
+        DocumentFilter filtro = new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if (string == null) {
+                    return;
+                }
+                if (esCaracterValido(string)) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
 
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (text == null) {
+                    return;
+                }
+                if (esCaracterValido(text)) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+
+            @Override
+            public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+                super.remove(fb, offset, length);
+            }
+            
+            /**
+             * Verifica si el texto contiene solo caracteres permitidos
+             * Permite: letras (a-z, A-Z, incluyendo acentos), números (0-9), "-", ",", ";", ".", "#"
+             * También permite espacios en blanco para facilitar la escritura
+             */
+            private boolean esCaracterValido(String texto) {
+                for (char c : texto.toCharArray()) {
+                    // Permite letras, números, caracteres especiales especificados y espacios
+                    if (!(Character.isLetterOrDigit(c) || 
+                          c == '-' || c == ',' || c == ';' || c == '.' || c == '#' ||
+                          Character.isWhitespace(c))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        
+        // Aplicar el filtro a los campos Nombre, Fabricante y Detalle
+        ((AbstractDocument) jtNombre.getDocument()).setDocumentFilter(filtro);
+        ((AbstractDocument) jtFabricante.getDocument()).setDocumentFilter(filtro);
+        ((AbstractDocument) jtDetalle.getDocument()).setDocumentFilter(filtro);
+    }
 }

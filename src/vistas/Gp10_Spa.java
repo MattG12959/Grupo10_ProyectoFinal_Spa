@@ -8,6 +8,7 @@ import Persistencia.InstalacionData;
 import Persistencia.MasajistaData;
 import Persistencia.SesionData;
 import Persistencia.TratamientoData;
+import Persistencia.ProductoData;
 import entidades.Empleado;
 import entidades.Vendedor;
 import constantes.*;
@@ -43,6 +44,7 @@ public class Gp10_Spa {
         TratamientoData tratData = new TratamientoData(conexion);
         MasajistaData masData = new MasajistaData(conexion);
         ClienteData clienteData = new ClienteData(conexion);
+        ProductoData productoData= new ProductoData (conexion);
 
         try {
             // -------------- CARGO INSTALACION ---------------------- 
