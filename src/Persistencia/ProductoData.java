@@ -207,6 +207,11 @@ public class ProductoData {
     //------------ Buscar Productos por ID o Nombre ------------
     public ArrayList<Producto> buscarProductosPorIdONombre(String busqueda, boolean filtroVegano, boolean filtroSinTacc){
         ArrayList<Producto> lista = new ArrayList<>();
+           // Si la búsqueda está vacía, aplicar solo filtros
+        if (busqueda == null || busqueda.trim().isEmpty()) {
+            return listarProductosPorFiltro(filtroVegano, filtroSinTacc);
+        }
+        
         String query = "SELECT * FROM producto WHERE 1=1";
         
         // Determinar si la búsqueda es por ID o nombre

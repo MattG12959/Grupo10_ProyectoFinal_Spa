@@ -457,8 +457,21 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                 jbGuardarP.requestFocus();
             }
         });
-    }
+          // Listener para botón Eliminar Artículo de Ventas
+        jbEliminarArticuloDeVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarArticuloDeVentasActionPerformed(evt);
+            }
+        });
 
+        // Listener para botón Confirmar Venta
+        jbConfirmarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConfirmarVentaActionPerformed(evt);
+            }
+        });
+    }
+    
     /**
      * Acción del botón Guardar Producto
      */
@@ -545,6 +558,13 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
     private void jbLimpiarCampos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarCampos2ActionPerformed
         // TODO add your handling code here:
+         jTextField1.setText(""); // ID Producto
+        jcbVegano1.setSelected(false); // Producto Vegano
+        jcbSinT1.setSelected(false); // Sin TACC
+        // Recargar la tabla con todos los productos
+        if (controlTienda != null) {
+            controlTienda.cargarTabla();
+        }
         
     }//GEN-LAST:event_jbLimpiarCampos2ActionPerformed
 
