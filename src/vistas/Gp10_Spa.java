@@ -24,6 +24,7 @@ import entidades.Tratamiento;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +45,7 @@ public class Gp10_Spa {
         TratamientoData tratData = new TratamientoData(conexion);
         MasajistaData masData = new MasajistaData(conexion);
         ClienteData clienteData = new ClienteData(conexion);
-        ProductoData productoData= new ProductoData (conexion);
+       
 
         try {
             // -------------- CARGO INSTALACION ---------------------- 
@@ -328,10 +329,12 @@ public class Gp10_Spa {
         DiaDeSpaData diaData = new DiaDeSpaData(conexion);
         SesionData sesionData = new SesionData(conexion);
         InstalacionData instalData = new InstalacionData(conexion);
+        ProductoData productoData = new ProductoData(conexion);
         ConsultorioData consultData = new ConsultorioData(conexion);
         TratamientoData tratData = new TratamientoData(conexion);
         MasajistaData masData = new MasajistaData(conexion);
         ClienteData clienteData = new ClienteData(conexion);
+        
 
         try {
             // ----------- INSTALACIONES -----------
@@ -485,6 +488,68 @@ public class Gp10_Spa {
             clienteData.guardarCliente(new Cliente(50111225, "Camila", "Rossi", "2664880441", 30, "Ninguna", true));
             clienteData.guardarCliente(new Cliente(50111226, "Valeria", "Gomez", "2664880442", 40, "Diabetes", true));
 
+     
+            // ----------- PRODUCTOS -----------
+            productoData.guardarProducto(new Producto("Crema Hidratante de Aloe Vera", "BioSkin",
+                    "Crema corporal ultra hidratante con extracto natural de aloe.", 4500.0, 25, true, true));
+
+            productoData.guardarProducto(new Producto("Aceite Esencial de Lavanda", "AromaZen",
+                    "Aceite esencial puro para relajación y aromaterapia.", 3200.0, 15, true, true));
+
+            productoData.guardarProducto(new Producto("Sales de Baño Minerales", "SpaMineral",
+                    "Sales con magnesio y aroma a rosas para baños descontracturantes.", 2800.0, 18, false, true));
+
+            productoData.guardarProducto(new Producto("Jabón Artesanal de Caléndula", "NaturalCare",
+                    "Jabón ideal para piel sensible con extracto de caléndula.", 1500.0, 40, true, true));
+
+            productoData.guardarProducto(new Producto("Exfoliante Corporal de Café", "TerraBella",
+                    "Exfoliante natural a base de café orgánico.", 3900.0, 20, true, false));
+
+            productoData.guardarProducto(new Producto("Mascarilla Facial de Arcilla Verde", "PureSkin",
+                    "Máscara detox para absorber impurezas y regular la oleosidad.", 3500.0, 12, true, true));
+
+            productoData.guardarProducto(new Producto("Aceite para Masajes Relajante", "AromaZen",
+                    "Mezcla de aceites naturales para masajes profundos.", 4200.0, 14, false, true));
+
+            productoData.guardarProducto(new Producto("Toalla Facial de Microfibra", "SoftTouch",
+                    "Toalla ultra suave apta para spa y tratamientos faciales.", 2100.0, 30, false, true));
+
+            productoData.guardarProducto(new Producto("Crema para Masajes Neutra", "ProSpa",
+                    "Crema hipoalergénica ideal para masajes prolongados.", 4800.0, 10, false, false));
+
+            productoData.guardarProducto(new Producto("Velas Aromáticas de Vainilla", "EssenceHome",
+                    "Vela artesanal para aromatizar ambientes y sesiones de spa.", 2600.0, 22, true, true));
+
+            productoData.guardarProducto(new Producto("Tónico Facial de Manzanilla", "BioSkin",
+                    "Tónico suave calmante y refrescante.", 3300.0, 16, true, true));
+
+            productoData.guardarProducto(new Producto("Espuma de Limpieza Facial", "PureSkin",
+                    "Limpieza profunda para todo tipo de piel.", 3600.0, 19, false, true));
+
+            productoData.guardarProducto(new Producto("Crema Antiestrés de Lavanda", "NaturalCare",
+                    "Crema corporal relajante con aroma suave.", 4100.0, 13, true, false));
+
+            productoData.guardarProducto(new Producto("Shampoo Sólido Nutritivo", "EcoBeauty",
+                    "Shampoo sólido con aceite de argán, sin plástico.", 2900.0, 25, true, true));
+
+            productoData.guardarProducto(new Producto("Acondicionador Herbal", "EcoBeauty",
+                    "Acondicionador con extractos naturales de romero y salvia.", 3400.0, 17, true, false));
+
+            productoData.guardarProducto(new Producto("Mascarilla Capilar Reparadora", "HairSpa",
+                    "Tratamiento para reparar puntas y suavizar el cabello.", 5200.0, 11, false, true));
+
+            productoData.guardarProducto(new Producto("Gel de Ducha Energizante", "TerraBella",
+                    "Gel con aroma cítrico revitalizante.", 2700.0, 28, false, false));
+
+            productoData.guardarProducto(new Producto("Loción Corporal de Coco", "SoftTouch",
+                    "Loción nutritiva con aroma a coco tropical.", 3900.0, 14, true, true));
+
+            productoData.guardarProducto(new Producto("Piedras Calientes para Masajes", "ProSpa",
+                    "Juego de piedras volcánicas para terapias de calor.", 6500.0, 6, false, true));
+
+            productoData.guardarProducto(new Producto("Spray Ambiental Relax", "EssenceHome",
+                    "Spray aromático con lavanda y bergamota para ambientes.", 3100.0, 20, true, true));
+
             JOptionPane.showMessageDialog(null, "¡Datos de prueba cargados exitosamente!");
 
         } catch (Exception e) {
@@ -493,3 +558,5 @@ public class Gp10_Spa {
         }
     }
 }
+
+
