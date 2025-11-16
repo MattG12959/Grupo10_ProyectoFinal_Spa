@@ -7,7 +7,6 @@ package control;
 import Persistencia.ClienteData;
 import entidades.Cliente;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,8 +28,8 @@ public class ControlCliente {
 
     //--------- Llenar la tabla con los clientes que estan en la base de datos ---------
     public void listarClientes() {
-        List<Cliente> listaClientes = clienteData.listarClientes();
-        List<Cliente> filtrados = new ArrayList<>();
+        ArrayList<Cliente> listaClientes = clienteData.listarClientes();
+        ArrayList<Cliente> filtrados = new ArrayList<>();
 
         //--------- Listar Clientes Activos ---------
         if (vistaCliente.getJrbActivo() == true && vistaCliente.getJrbInactivo() == false) {
@@ -178,8 +177,8 @@ public class ControlCliente {
             return;
         }
 
-        List<Cliente> listaClientes = clienteData.listarClientes();
-        List<Cliente> filtrados = new ArrayList<>();
+        ArrayList<Cliente> listaClientes = clienteData.listarClientes();
+        ArrayList<Cliente> filtrados = new ArrayList<>();
 
         //------ Filtrado marcando radio buttons activo ------
         if (vistaCliente.getJrbActivo() == true && vistaCliente.getJrbInactivo() == false) {
@@ -215,8 +214,8 @@ public class ControlCliente {
         }
     }
 
-    //--------- Codigo repedito para filtrar tablas ---------
-    public void crearTablaFiltrada(List<Cliente> filtrados) {
+    //--------- Código repetido para filtrar tablas ---------
+    public void crearTablaFiltrada(ArrayList<Cliente> filtrados) {
         String[] columnas = {"ID", "Nombre", "Apellido", "DNI", "Telefono", "Edad", "Afecciones", "Estado"};
         Object[][] datos = new Object[filtrados.size()][8];
         for (int i = 0; i < filtrados.size(); i++) {

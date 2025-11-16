@@ -8,7 +8,6 @@ import Persistencia.InstalacionData;
 import entidades.Cliente;
 import entidades.Instalacion;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import vistas.vistaInstalaciones;
 
@@ -25,10 +24,11 @@ public class ControlInstalaciones {
         this.vistaInstalacion = vistaInstalacion;
         this.instalacionData = instalacionData;
     }
-
+    
+    //--------- Llenar la tabla con las instalaciones que estan en la base de datos ---------
     public void listarInstaciones() {
-        List<Instalacion> listaInstalciones = instalacionData.listarInstalaciones();
-        List<Instalacion> filtrados = new ArrayList<>();
+        ArrayList<Instalacion> listaInstalciones = instalacionData.listarInstalaciones();
+        ArrayList<Instalacion> filtrados = new ArrayList<>();
 
         //--------- Listar Clientes Activos ---------
         if (vistaInstalacion.getJrbActivo() == true && vistaInstalacion.getJrbInactivo() == false) {
@@ -71,10 +71,12 @@ public class ControlInstalaciones {
 
     }
 
-    //--------- Codigo repedito para filtrar tablas ---------
-    public void crearTablaFiltrada(List<Instalacion> filtrados) {
+    //--------- Cargar  ---------
+    
+    //--------- Código repetido para filtrar tablas ---------
+    public void crearTablaFiltrada(ArrayList<Instalacion> filtrados) {
         String[] columnas = {"ID", "Nombre", "Detalle", "Usos", "Precio", "Estado"};
-        Object[][] datos = new Object[filtrados.size()][5];
+        Object[][] datos = new Object[filtrados.size()][6];
         for (int i = 0; i < filtrados.size(); i++) {
             Instalacion insta = filtrados.get(i);
             datos[i][0] = insta.getCodInstal();
