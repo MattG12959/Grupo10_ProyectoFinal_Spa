@@ -41,7 +41,7 @@ public class DiaDeSpaData {
             String sqlLink = "INSERT INTO dia_de_spa_sesion (codPack, codSesion) VALUES (?, ?)";
 
             for (Sesion s : d.getSesiones()) {
-                s.getDiaDeSpa().setCodPack(d.getCodPack());
+                //s.getDiaDeSpa().setCodPack(d.getCodPack());
                 s.setDiaDeSpa(d);
                 sd.guardarSesion(s);
 

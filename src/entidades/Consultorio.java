@@ -81,4 +81,9 @@ public class Consultorio {
     public void setApto(String apto) {
         this.apto = apto;
     }
+    
+    @Override
+    public String toString() {
+        return apto; 
+    }
 }

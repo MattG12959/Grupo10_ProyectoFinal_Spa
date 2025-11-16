@@ -81,7 +81,7 @@ public class Instalacion {
 
     @Override
     public String toString() {
-        return "Instalacion{" + "codInstal=" + codInstal + ", nombre=" + nombre + ", precio30m=" + precio + '}';
+        return nombre; 
     }
 
 }

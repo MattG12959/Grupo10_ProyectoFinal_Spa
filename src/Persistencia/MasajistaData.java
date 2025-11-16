@@ -7,8 +7,6 @@ package Persistencia;
 import constantes.Especialidades;
 import constantes.TratamientosCorporales;
 import constantes.TratamientosFaciales;
-import constantes.TratamientosRelajacion;
-import constantes.TratamientosEsteticos;
 import entidades.Empleado;
 import entidades.Masajista;
 import java.sql.Connection;
@@ -347,20 +345,6 @@ public class MasajistaData {
                 return Especialidades.CORPORAL.getEspecialidad();
             }
         }
-        for (TratamientosRelajacion tr : TratamientosRelajacion.values()) {
-            if (tr.getNombre().equalsIgnoreCase(nombreTratamiento)) {
-                // Asume que si está en TratamientosRelajacion, la especialidad es RELAJACION
-                return Especialidades.RELAJACION.getEspecialidad();
-            }
-        }
-
-        for (TratamientosEsteticos te : TratamientosEsteticos.values()) {
-            if (te.getNombre().equalsIgnoreCase(nombreTratamiento)) {
-                // Asume que si está en TratamientosEsteticos, la especialidad es ESTETICO
-                return Especialidades.ESTETICO.getEspecialidad();
-            }
-        }
-        
 
         return null; // Si el nombre no coincide con ningún tratamiento definido
     }

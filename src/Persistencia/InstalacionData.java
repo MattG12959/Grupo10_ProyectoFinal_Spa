@@ -92,8 +92,8 @@ public class InstalacionData {
     }
 
     // ----------------- LISTAR TODAS LAS INSTALACIONES -----------------
-    public List<Instalacion> listarInstalaciones() {
-        List<Instalacion> instalaciones = new ArrayList<>();
+    public ArrayList<Instalacion> listarInstalaciones() {
+        ArrayList<Instalacion> instalaciones = new ArrayList<>();
         String sql = "SELECT * FROM instalacion";
 
         try {

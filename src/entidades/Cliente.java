@@ -108,7 +108,7 @@ public class Cliente {
         this.estado = estado;
     }
     
-    @Override
+    /* @Override
     public String toString() {
         return "Cliente{" +
                 "codCli=" + codCli +
@@ -120,5 +120,10 @@ public class Cliente {
                 ", afecciones='" + afecciones + '\'' +
                 ", estado=" + (estado ? "Activo" : "Inactivo") +
                 '}';
+    } */
+    
+    @Override
+    public String toString() {
+        return apellido + ", " + nombre + " (DNI: " + dni + ")";
     }
 }

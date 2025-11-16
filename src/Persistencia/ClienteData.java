@@ -111,8 +111,8 @@ public class ClienteData {
     }
 
     // Listar clientes
-    public List<Cliente> listarClientes() {
-        List<Cliente> clientes = new ArrayList<>();
+    public ArrayList<Cliente> listarClientes() {
+        ArrayList<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM cliente WHERE 1=1";
         
         try {

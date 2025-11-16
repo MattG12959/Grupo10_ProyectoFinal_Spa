@@ -56,8 +56,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         lmCargarVendedor = new javax.swing.JMenuItem();
         jmTratamientos = new javax.swing.JMenu();
         jmVerTratamientos = new javax.swing.JMenuItem();
-        jmInstalaciones = new javax.swing.JMenu();
-        jmiVerInstalaciones = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -274,18 +272,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
         jMenuBar1.add(jmTratamientos);
 
-        jmInstalaciones.setText("Instalaciones");
-
-        jmiVerInstalaciones.setText("Ver Instalaciones");
-        jmiVerInstalaciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiVerInstalacionesActionPerformed(evt);
-            }
-        });
-        jmInstalaciones.add(jmiVerInstalaciones);
-
-        jMenuBar1.add(jmInstalaciones);
-
         jMenu3.setText("Busquedas");
 
         jMenuItem4.setText("Historial de Sesiones/Turnos");
@@ -352,13 +338,38 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     //------ Boton Cargar Sesión ------
     private void jbCargarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarSesionActionPerformed
-        vistaCargarSesion ventana = new vistaCargarSesion();
-        Escritorio.add(ventana);
-        // Centrar la ventana en el Escritorio
-        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
-        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);
-        ventana.setVisible(true);
+        vistaCargarSesion ventana= null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaCargarSesion) {
+                ventana = (vistaCargarSesion) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaCargarSesion(Escritorio);
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jbCargarSesionActionPerformed
 
     //------ Boton Cargar Cliente ------
@@ -635,18 +646,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    //------ Item del menu Instalciones - ver instalciones ------
-    private void jmiVerInstalacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVerInstalacionesActionPerformed
-        // TODO add your handling code here:
-        vistaInstalaciones ventana = new vistaInstalaciones();
-        Escritorio.add(ventana);
-        // Centrar la ventana en el Escritorio
-        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
-        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);
-        ventana.setVisible(true);    
-    }//GEN-LAST:event_jmiVerInstalacionesActionPerformed
-
     //------ Método para implementar Música ------
     public void musica() {
         AudioClip sound;
@@ -728,11 +727,9 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JButton jbEmpleados;
     private javax.swing.JButton jbPlay;
     private javax.swing.JButton jbStop;
-    private javax.swing.JMenu jmInstalaciones;
     private javax.swing.JMenu jmTratamientos;
     private javax.swing.JMenuItem jmVerEmpleados;
     private javax.swing.JMenuItem jmVerTratamientos;
-    private javax.swing.JMenuItem jmiVerInstalaciones;
     private javax.swing.JPanel jpFondoMenu;
     private javax.swing.JMenuItem lmCargarMasajista;
     private javax.swing.JMenuItem lmCargarVendedor;

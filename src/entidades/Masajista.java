@@ -21,7 +21,7 @@ public class Masajista {
     public Masajista() {
     }
 
-    public Masajista(int idEmpleado, int matricula, String nombre, String apellido, String telefono, int dni, String puesto,  String especialidad, boolean estado) {
+    public Masajista(int idEmpleado, int matricula, String nombre, String apellido, String telefono, int dni, String puesto, String especialidad, boolean estado) {
         this.idEmpleado = idEmpleado;
         this.matricula = matricula;
         this.nombre = nombre;
@@ -33,7 +33,7 @@ public class Masajista {
         this.estado = estado;
     }
 
-    public Masajista(int matricula, String nombre, String apellido, String telefono, int dni,  String puesto, String especialidad, boolean estado) {
+    public Masajista(int matricula, String nombre, String apellido, String telefono, int dni, String puesto, String especialidad, boolean estado) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -118,7 +118,6 @@ public class Masajista {
 
     @Override
     public String toString() {
-        return "Masajista{" + "idEmpleado=" + idEmpleado + ", matricula=" + matricula + ", nombre=" + nombre + ", apellido=" + apellido + ", teléfono=" + telefono + ", dni=" + dni + ", especialidad=" + especialidad + ", estado=" + estado + '}';
+        return nombre + " " + apellido;
     }
-
 }
