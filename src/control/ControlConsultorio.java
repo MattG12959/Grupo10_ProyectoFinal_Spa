@@ -42,6 +42,7 @@ public class ControlConsultorio {
         listaConsultorios = consultorioData.listarConsultorios();
         JComboBox<String> combo = vista.getCbConsultorio();
         combo.removeAllItems();
+        combo.addItem("Todos los consultorios");
 
         for (Consultorio c : listaConsultorios) {
             combo.addItem(c.getApto());
@@ -55,6 +56,23 @@ public class ControlConsultorio {
         if (aptoSeleccionado == null) {
             return;
         }
+        
+        DefaultTableModel modelo = (DefaultTableModel) vista.getTablaEquipamientos().getModel();
+        modelo.setRowCount(0);
+
+        ArrayList<Equipamiento> lista;
+
+        // Si se selecciona "Todos los consultorios", cargar todos los equipamientos
+        if ("Todos los consultorios".equals(aptoSeleccionado)) {
+            lista = new ArrayList<>();
+            listaEquipamientosActual = new ArrayList<>();
+            // Obtener todos los equipamientos de todos los consultorios
+            for (Consultorio c : listaConsultorios) {
+                ArrayList<Equipamiento> equipamientosConsultorio = equipamientoData.listarEquipamientosPorConsultorio(c.getNroConsultorio());
+                lista.addAll(equipamientosConsultorio);
+                listaEquipamientosActual.addAll(equipamientosConsultorio);
+            }
+        } else {
 
         // Buscar el consultorio por especialidad
         Consultorio consultorioSeleccionado = null;
@@ -66,18 +84,14 @@ public class ControlConsultorio {
         }
 
         if (consultorioSeleccionado == null) {
-            return;
-        }
+                return;
+            }
 
         int nroConsultorio = consultorioSeleccionado.getNroConsultorio();
-
-        listaEquipamientosActual = equipamientoData.listarEquipamientosPorConsultorio(nroConsultorio);
-
-        DefaultTableModel modelo = (DefaultTableModel) vista.getTablaEquipamientos().getModel();
-        modelo.setRowCount(0);
-
-        // Trar todos los equipamientos de ese consultorio
-        ArrayList<Equipamiento> lista = equipamientoData.listarEquipamientosPorConsultorio(nroConsultorio);
+            listaEquipamientosActual = equipamientoData.listarEquipamientosPorConsultorio(nroConsultorio);
+            // Traer todos los equipamientos de ese consultorio
+            lista = equipamientoData.listarEquipamientosPorConsultorio(nroConsultorio);
+        }
 
         // Calcula stock por especialidad, va sumando mediante consigue nombres iguales
         ArrayList<String> nombresAgregados = new ArrayList<>();
@@ -138,10 +152,18 @@ public class ControlConsultorio {
 
     public void cargarMasajistasAptosPorEspecialidad() {
         String especialidad = (String) vista.getCbConsultorio().getSelectedItem();
-        ArrayList<Masajista> masajistas = masajistaData.listarMasajistasAptosPorEspecialidad(especialidad);
-
+        
         DefaultTableModel modelo = (DefaultTableModel) vista.getTablaMasajistas().getModel();
         modelo.setRowCount(0);
+
+        ArrayList<Masajista> masajistas;
+        
+        // Si se selecciona "Todos los consultorios", cargar todos los masajistas
+        if ("Todos los consultorios".equals(especialidad)) {
+            masajistas = masajistaData.listarMasajistas();
+        } else {
+            masajistas = masajistaData.listarMasajistasAptosPorEspecialidad(especialidad);
+        }
 
         for (Masajista m : masajistas) {
             modelo.addRow(new Object[]{
@@ -150,6 +172,7 @@ public class ControlConsultorio {
                 m.getApellido()
             });
         }
+    
     }
 
     public void agregarListenerComboConsultorio() {
