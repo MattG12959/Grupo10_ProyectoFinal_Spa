@@ -357,37 +357,38 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         controlCliente.cargarCliente();
     }//GEN-LAST:event_jbCargarClienteActionPerformed
 
+    //------- Boton Limpiar casilleros --------
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
         controlCliente.limpiarCasilleros();
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
+    //------- Filtro al escribir en Buscar por DNI --------
     private void jtfDniClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniClienteKeyReleased
-        if(getJrbActivo() == true && getJrbInactivo() == false){
-            controlCliente.buscarClienteDni();
-        }else if (getJrbActivo() == false && getJrbInactivo() == true){
-            controlCliente.buscarClienteDni();
-        }else if (getJrbActivo() == false && getJrbInactivo() == false){
-            controlCliente.buscarClienteDni();
-        }
+        controlCliente.buscarClienteDni();
     }//GEN-LAST:event_jtfDniClienteKeyReleased
 
+    //------- Radio Button que Filtra por clientes Activos --------
     private void jrbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbActivoActionPerformed
         controlCliente.listarClientes();
     }//GEN-LAST:event_jrbActivoActionPerformed
 
+    //------- Radio Button que Filtra por clientes Inactivos --------
     private void jrbInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInactivoActionPerformed
         controlCliente.listarClientes();
     }//GEN-LAST:event_jrbInactivoActionPerformed
 
+    //------- Boton Modificar Cliente --------
     private void jbModificarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarClienteActionPerformed
         controlCliente.modificarCliente();
     }//GEN-LAST:event_jbModificarClienteActionPerformed
 
+    //------- Evento para seleccionar cliente de la tabla y se llenen los casilleros --------
     private void jTablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaClientesMouseClicked
         // TODO add your handling code here:
         controlCliente.seleccionarCliente();
     }//GEN-LAST:event_jTablaClientesMouseClicked
 
+    //------- Evento que al hacer click en el Panel2 se quita la seleccion del Jtable --------
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         this.jTablaClientes.clearSelection();
     }//GEN-LAST:event_jPanel2MouseClicked
