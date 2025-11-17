@@ -54,23 +54,7 @@ public class ControlCliente {
         }
 
         if (vistaCliente.getJrbActivo() == false && vistaCliente.getJrbInactivo() == false) {
-            String[] columnas = {"ID", "Nombre", "Apellido", "DNI", "Telefono", "Edad", "Afecciones", "Estado"};
-            Object[][] datos = new Object[listaClientes.size()][8];
-
-            for (int i = 0; i < listaClientes.size(); i++) {
-                Cliente cliente = listaClientes.get(i);
-                datos[i][0] = cliente.getCodCli();
-                datos[i][1] = cliente.getNombre();
-                datos[i][2] = cliente.getApellido();
-                datos[i][3] = cliente.getDni();
-                datos[i][4] = cliente.getTelefono();
-                datos[i][5] = cliente.getEdad();
-                datos[i][6] = cliente.getAfecciones();
-                datos[i][7] = cliente.isEstado() ? "Activo" : "Inactivo";
-            }
-
-            DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
-            vistaCliente.getjTablaClientes().setModel(modelo);
+            crearTablaFiltrada(listaClientes);
         }
     }
 
@@ -217,23 +201,22 @@ public class ControlCliente {
     }
 
     //--------- Código repetido para filtrar tablas ---------
-    public void crearTablaFiltrada(ArrayList<Cliente> filtrados) {
-        String[] columnas = {"ID", "Nombre", "Apellido", "DNI", "Telefono", "Edad", "Afecciones", "Estado"};
-        Object[][] datos = new Object[filtrados.size()][8];
-        for (int i = 0; i < filtrados.size(); i++) {
-            Cliente cl = filtrados.get(i);
-            datos[i][0] = cl.getCodCli();
-            datos[i][1] = cl.getNombre();
-            datos[i][2] = cl.getApellido();
-            datos[i][3] = cl.getDni();
-            datos[i][4] = cl.getTelefono();
-            datos[i][5] = cl.getEdad();
-            datos[i][6] = cl.getAfecciones();
-            datos[i][7] = cl.isEstado() ? "Activo" : "Inactivo";
+    public void crearTablaFiltrada(ArrayList<Cliente> clientes) {
+        DefaultTableModel modelo = vistaCliente.getModel();
+        modelo.setRowCount(0);
+        
+        for (Cliente c : clientes) {
+            modelo.addRow(new Object[]{
+                c.getCodCli(),
+                c.getNombre(),
+                c.getApellido(),
+                c.getDni(),
+                c.getTelefono(),
+                c.getEdad(),
+                c.getAfecciones(),
+                c.isEstado() ? "Activo" : "Inactivo"
+            });
         }
-
-        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
-        vistaCliente.getjTablaClientes().setModel(modelo);
     }
     
     //--------- Modificar Cliente al seleccionar desde la tabla ---------
@@ -274,6 +257,7 @@ public class ControlCliente {
         listarClientes();
     }
     
+    //--------- Seleccionar Cliente en la tabla  ---------
     public void seleccionarCliente(){
         int fila = vistaCliente.getjTablaClientes().getSelectedRow();
         

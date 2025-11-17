@@ -10,6 +10,7 @@ import control.ControlCliente;
 import entidades.Cliente;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Grupo10
@@ -25,6 +26,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private ControlCliente controlCliente = null;
     private miConexion connection = null;
     
+    DefaultTableModel model = new DefaultTableModel();
+    
     public vistaCliente() {
         initComponents();
         try {
@@ -36,6 +39,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         if(clienteData != null){
             controlCliente = new ControlCliente(this, clienteData);
         }
+        construirTabla();
         controlCliente.listarClientes();
     }
 
@@ -353,37 +357,38 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         controlCliente.cargarCliente();
     }//GEN-LAST:event_jbCargarClienteActionPerformed
 
+    //------- Boton Limpiar casilleros --------
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
         controlCliente.limpiarCasilleros();
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
+    //------- Filtro al escribir en Buscar por DNI --------
     private void jtfDniClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniClienteKeyReleased
-        if(getJrbActivo() == true && getJrbInactivo() == false){
-            controlCliente.buscarClienteDni();
-        }else if (getJrbActivo() == false && getJrbInactivo() == true){
-            controlCliente.buscarClienteDni();
-        }else if (getJrbActivo() == false && getJrbInactivo() == false){
-            controlCliente.buscarClienteDni();
-        }
+        controlCliente.buscarClienteDni();
     }//GEN-LAST:event_jtfDniClienteKeyReleased
 
+    //------- Radio Button que Filtra por clientes Activos --------
     private void jrbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbActivoActionPerformed
         controlCliente.listarClientes();
     }//GEN-LAST:event_jrbActivoActionPerformed
 
+    //------- Radio Button que Filtra por clientes Inactivos --------
     private void jrbInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInactivoActionPerformed
         controlCliente.listarClientes();
     }//GEN-LAST:event_jrbInactivoActionPerformed
 
+    //------- Boton Modificar Cliente --------
     private void jbModificarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarClienteActionPerformed
         controlCliente.modificarCliente();
     }//GEN-LAST:event_jbModificarClienteActionPerformed
 
+    //------- Evento para seleccionar cliente de la tabla y se llenen los casilleros --------
     private void jTablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaClientesMouseClicked
         // TODO add your handling code here:
         controlCliente.seleccionarCliente();
     }//GEN-LAST:event_jTablaClientesMouseClicked
 
+    //------- Evento que al hacer click en el Panel2 se quita la seleccion del Jtable --------
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         this.jTablaClientes.clearSelection();
     }//GEN-LAST:event_jPanel2MouseClicked
@@ -421,6 +426,22 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfNombre;
     private javax.swing.JTextField jtfTelefono;
     // End of variables declaration//GEN-END:variables
+    
+    //------ Metodos -------- 
+    
+    //------ Construir Tabla ------
+    public void construirTabla(){
+        model.addColumn("ID");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido");
+        model.addColumn("DNI");
+        model.addColumn("Telefono");
+        model.addColumn("Edad");
+        model.addColumn("Afecciones");
+        model.addColumn("Estado");
+        
+        jTablaClientes.setModel(model);
+    }
     
     // Getters y Setters
     public String getJtfNombre(){
@@ -514,8 +535,12 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             return false;
         }
     }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
     
-    // ------ Metodos --------    
+      
 
     
 }
