@@ -27,6 +27,7 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
      */
     private miConexion connection = null;
     private VendedorData vendedorData = null;
+    private MasajistaData masajistaData = null;
     private ControlVendedor controlVendedor = null;
 
     public vistaCargarVendedor() {
@@ -35,13 +36,14 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
             vendedorData = new VendedorData(connection);
+            masajistaData = new MasajistaData(connection);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
         }
 
-        if (vendedorData != null) {
-            this.controlVendedor = new ControlVendedor(this, vendedorData);
+        if (vendedorData != null && masajistaData != null) {
+            this.controlVendedor = new ControlVendedor(this, vendedorData, masajistaData);
         }
     }
 

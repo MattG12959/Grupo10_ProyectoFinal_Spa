@@ -314,11 +314,7 @@ public class ControlVistaEmpleados {
             return;
         }
 
-        // Si el campo de matrícula tiene texto pero el tipo de empleado no es masajista, error
-        if (!matriculaTxt.isEmpty() && ! PuestosDeTrabajo.MASAJISTA.getPuesto().equals(tipoEmpleado)) {
-            JOptionPane.showMessageDialog(null, "La búsqueda por matrícula solo está habilitada para masajistas.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        
 
         DefaultTableModel modelo = (DefaultTableModel) vista.getJtEmpleados().getModel();
         modelo.setRowCount(0); // Limpia la tabla
@@ -408,18 +404,17 @@ public class ControlVistaEmpleados {
                 }
             } else if (!matriculaTxt.isEmpty()) {
                 int matricula = Integer.parseInt(matriculaTxt);
-                if ("Masajista".equals(tipoEmpleado)) {
-                    Masajista m = masajistaData.buscarMasajistaPorMatricula(matricula);
-                    if (m != null) {
-                        modelo.setColumnIdentifiers(new String[]{"ID Empleado", "Matrícula", "Nombre", "Apellido", "Teléfono", "DNI", "Puesto", "Especialidad", "Estado"});
-                        modelo.addRow(new Object[]{
-                            m.getIdEmpleado(), m.getMatricula(), m.getNombre(), m.getApellido(), m.getTelefono(), m.getDni(), m.getPuesto(), m.getEspecialidad(), m.isEstado() ? "Activo" : "Inactivo"
-                        });
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se encontró masajista con esa matrícula.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                
+                // La búsqueda por matrícula siempre busca masajistas, independientemente del tipo seleccionado
+                Masajista m = masajistaData.buscarMasajistaPorMatricula(matricula);
+                if (m != null) {
+                    modelo.setColumnIdentifiers(new String[]{"ID Empleado", "Matrícula", "Nombre", "Apellido", "Teléfono", "DNI", "Puesto", "Especialidad", "Estado"});
+                    modelo.addRow(new Object[]{
+                        m.getIdEmpleado(), m.getMatricula(), m.getNombre(), m.getApellido(), m.getTelefono(), m.getDni(), m.getPuesto(), m.getEspecialidad(), m.isEstado() ? "Activo" : "Inactivo"
+                    });
                 } else {
-                    JOptionPane.showMessageDialog(null, "La búsqueda por matrícula solo está habilitada para masajistas.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No se encontró masajista con esa matrícula.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+                
                 }
             }
         } catch (NumberFormatException ex) {

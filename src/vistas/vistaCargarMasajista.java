@@ -5,6 +5,7 @@
 package vistas;
 
 import Persistencia.MasajistaData;
+import Persistencia.VendedorData;
 import Persistencia.miConexion;
 import control.ControlMasajista;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
      */
     private miConexion connection = null;
     private MasajistaData masajistaData = null;
+    private VendedorData vendedorData = null;
     private ControlMasajista controlMasajista = null;
 
     public vistaCargarMasajista() {
@@ -33,16 +35,18 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
             masajistaData = new MasajistaData(connection);
+            vendedorData = new VendedorData(connection);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
         }
 
-        if (masajistaData != null) {
-            this.controlMasajista = new ControlMasajista(this, masajistaData);
+        if (masajistaData != null && vendedorData != null) {
+            this.controlMasajista = new ControlMasajista(this, masajistaData, vendedorData);
             controlMasajista.preCargarCb();
         }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
