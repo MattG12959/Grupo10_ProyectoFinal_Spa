@@ -55,23 +55,9 @@ public class ControlInstalaciones {
 
         //--------- Listar Clientes sin filtros ---------
         if (vistaInstalacion.getJrbActivo() == false && vistaInstalacion.getJrbInactivo() == false) {
-            String[] columnas = {"ID", "Nombre", "Detalle", "Usos", "Precio", "Estado"};
-            Object[][] datos = new Object[listaInstalaciones.size()][6];
-
-            for (int i = 0; i < listaInstalaciones.size(); i++) {
-                Instalacion insta = listaInstalaciones.get(i);
-                datos[i][0] = insta.getCodInstal();
-                datos[i][1] = insta.getNombre();
-                datos[i][2] = insta.getDetalleDeUso();
-                datos[i][3] = insta.getUsos();
-                datos[i][4] = insta.getPrecio();
-                datos[i][5] = insta.isEstado() ? "Activo" : "Inactivo";
-            }
-
-            DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
-            vistaInstalacion.getJtInstalaciones().setModel(modelo);
+            crearTablaFiltrada(listaInstalaciones);
         }
-
+        
     }
 
     //--------- Cargar Instalaciones  ---------
@@ -247,20 +233,20 @@ public class ControlInstalaciones {
     }
 
     //--------- Código repetido para filtrar tablas ---------
-    public void crearTablaFiltrada(ArrayList<Instalacion> filtrados) {
-        String[] columnas = {"ID", "Nombre", "Detalle", "Usos", "Precio", "Estado"};
-        Object[][] datos = new Object[filtrados.size()][6];
-        for (int i = 0; i < filtrados.size(); i++) {
-            Instalacion insta = filtrados.get(i);
-            datos[i][0] = insta.getCodInstal();
-            datos[i][1] = insta.getNombre();
-            datos[i][2] = insta.getDetalleDeUso();
-            datos[i][3] = insta.getUsos();
-            datos[i][4] = insta.getPrecio();
-            datos[i][5] = insta.isEstado() ? "Activo" : "Inactivo";
+    public void crearTablaFiltrada(ArrayList<Instalacion> instalacion) {
+        
+        DefaultTableModel modelo = vistaInstalacion.getModel();
+        modelo.setRowCount(0);
+        
+        for (Instalacion insta : instalacion) {
+            vistaInstalacion.getModel().addRow(new Object[]{
+                insta.getCodInstal(),
+                insta.getNombre(),
+                insta.getDetalleDeUso(),
+                insta.getUsos(),
+                insta.getPrecio(),
+                insta.isEstado() ? "Activo" : "Inactivo"
+            });
         }
-
-        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
-        vistaInstalacion.getJtInstalaciones().setModel(modelo);
     }
 }

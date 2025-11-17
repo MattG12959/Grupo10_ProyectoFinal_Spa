@@ -10,6 +10,7 @@ import control.ControlCliente;
 import entidades.Cliente;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Grupo10
@@ -25,6 +26,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private ControlCliente controlCliente = null;
     private miConexion connection = null;
     
+    DefaultTableModel model = new DefaultTableModel();
+    
     public vistaCliente() {
         initComponents();
         try {
@@ -36,6 +39,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         if(clienteData != null){
             controlCliente = new ControlCliente(this, clienteData);
         }
+        construirTabla();
         controlCliente.listarClientes();
     }
 
@@ -422,6 +426,22 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfTelefono;
     // End of variables declaration//GEN-END:variables
     
+    //------ Metodos -------- 
+    
+    //------ Construir Tabla ------
+    public void construirTabla(){
+        model.addColumn("ID");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido");
+        model.addColumn("DNI");
+        model.addColumn("Telefono");
+        model.addColumn("Edad");
+        model.addColumn("Afecciones");
+        model.addColumn("Estado");
+        
+        jTablaClientes.setModel(model);
+    }
+    
     // Getters y Setters
     public String getJtfNombre(){
         return jtfNombre.getText();
@@ -514,8 +534,12 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             return false;
         }
     }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
     
-    // ------ Metodos --------    
+      
 
     
 }

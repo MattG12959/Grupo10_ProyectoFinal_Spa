@@ -9,6 +9,7 @@ import Persistencia.miConexion;
 import control.ControlInstalaciones;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Grupo10
@@ -25,6 +26,8 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
     private miConexion connection = null;
     private ControlInstalaciones controlInstalacion;
     
+    DefaultTableModel model = new DefaultTableModel();
+    
     public vistaInstalaciones() {
         initComponents();
         try {
@@ -36,7 +39,8 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         if(instalacionData != null){
             controlInstalacion = new ControlInstalaciones(this, instalacionData);
         }
-        controlInstalacion.listarInstalaciones();
+        configurarTabla();
+        controlInstalacion.listarInstalaciones();        
     }
 
     /**
@@ -403,6 +407,20 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfUsos;
     // End of variables declaration//GEN-END:variables
 
+    //Metodos
+     //--------- Configurar Tabla ---------
+    public void configurarTabla(){
+        
+        model.addColumn("ID");
+        model.addColumn("Nombre");
+        model.addColumn("Detalle");
+        model.addColumn("Usos");
+        model.addColumn("Precio");
+        model.addColumn("Estado");
+        
+        jtInstalaciones.setModel(model);
+    }
+    
     //Getters y Setters
     public String getJtfNombre(){
         return jtfNombre.getText();
@@ -495,6 +513,13 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
     public JTable getJtInstalaciones() {
         return jtInstalaciones;
     }
-    
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
+    }
     
 }
