@@ -33,8 +33,9 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         initComponents();
         this.controlSesion = controlSesion;
         clienteData = new ClienteData(conexion);
-        cargarTodosLosClientes();
         configurarTabla();
+        cargarTodosLosClientes();
+        
     }
 
     /**
@@ -56,6 +57,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Seleccionar Cliente");
@@ -105,6 +107,13 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tableClientes);
 
+        jButton1.setText("Limpiar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -127,12 +136,14 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                                 .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnBuscarPorId)))
-                        .addGap(0, 62, Short.MAX_VALUE)))
+                        .addGap(0, 74, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(236, 236, 236))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(195, 195, 195)
+                .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,9 +164,11 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                             .addComponent(btnBuscarPorId))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSeleccionar)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSeleccionar)
+                    .addComponent(jButton1))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -182,18 +195,20 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         try {
             int dni = Integer.parseInt(dniStr);
             ArrayList<Cliente> resultado = new ArrayList<>();
+            // Buscar solo en clientes activos
             for (Cliente c : clienteData.listarClientes()) {
-                if (c.getDni() == dni) {
+                if (c.getDni() == dni && c.isEstado()) {
                     resultado.add(c);
                 }
             }
             if (resultado.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se encontrs cliente con ese DNI.");
+                JOptionPane.showMessageDialog(this, "No se encontró cliente activo con ese DNI.");
             }
             cargarTablaConLista(resultado);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El DNI debe ser un nmero.");
+            JOptionPane.showMessageDialog(this, "El DNI debe ser un número.");
         }
+    
     }//GEN-LAST:event_btnBuscarPorDniActionPerformed
 
     private void btnBuscarPorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorIdActionPerformed
@@ -207,14 +222,18 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
             int id = Integer.parseInt(idStr);
             Cliente c = clienteData.buscarCliente(id);
             ArrayList<Cliente> resultado = new ArrayList<>();
-            if (c != null) {
+            // Solo agregar si el cliente existe y está activo
+            if (c != null && c.isEstado()) {
                 resultado.add(c);
+            } else if (c != null && !c.isEstado()) {
+                JOptionPane.showMessageDialog(this, "El cliente con ese ID está inactivo.");
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró cliente con ese ID.");
             }
             cargarTablaConLista(resultado);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
+        
         }
     }//GEN-LAST:event_btnBuscarPorIdActionPerformed
 
@@ -241,11 +260,16 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorDni;
     private javax.swing.JButton btnBuscarPorId;
     private javax.swing.JButton btnSeleccionar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -256,7 +280,14 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cargarTodosLosClientes() {
-        listaClientes = clienteData.listarClientes();
+        ArrayList<Cliente> todosLosClientes = clienteData.listarClientes();
+        // Filtrar solo clientes activos
+        listaClientes = new ArrayList<>();
+        for (Cliente c : todosLosClientes) {
+            if (c.isEstado()) {
+                listaClientes.add(c);
+            }
+        }
         cargarTablaConLista(listaClientes);
     }
 
@@ -278,9 +309,14 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
 
     
     private void configurarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tableClientes.getModel();
-        modelo.setColumnIdentifiers(new Object[]{"ID", "DNI", "Nombre", "Teléfono", "Edad", "Afecciones"});
-        tableClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        String[] columnas = {"ID", "DNI", "Nombre", "Teléfono", "Edad", "Afecciones"};
+        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        tableClientes.setModel(modelo);
     }
 
     public Cliente getClienteSeleccionado() {
