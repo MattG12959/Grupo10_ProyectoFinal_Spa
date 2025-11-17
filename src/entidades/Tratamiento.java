@@ -12,8 +12,7 @@ import java.util.ArrayList;
  * Gianfranco Antonacci Matías 
  * Bequis Marcos Ezequiel 
  * Dave Natalia 
- * Quiroga Dorzan Alejo
- */
+  */
 public class Tratamiento {
     
     // Atributos

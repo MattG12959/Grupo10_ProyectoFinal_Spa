@@ -6,8 +6,10 @@
 package entidades;
 
 /**
+ * @author Grupo10
  *
- * @author usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class Cliente {
     private int codCli;       

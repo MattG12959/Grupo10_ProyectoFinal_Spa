@@ -12,8 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import vistas.vistaInstalaciones;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class ControlInstalaciones {
 

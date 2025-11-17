@@ -1,6 +1,11 @@
 
 package entidades;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 
 public class Instalacion {
 

@@ -2,8 +2,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author GP10
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 
 public enum Equipamientos {

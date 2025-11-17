@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Persistencia;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import entidades.Equipamiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -14,8 +14,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
 

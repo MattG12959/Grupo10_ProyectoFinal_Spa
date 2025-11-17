@@ -1,5 +1,10 @@
 package vistas;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import Persistencia.ClienteData;
 import Persistencia.ConsultorioData;
 import Persistencia.DiaDeSpaData;

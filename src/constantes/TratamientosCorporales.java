@@ -2,8 +2,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author Ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum TratamientosCorporales {
     EXFOLIACION_CORPORAL("Exfoliación corporal", "Elimina las células muertas de la piel con el uso de sales o azúcares."),

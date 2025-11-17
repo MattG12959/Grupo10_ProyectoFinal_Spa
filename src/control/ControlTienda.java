@@ -17,6 +17,9 @@ import java.util.ArrayList;
  * Clase control para administrar las operaciones CRUD de vistaTienda
  *
  * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class ControlTienda {
 

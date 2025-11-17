@@ -4,43 +4,46 @@
  */
 package vistas;
 
-import Persistencia.ConsultorioData;
-import Persistencia.InstalacionData;
-import Persistencia.MasajistaData;
-import Persistencia.TratamientoData;
+import Persistencia.SesionData;
+import Persistencia.DiaDeSpaData;
 import Persistencia.miConexion;
-import control.ControlSesion;
-import entidades.Masajista;
-import java.awt.Color;
-import java.sql.Date;
+import entidades.Sesion;
+import entidades.DiaDeSpa;
+import entidades.Instalacion;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import com.toedter.calendar.JCalendar;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+import java.util.ArrayList;
 
 /**
+ * @author Grupo10
  *
- * @author Usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaReservas extends javax.swing.JInternalFrame {
 
     private miConexion connection;
-    private ControlSesion controlSesion;
-    private vistaCargarSesion vistaCargarSesion;
-    private TratamientoData tratamientoData;
-    private ConsultorioData consultorioData;
-    private InstalacionData instalacionesData;
-    private MasajistaData masajistaData;
-    private DefaultTableModel modelo = new DefaultTableModel() {
+    private SesionData sesionData;
+    private DiaDeSpaData diaDeSpaData;
+    private SimpleDateFormat formatoFecha;
+    private DateTimeFormatter formatoFechaHora;
+    private DateTimeFormatter formatoHora;
+     private DefaultTableModel modelo = new DefaultTableModel() {
         public boolean isCellEditable(int f, int c) {
             return false;
         }
-    };
+    };   
 
     /**
      * Creates new form vistaReservas
@@ -50,16 +53,26 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         this.getContentPane().setBackground(new Color(155, 216, 185));
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
-
-            tratamientoData = new TratamientoData(connection);
-            consultorioData = new ConsultorioData(connection);
-            instalacionesData = new InstalacionData(connection);
-            masajistaData = new MasajistaData(connection);
+            sesionData = new SesionData(connection);
+            diaDeSpaData = new DiaDeSpaData(connection);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos (vistaReservas): " + e.getMessage());
         }
+        
+        formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+        
         armarCabecera();
+        
+        // Agregar listener al calendario para detectar cambios de fecha
+        jCalendar1.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                cargarReservasPorFecha();
+            }
+        });
     }
 
     /**
@@ -72,19 +85,10 @@ public class vistaReservas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jBNuevaR = new javax.swing.JButton();
+        jbEditarReserva = new javax.swing.JButton();
         jBEliminarR = new javax.swing.JButton();
-        jBModificarR = new javax.swing.JButton();
-        jBConsultarR = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jdcFechaR = new com.toedter.calendar.JDateChooser();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jcbConsultorios = new javax.swing.JComboBox<>();
-        jcbEspecialistas = new javax.swing.JComboBox<>();
-        jcbInstalacion = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jtDescripcion = new javax.swing.JTable();
 
         setClosable(true);
@@ -92,13 +96,9 @@ public class vistaReservas extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(155, 216, 185));
 
-        jBNuevaR.setText("Nueva Reserva");
+        jbEditarReserva.setText("Editar Reserva");
 
-        jBEliminarR.setText("Eliminar Reserva");
-
-        jBModificarR.setText("Modificar Reserva");
-
-        jBConsultarR.setText("Consultar Reserva");
+        jBEliminarR.setText("Eliminar Reserva ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,13 +106,9 @@ public class vistaReservas extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBNuevaR)
+                .addComponent(jbEditarReserva)
                 .addGap(18, 18, 18)
                 .addComponent(jBEliminarR)
-                .addGap(18, 18, 18)
-                .addComponent(jBModificarR)
-                .addGap(18, 18, 18)
-                .addComponent(jBConsultarR)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,38 +116,10 @@ public class vistaReservas extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBNuevaR)
-                    .addComponent(jBEliminarR)
-                    .addComponent(jBModificarR)
-                    .addComponent(jBConsultarR))
+                    .addComponent(jbEditarReserva)
+                    .addComponent(jBEliminarR))
                 .addContainerGap())
         );
-
-        jLabel1.setText("Fecha:");
-
-        jdcFechaR.setDateFormatString("dd/MM/yyyy HH:mm");
-
-        jLabel2.setText("Consultorio:");
-
-        jLabel3.setText("Instalación:");
-
-        jLabel4.setText("Especialista:");
-
-        jcbConsultorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcbConsultorios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbConsultoriosActionPerformed(evt);
-            }
-        });
-
-        jcbEspecialistas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcbEspecialistas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbEspecialistasActionPerformed(evt);
-            }
-        });
-
-        jcbInstalacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jtDescripcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,42 +132,23 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jtDescripcion);
+        jScrollPane2.setViewportView(jtDescripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jdcFechaR, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jcbEspecialistas, 0, 174, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)))))
-                .addContainerGap())
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,129 +156,182 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jdcFechaR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel4)
-                                .addComponent(jcbConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jcbEspecialistas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jcbEspecialistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEspecialistasActionPerformed
-        // TODO add your handling code here:
-
-// 2. Obtener la lista de masajistas
-        List<Masajista> listaMasajistas = masajistaData.listarMasajistas(); // o el método que uses para obtener todos
-
-// 3. Limpiar el JComboBox si ya tiene elementos
-        jcbEspecialistas.removeAllItems();
-
-// 4. Agregar los masajistas al JComboBox
-        for (Masajista masajista : listaMasajistas) {
-            jcbEspecialistas.addItem(masajista.getApellido() + masajista.getNombre());
-        }
-
-    }//GEN-LAST:event_jcbEspecialistasActionPerformed
-
-    private void jcbConsultoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbConsultoriosActionPerformed
-        // TODO add your handling code here:
-        consultorioData.buscarConsultorio(HIDE_ON_CLOSE);
-    }//GEN-LAST:event_jcbConsultoriosActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBConsultarR;
     private javax.swing.JButton jBEliminarR;
-    private javax.swing.JButton jBModificarR;
-    private javax.swing.JButton jBNuevaR;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> jcbConsultorios;
-    private javax.swing.JComboBox<String> jcbEspecialistas;
-    private javax.swing.JComboBox<String> jcbInstalacion;
-    private com.toedter.calendar.JDateChooser jdcFechaR;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbEditarReserva;
     private javax.swing.JTable jtDescripcion;
     // End of variables declaration//GEN-END:variables
 
     private void armarCabecera() {
-
-        modelo.addColumn("Horaio");
+        // Limpiar el modelo
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
+        
+        // Agregar las columnas solicitadas
+        modelo.addColumn("Fecha de Sesión");
+        modelo.addColumn("Horario");
         modelo.addColumn("Cliente");
-        modelo.addColumn("Consultorio / Instalación");
-        modelo.addColumn("Especialista");
-        jtDescripcion.setModel(modelo);
-
-        for (int hora = 8; hora < 20; hora++) {
-            modelo.addRow(new Object[]{String.format("%02d:00", hora)});
-            modelo.addRow(new Object[]{String.format("%02d:30", hora)});
-        }
-// Agregar la última fila (20:00)
-        modelo.addRow(new Object[]{"20:00"});
-
+        modelo.addColumn("Tratamiento");
+        modelo.addColumn("Masajista");
+        modelo.addColumn("Consultorio");
+        modelo.addColumn("Instalación");
+        modelo.addColumn("Costo");
+        
         jtDescripcion.setModel(modelo);
 
         // Crear un renderer centrado
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-// Aplicarlo a la cabecera
+        // Aplicarlo a la cabecera
         jtDescripcion.getTableHeader().setDefaultRenderer(centerRenderer);
 
         DefaultTableCellRenderer centrarCeldas = new DefaultTableCellRenderer();
         centrarCeldas.setHorizontalAlignment(SwingConstants.CENTER);
 
-// Aplicar a todas las columnas
+        // Aplicar a todas las columnas
         for (int i = 0; i < jtDescripcion.getColumnCount(); i++) {
             jtDescripcion.getColumnModel().getColumn(i).setCellRenderer(centrarCeldas);
         }
-//Ancho de columna
-        jtDescripcion.getColumnModel().getColumn(0).setPreferredWidth(50); // Primera columna
-        jtDescripcion.getColumnModel().getColumn(1).setPreferredWidth(100); // Segunda columna
-        jtDescripcion.getColumnModel().getColumn(2).setPreferredWidth(100);
-        jtDescripcion.getColumnModel().getColumn(3).setPreferredWidth(100);
+        
+        // Ancho de columna
+        jtDescripcion.getColumnModel().getColumn(0).setPreferredWidth(120); // Fecha de Sesión
+        jtDescripcion.getColumnModel().getColumn(1).setPreferredWidth(80);  // Horario
+        jtDescripcion.getColumnModel().getColumn(2).setPreferredWidth(150); // Cliente
+        jtDescripcion.getColumnModel().getColumn(3).setPreferredWidth(150); // Tratamiento
+        jtDescripcion.getColumnModel().getColumn(4).setPreferredWidth(120); // Masajista
+        jtDescripcion.getColumnModel().getColumn(5).setPreferredWidth(100); // Consultorio
+        jtDescripcion.getColumnModel().getColumn(6).setPreferredWidth(150); // Instalación
+        jtDescripcion.getColumnModel().getColumn(7).setPreferredWidth(80);  // Costo
 
-// Mostrar líneas
+        // Mostrar líneas
         jtDescripcion.setShowGrid(true);
         jtDescripcion.setGridColor(Color.LIGHT_GRAY);
         jtDescripcion.setShowHorizontalLines(true);
         jtDescripcion.setShowVerticalLines(true);
     }
-
-    public String getJdcFechaR() {
-        java.util.Date sFechaR = jdcFechaR.getDate();
-        LocalDateTime fechaInicial = sFechaR.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        String formateada = fechaInicial.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        return formateada;
+    
+    private void cargarReservasPorFecha() {
+        try {
+            // Limpiar la tabla
+            modelo.setRowCount(0);
+            
+            // Obtener la fecha seleccionada del calendario
+            Date fechaSeleccionada = jCalendar1.getDate();
+            if (fechaSeleccionada == null) {
+                return;
+            }
+            
+             // Verificar que sesionData esté inicializado
+            if (sesionData == null) {
+                JOptionPane.showMessageDialog(this, "Error: No se pudo conectar con la base de datos.");
+                return;
+            }
+            
+            // Convertir Date a LocalDateTime (usando medianoche del día seleccionado)
+            LocalDateTime fecha = fechaSeleccionada.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime()
+                    .withHour(0)
+                    .withMinute(0)
+                    .withSecond(0)
+                    .withNano(0);
+            
+            // Obtener todas las sesiones de esa fecha
+            ArrayList<Sesion> sesiones = sesionData.listarSesionesPorFecha(fecha);
+            
+            // Para cada sesión, agregar una fila a la tabla
+            for (Sesion sesion : sesiones) {
+                // Obtener el cliente desde DiaDeSpa
+                String nombreCliente = "N/A";
+                if (sesion.getDiaDeSpa() != null) {
+                    // Si el DiaDeSpa tiene un codPack válido pero el cliente no está cargado, cargarlo
+                    if (sesion.getDiaDeSpa().getCodPack() > 0 && sesion.getDiaDeSpa().getCliente() == null) {
+                        try {
+                            DiaDeSpa diaCompleto = diaDeSpaData.buscarDiaDeSpa(sesion.getDiaDeSpa().getCodPack());
+                            if (diaCompleto != null && diaCompleto.getCliente() != null) {
+                                sesion.getDiaDeSpa().setCliente(diaCompleto.getCliente());
+                            }
+                        } catch (Exception ex) {
+                            // Si hay error al cargar, continuar con N/A
+                        }
+                    }
+                    
+                    if (sesion.getDiaDeSpa().getCliente() != null) {
+                        nombreCliente = sesion.getDiaDeSpa().getCliente().getApellido() + ", " + 
+                                        sesion.getDiaDeSpa().getCliente().getNombre();
+                    }
+                }
+                
+                // Fecha de sesión (solo fecha)
+                String fechaSesion = sesion.getFechaHoraInicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                
+                // Horario (hora de inicio)
+                String horario = sesion.getFechaHoraInicio().format(formatoHora);
+                
+                // Tratamiento
+                String tratamiento = sesion.getTratamiento() != null ? sesion.getTratamiento().getNombre() : "N/A";
+                
+                // Masajista
+                String masajista = sesion.getMasajista() != null ? 
+                    sesion.getMasajista().getNombre() + " " + sesion.getMasajista().getApellido() : "N/A";
+                
+                // Consultorio
+                String consultorio = sesion.getConsultorio() != null ? 
+                    "Consultorio " + sesion.getConsultorio().getNroConsultorio() : "N/A";
+                
+                // Instalaciones (puede haber múltiples, las concatenamos)
+                String instalaciones = "N/A";
+                if (sesion.getInsalaciones() != null && !sesion.getInsalaciones().isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < sesion.getInsalaciones().size(); i++) {
+                        if (i > 0) sb.append(", ");
+                        sb.append(sesion.getInsalaciones().get(i).getNombre());
+                    }
+                    instalaciones = sb.toString();
+                }
+                
+                // Costo: costo del tratamiento + costo de instalaciones
+                double costo = 0.0;
+                if (sesion.getTratamiento() != null) {
+                    costo += sesion.getTratamiento().getCosto();
+                }
+                if (sesion.getInsalaciones() != null) {
+                    for (Instalacion instalacion : sesion.getInsalaciones()) {
+                        costo += instalacion.getPrecio();
+                    }
+                }
+                
+                // Agregar la fila a la tabla
+                modelo.addRow(new Object[]{
+                    fechaSesion,
+                    horario,
+                    nombreCliente,
+                    tratamiento,
+                    masajista,
+                    consultorio,
+                    instalaciones,
+                    String.format("$%.2f", costo)
+                });
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las reservas: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    public String getjcbEspecialista() {
-        return (String) jcbEspecialistas.getSelectedItem();
-    }
-
-    public String getJcbConsultorios() {
-        return (String) jcbConsultorios.getSelectedItem();
-    }
-
-    public String getJcbInstalacion() {
-        return (String) jcbInstalacion.getSelectedItem();
-    }
 }

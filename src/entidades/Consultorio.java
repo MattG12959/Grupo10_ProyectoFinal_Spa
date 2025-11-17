@@ -9,8 +9,7 @@ import java.util.ArrayList;
  * Gianfranco Antonacci Matías 
  * Bequis Marcos Ezequiel 
  * Dave Natalia 
- * Quiroga Dorzan Alejo
- */
+  */
 
 // Hace referencia a una sala común de masajes 
 public class Consultorio {

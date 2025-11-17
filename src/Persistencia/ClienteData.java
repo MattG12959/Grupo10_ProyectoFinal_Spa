@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package Persistencia;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import entidades.Cliente;
 import java.sql.*;
 import java.util.ArrayList;

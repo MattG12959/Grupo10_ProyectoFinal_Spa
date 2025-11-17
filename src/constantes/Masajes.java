@@ -2,8 +2,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author Ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum Masajes {
     MASAJE_SUECO("Masaje sueco", "Terapia de relajación de cuerpo completo con presión ligera a media."),

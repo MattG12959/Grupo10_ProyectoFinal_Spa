@@ -6,8 +6,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum TratamientosEsteticos {
     DEPILACION_LASER("Depilación láser", "Eliminación permanente del vello mediante tecnología láser."),

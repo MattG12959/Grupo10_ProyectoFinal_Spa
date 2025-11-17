@@ -2,8 +2,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author Ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum AreasDeRelajacion {
     ZONA_DE_RELAX("Zona de relax", "Espacio tranquilo con tumbonas o sillones para descansar antes y después de los tratamientos."),

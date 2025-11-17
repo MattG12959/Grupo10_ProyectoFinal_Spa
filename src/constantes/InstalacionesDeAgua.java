@@ -2,8 +2,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author Ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum InstalacionesDeAgua {
     JACUZZI("Jacuzzi", "Bañeras con chorros de agua a presión para relajar los músculos y aliviar la tensión."),

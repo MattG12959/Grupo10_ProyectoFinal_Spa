@@ -6,8 +6,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum TratamientosRelajacion {
     MASAJE_RELAJANTE("Masaje relajante", "Masaje suave que reduce el estrés y la tensión muscular, promoviendo la relajación general."),

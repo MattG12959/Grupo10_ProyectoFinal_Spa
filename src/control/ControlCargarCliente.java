@@ -9,8 +9,10 @@ import entidades.Cliente;
 import vistas.vistaCargarCliente;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class ControlCargarCliente {
     private vistaCargarCliente vistaCargarCliente;

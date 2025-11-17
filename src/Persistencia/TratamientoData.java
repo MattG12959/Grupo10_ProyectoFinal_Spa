@@ -21,8 +21,10 @@ import java.sql.*;
 import entidades.Producto;
 
 /**
+ * @author Grupo10
  *
- * @author thyetix
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class TratamientoData {
 

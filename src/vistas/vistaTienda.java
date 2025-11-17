@@ -16,8 +16,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
+ * @author Grupo10
  *
- * @author Usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaTienda extends javax.swing.JInternalFrame {
 

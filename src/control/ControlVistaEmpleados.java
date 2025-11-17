@@ -1,6 +1,11 @@
 
 package control;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import Persistencia.*;
 import constantes.*;
 import entidades.Masajista;

@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
+ * @author Grupo10
  *
- * @author GP10
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class ConsultorioData {
 

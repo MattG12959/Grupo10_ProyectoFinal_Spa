@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Grupo10
  *
  * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
- * Natalia Quiroga Dorzan Alejo
+ * Natalia 
  */
 public class ProductoData {
     

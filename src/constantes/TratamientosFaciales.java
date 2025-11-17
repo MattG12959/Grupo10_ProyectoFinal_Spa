@@ -5,8 +5,10 @@
 package constantes;
 
 /**
+ * @author Grupo10
  *
- * @author Ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public enum TratamientosFaciales {
     FACIAL_BASICO("Facial básico", "Limpieza profunda, exfoliación y mascarilla para refrescar el cutis."),

@@ -15,8 +15,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
+  * @author Grupo10
  *
- * @author ezequiel
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaEmpleados extends javax.swing.JInternalFrame {
 

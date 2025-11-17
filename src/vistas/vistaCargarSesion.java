@@ -4,6 +4,7 @@
  */
 package vistas;
 
+
 import Persistencia.ClienteData;
 import Persistencia.ConsultorioData;
 import Persistencia.DiaDeSpaData;
@@ -33,8 +34,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 /**
+ * @author Grupo10
  *
- * @author matia
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaCargarSesion extends javax.swing.JInternalFrame {
 

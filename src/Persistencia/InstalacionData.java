@@ -1,5 +1,10 @@
 package Persistencia;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import entidades.Instalacion;
 import java.sql.*;
 import java.util.ArrayList;

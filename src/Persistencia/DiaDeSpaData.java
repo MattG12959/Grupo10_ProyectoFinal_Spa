@@ -1,5 +1,10 @@
 package Persistencia;
-
+/*
+ * @author Grupo10
+ *
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
+*/
 import entidades.DiaDeSpa;
 import entidades.Sesion;
 import entidades.Cliente;

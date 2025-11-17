@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
  * Gianfranco Antonacci Matías 
  * Bequis Marcos Ezequiel 
  * Dave Natalia 
- * Quiroga Dorzan Alejo
  */
 
 public class EmpleadoData {
