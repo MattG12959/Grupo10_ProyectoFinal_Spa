@@ -217,6 +217,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfBuscarInstalaciones">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfBuscarInstalacionesKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -112,6 +112,11 @@ public class ControlInstalaciones {
                 return;
             }
         }
+        if(vistaInstalacion.getJtInstalaciones().getSelectedRow() >= 0){
+            JOptionPane.showMessageDialog(vistaInstalacion, "No puedes Cargar una Instalacion seleccionada. Solo modificarlo.");
+            limpiarCasilleros();
+            return;
+        }
         
         String nombre = vistaInstalacion.getJtfNombre();
         String detalle = vistaInstalacion.getJtaDetalle();
@@ -128,6 +133,53 @@ public class ControlInstalaciones {
         instalacionData.guardarInstalacion(instalacionC);
         listarInstalaciones();
         limpiarCasilleros();
+        
+    }
+    
+    //--------- Buscador de Instalacioens ---------
+    public void buscarInstalaciones(){
+        String buscarInsta = vistaInstalacion.getJtfBuscarInstalacion().trim();
+        
+        if(buscarInsta.isEmpty()){
+            listarInstalaciones();
+            return;
+        }
+        
+        ArrayList<Instalacion> listaInstalaciones = instalacionData.listarInstalaciones();
+        ArrayList<Instalacion> filtrados = new ArrayList<>();
+        
+        //--------- Listar Clientes Activos ---------
+        if (vistaInstalacion.getJrbActivo() == true && vistaInstalacion.getJrbInactivo() == false) {
+            for (Instalacion insta : listaInstalaciones) {
+                String nombreInsta = String.valueOf(insta.getNombre());
+                if (nombreInsta.toLowerCase().startsWith(buscarInsta) && insta.isEstado() == true) {
+                    filtrados.add(insta);
+                }
+            }
+            crearTablaFiltrada(filtrados);
+        }
+
+        //--------- Listar Clientes Inactivos ---------
+        if (vistaInstalacion.getJrbActivo() == false && vistaInstalacion.getJrbInactivo() == true) {
+            for (Instalacion insta : listaInstalaciones) {
+                String nombreInsta = String.valueOf(insta.getNombre());
+                if (nombreInsta.toLowerCase().startsWith(buscarInsta) && insta.isEstado() == false) {
+                    filtrados.add(insta);
+                }
+            }
+            crearTablaFiltrada(filtrados);
+        }
+
+        //--------- Listar Clientes sin filtros ---------
+        if (vistaInstalacion.getJrbActivo() == false && vistaInstalacion.getJrbInactivo() == false) {
+            for (Instalacion insta : listaInstalaciones) {
+                String nombreInsta = String.valueOf(insta.getNombre());
+                if (nombreInsta.toLowerCase().startsWith(buscarInsta)) {
+                    filtrados.add(insta);
+                }
+            }
+            crearTablaFiltrada(filtrados);
+        }
         
     }
     

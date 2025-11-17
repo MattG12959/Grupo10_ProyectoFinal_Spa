@@ -134,6 +134,12 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Buscar por Nombre:");
 
+        jtfBuscarInstalaciones.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfBuscarInstalacionesKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -326,33 +332,45 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //--- Filtrar Instalaciones Activas ---
     private void jrbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbActivoActionPerformed
         controlInstalacion.listarInstalaciones();
     }//GEN-LAST:event_jrbActivoActionPerformed
 
+    //--- Filtrar Instalaciones Inactivas ---
     private void jrbInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInactivoActionPerformed
         controlInstalacion.listarInstalaciones();
     }//GEN-LAST:event_jrbInactivoActionPerformed
 
+    //--- Cargar a la base de datos una Instalacion ---
     private void jbCargarInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarInstalacionActionPerformed
         // TODO add your handling code here:
         controlInstalacion.cargarInstalaciones();
     }//GEN-LAST:event_jbCargarInstalacionActionPerformed
 
+    //--- Botón de limpiar casilleros ---
     private void jbLimpiarCasillerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarCasillerosActionPerformed
         // TODO add your handling code here:
         controlInstalacion.limpiarCasilleros();
     }//GEN-LAST:event_jbLimpiarCasillerosActionPerformed
 
+    //--- Seleccionar en la tabla una fila ---
     private void jtInstalacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtInstalacionesMouseClicked
         // TODO add your handling code here:
         controlInstalacion.seleccionarInstalacion();
     }//GEN-LAST:event_jtInstalacionesMouseClicked
 
+    //--- Botón modificar instalacion ---
     private void jbModificarInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarInstalacionActionPerformed
         // TODO add your handling code here:
         controlInstalacion.modificarInstalaciones();
     }//GEN-LAST:event_jbModificarInstalacionActionPerformed
+
+    //--- JTextFiel de Buscar Instalaciones al escribir ---
+    private void jtfBuscarInstalacionesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarInstalacionesKeyReleased
+        // TODO add your handling code here:
+        controlInstalacion.buscarInstalaciones();
+    }//GEN-LAST:event_jtfBuscarInstalacionesKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
