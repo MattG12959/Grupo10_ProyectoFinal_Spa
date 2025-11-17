@@ -55,21 +55,15 @@ public class ControlSesion {
             cargarConsultorios();
             cargarInstalaciones();
 
-            if (vista.getCbConsultorio().getItemCount() > 0) {
-                vista.getCbConsultorio().setSelectedIndex(0);
-                consultorioSeleccionado(); // llena cbMasajista y cbTratamiento
-            } else {
-                vista.getCbMasajista().removeAllItems();
-                vista.getCbTratamiento().removeAllItems();
-            }
+            // Dejar el placeholder seleccionado (índice 0)
+            vista.getCbConsultorio().setSelectedIndex(0);
+            // Cargar masajistas y tratamientos con placeholder
+            cargarMasajistasPorEspecialidad("");
+            cargarTratamientosPorEspecialidad("");
 
-            // Seleccionar la primera instalación y muesta su descripcion
-            if (vista.getCbInstalacion().getItemCount() > 0) {
-                vista.getCbInstalacion().setSelectedIndex(0);
-                instalacionSeleccionada(); // llena labelInformacionDeLaInstalacion
-            } else {
-                vista.getLabelInformacionDeLaInstalacion().setText("");
-            }
+            // Dejar el placeholder de instalación seleccionado
+            vista.getCbInstalacion().setSelectedIndex(0);
+            vista.getLabelInformacionDeLaInstalacion().setText("");
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al inicializar pantalla de sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,6 +95,9 @@ public class ControlSesion {
     private void cargarConsultorios() {
         try {
             vista.getCbConsultorio().removeAllItems();
+            
+            // Agregar placeholder
+            vista.getCbConsultorio().addItem("Seleccione un consultorio...");
 
             ArrayList<Consultorio> lista = consultorioData.listarConsultorios();
             for (Consultorio c : lista) {
@@ -114,13 +111,18 @@ public class ControlSesion {
 
     public void consultorioSeleccionado() {
         try {
-            Consultorio cons = (Consultorio) vista.getCbConsultorio().getSelectedItem();
-            if (cons == null) {
+            Object itemSeleccionado = vista.getCbConsultorio().getSelectedItem();
+            
+            // Verificar si es el placeholder
+            if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 vista.getCbMasajista().removeAllItems();
+                vista.getCbMasajista().addItem("Seleccione un masajista...");
                 vista.getCbTratamiento().removeAllItems();
+                vista.getCbTratamiento().addItem("Seleccione un tratamiento...");
                 return;
             }
 
+            Consultorio cons = (Consultorio) itemSeleccionado;
             String especialidad = cons.getApto(); // ESPECIALIDAD
             cargarMasajistasPorEspecialidad(especialidad);
             cargarTratamientosPorEspecialidad(especialidad);
@@ -133,11 +135,17 @@ public class ControlSesion {
     private void cargarMasajistasPorEspecialidad(String especialidad) {
         try {
             vista.getCbMasajista().removeAllItems();
+            
+            // Agregar placeholder
+            vista.getCbMasajista().addItem("Seleccione un masajista...");
 
-            ArrayList<Masajista> lista = masajistaData.listarMasajistasAptosPorEspecialidad(especialidad);
+            // Solo cargar masajistas si hay una especialidad válida
+            if (especialidad != null && !especialidad.isEmpty()) {
+                ArrayList<Masajista> lista = masajistaData.listarMasajistasAptosPorEspecialidad(especialidad);
 
-            for (Masajista m : lista) {
-                vista.getCbMasajista().addItem(m);
+                for (Masajista m : lista) {
+                    vista.getCbMasajista().addItem(m);
+                }
             }
 
         } catch (Exception ex) {
@@ -148,15 +156,21 @@ public class ControlSesion {
     private void cargarTratamientosPorEspecialidad(String especialidad) {
         try {
             vista.getCbTratamiento().removeAllItems();
+            
+            // Agregar placeholder
+            vista.getCbTratamiento().addItem("Seleccione un tratamiento...");
 
-            ArrayList<Tratamiento> lista = tratamientoData.listarTodosTratamientos();
+            // Solo cargar tratamientos si hay una especialidad válida
+            if (especialidad != null && !especialidad.isEmpty()) {
+                ArrayList<Tratamiento> lista = tratamientoData.listarTodosTratamientos();
 
-            for (Tratamiento t : lista) {
-                // especialidad
-                if (t.gettipoTratamiento() != null
-                        && t.gettipoTratamiento().equalsIgnoreCase(especialidad)) {
-                    vista.getCbTratamiento().addItem(t
-                    );
+                for (Tratamiento t : lista) {
+                    // especialidad
+                    if (t.gettipoTratamiento() != null
+                            && t.gettipoTratamiento().equalsIgnoreCase(especialidad)) {
+                        vista.getCbTratamiento().addItem(t
+                        );
+                    }
                 }
             }
 
@@ -168,6 +182,9 @@ public class ControlSesion {
     private void cargarInstalaciones() {
         try {
             vista.getCbInstalacion().removeAllItems();
+            
+            // Agregar placeholder
+            vista.getCbInstalacion().addItem("Seleccione una instalación...");
 
             ArrayList<Instalacion> lista = instalacionesData.listarInstalaciones();
 
@@ -184,13 +201,17 @@ public class ControlSesion {
 
     public void instalacionSeleccionada() {
         try {
-            Instalacion inst = (Instalacion) vista.getCbInstalacion().getSelectedItem();
-            if (inst != null) {
-                vista.getLabelInformacionDeLaInstalacion()
-                        .setText(inst.getDetalleDeUso());
-            } else {
+            Object itemSeleccionado = vista.getCbInstalacion().getSelectedItem();
+            
+            // Verificar si es el placeholder
+            if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 vista.getLabelInformacionDeLaInstalacion().setText("");
+                return;
             }
+            
+            Instalacion inst = (Instalacion) itemSeleccionado;
+            vista.getLabelInformacionDeLaInstalacion()
+                    .setText(inst.getDetalleDeUso());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al mostrar info de instalación: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -198,11 +219,15 @@ public class ControlSesion {
 
     public void agregarInstalacionASesion() {
         try {
-            Instalacion inst = (Instalacion) vista.getCbInstalacion().getSelectedItem();
-            if (inst == null) {
+            Object itemSeleccionado = vista.getCbInstalacion().getSelectedItem();
+            
+            // Verificar si es el placeholder
+            if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar una instalación.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            Instalacion inst = (Instalacion) itemSeleccionado;
 
             if (!instalacionesSesion.contains(inst)) {
                 instalacionesSesion.add(inst);
@@ -253,23 +278,33 @@ public class ControlSesion {
     }
 
     private LocalDateTime obtenerFechaHoraIngreso() {
+        return obtenerFechaHoraIngreso(true);
+    }
+    
+    private LocalDateTime obtenerFechaHoraIngreso(boolean mostrarErrores) {
         try {
             Date fecha = vista.getGetDateChooserFechaYHoraIngreso().getDate();
             int hora = (Integer) vista.getSpinnerHora().getValue();
             int minutos = (Integer) vista.getSpinnerMinutos().getValue();
 
             if (fecha == null) {
-                JOptionPane.showMessageDialog(null,"Debe seleccionar una fecha de ingreso.","Error", JOptionPane.ERROR_MESSAGE);
+                if (mostrarErrores) {
+                    JOptionPane.showMessageDialog(null,"Debe seleccionar una fecha de ingreso.","Error", JOptionPane.ERROR_MESSAGE);
+                }
                 return null;
             }
 
             if (hora < 7 || hora > 20) {
-                JOptionPane.showMessageDialog(null, "El horario debe ser entre 7 y 20.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (mostrarErrores) {
+                    JOptionPane.showMessageDialog(null, "El horario debe ser entre 7 y 20.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 return null;
             }
 
             if (minutos < 0 || minutos > 59) {
-                JOptionPane.showMessageDialog(null, "Los minutos deben estar entre 0 y 59.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (mostrarErrores) {
+                    JOptionPane.showMessageDialog(null, "Los minutos deben estar entre 0 y 59.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 return null;
             }
 
@@ -280,19 +315,25 @@ public class ControlSesion {
             return LocalDateTime.of(localDate, LocalTime.of(hora, minutos));
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al obtener fecha/hora: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            if (mostrarErrores) {
+                JOptionPane.showMessageDialog(null, "Error al obtener fecha/hora: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             return null;
         }
     }
 
     public void actualizarFechaHoraSalidaYCosto() {
         try {
-            Tratamiento t = (Tratamiento) vista.getCbTratamiento().getSelectedItem();
-            if (t == null) {
+            Object itemSeleccionado = vista.getCbTratamiento().getSelectedItem();
+            
+            // Verificar si es el placeholder
+            if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 return;
             }
+            
+            Tratamiento t = (Tratamiento) itemSeleccionado;
 
-            LocalDateTime ingreso = obtenerFechaHoraIngreso();
+            LocalDateTime ingreso = obtenerFechaHoraIngreso(false);
             if (ingreso == null) {
                 return;
             }
@@ -329,14 +370,21 @@ public class ControlSesion {
                 return;
             }
 
-            Consultorio consultorio = (Consultorio) vista.getCbConsultorio().getSelectedItem();
-            Masajista masajista = (Masajista) vista.getCbMasajista().getSelectedItem();
-            Tratamiento tratamiento = (Tratamiento) vista.getCbTratamiento().getSelectedItem();
+            Object itemConsultorio = vista.getCbConsultorio().getSelectedItem();
+            Object itemMasajista = vista.getCbMasajista().getSelectedItem();
+            Object itemTratamiento = vista.getCbTratamiento().getSelectedItem();
 
-            if (consultorio == null || masajista == null || tratamiento == null) {
+            // Verificar que no sean placeholders
+            if (itemConsultorio == null || itemConsultorio instanceof String ||
+                itemMasajista == null || itemMasajista instanceof String ||
+                itemTratamiento == null || itemTratamiento instanceof String) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar consultorio, masajista y tratamiento.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            Consultorio consultorio = (Consultorio) itemConsultorio;
+            Masajista masajista = (Masajista) itemMasajista;
+            Tratamiento tratamiento = (Tratamiento) itemTratamiento;
 
             LocalDateTime ingreso = obtenerFechaHoraIngreso();
             if (ingreso == null) {
