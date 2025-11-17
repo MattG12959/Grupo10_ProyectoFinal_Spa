@@ -135,7 +135,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jcbSinT1.setText("Sin TACC");
 
-        jtTienda.setForeground(new java.awt.Color(155, 216, 185));
+        jtTienda.setForeground(new java.awt.Color(51, 51, 51));
         jtTienda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -233,7 +233,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel6)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,7 +261,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jbConfirmarVenta)
                     .addComponent(jbEliminarArticuloDeVentas)
                     .addComponent(jbLimpiarTabladeVentas))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(155, 216, 185));
