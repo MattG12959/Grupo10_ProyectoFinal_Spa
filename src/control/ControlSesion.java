@@ -14,9 +14,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import vistas.vistaCliente;
 import vistas.vistaCargarSesion;
 
 /**
@@ -166,10 +169,11 @@ public class ControlSesion {
 
                 for (Tratamiento t : lista) {
                     // especialidad
-                    if (t.gettipoTratamiento() != null
+                    if (t.isEstado() 
+                            && t.gettipoTratamiento() != null
                             && t.gettipoTratamiento().equalsIgnoreCase(especialidad)) {
-                        vista.getCbTratamiento().addItem(t
-                        );
+                                               
+                        vista.getCbTratamiento().addItem(t);
                     }
                 }
             }
@@ -518,5 +522,52 @@ public class ControlSesion {
 
         actualizarTablaInstalaciones();
         actualizarTablaSesiones();
+    }
+    
+    public void abrirVistaCargarCliente(JDesktopPane escritorio) {
+        try {
+            // Verificar si la ventana ya está abierta
+            JInternalFrame abierto = buscarFrame(escritorio, vistaCliente.class);
+            if (abierto != null) {
+                try {
+                    abierto.setSelected(true);
+                } catch (java.beans.PropertyVetoException e) {
+                }
+                abierto.toFront();
+                centrarFrame(escritorio, abierto);
+                return;
+            }
+
+            // Crear y mostrar la nueva ventana
+            vistaCliente frm = new vistaCliente();
+            escritorio.add(frm);
+            frm.pack();
+            centrarFrame(escritorio, frm);
+            frm.setVisible(true);
+            try {
+                frm.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al abrir la vista de cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private JInternalFrame buscarFrame(JDesktopPane escritorio, Class<?> clase) {
+        for (JInternalFrame frame : escritorio.getAllFrames()) {
+            if (clase.isInstance(frame)) {
+                return frame;
+            }
+        }
+        return null;
+    }
+
+    private void centrarFrame(JDesktopPane escritorio, JInternalFrame frame) {
+        java.awt.Dimension desktopSize = escritorio.getSize();
+        java.awt.Dimension frameSize = frame.getSize();
+        frame.setLocation(
+                (desktopSize.width - frameSize.width) / 2,
+                (desktopSize.height - frameSize.height) / 2
+        );
     }
 }

@@ -294,6 +294,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Cargar cliente"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCargarClienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelNombreCliente">
           <Properties>

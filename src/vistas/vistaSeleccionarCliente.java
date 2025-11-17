@@ -57,7 +57,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jbLimpiar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Seleccionar Cliente");
@@ -107,10 +107,10 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tableClientes);
 
-        jButton1.setText("Limpiar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbLimpiar.setText("Limpiar");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbLimpiarActionPerformed(evt);
             }
         });
 
@@ -142,7 +142,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                 .addGap(195, 195, 195)
                 .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -167,7 +167,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSeleccionar)
-                    .addComponent(jButton1))
+                    .addComponent(jbLimpiar))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -260,20 +260,25 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        txtDni.setText("");
+        txtId.setText("");
+       
+        tableClientes.clearSelection();
+        
+        cargarTodosLosClientes();
+    }//GEN-LAST:event_jbLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorDni;
     private javax.swing.JButton btnBuscarPorId;
     private javax.swing.JButton btnSeleccionar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbLimpiar;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtId;

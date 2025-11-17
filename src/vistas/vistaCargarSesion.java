@@ -154,10 +154,21 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                     controlSesion.guardarDiaDeSpa();
                 }
             });
+            
+            // CARGAR CLIENTE
+            btnCargarCliente.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    controlSesion.abrirVistaCargarCliente(Escritorio);
+                }
+            });
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos (vistaCargarSesion): " + e.getMessage());
         }
+        
+        
+        
 
     }
 
@@ -231,6 +242,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         btnCargarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnCargarCliente.setText("Cargar cliente");
+        btnCargarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarClienteActionPerformed(evt);
+            }
+        });
 
         labelNombreCliente.setBackground(new java.awt.Color(0, 0, 0));
         labelNombreCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -561,11 +577,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
+            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 1298, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
         );
 
         pack();
@@ -603,6 +619,10 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
     private void cbInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInstalacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbInstalacionActionPerformed
+
+    private void btnCargarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCargarClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

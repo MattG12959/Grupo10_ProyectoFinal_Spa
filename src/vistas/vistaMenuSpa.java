@@ -390,23 +390,38 @@ public class vistaMenuSpa extends javax.swing.JFrame {
 
     //------ Boton Cargar Cliente ------
     private void jbClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbClienteActionPerformed
-        vistaCliente ventana = new vistaCliente();
-        Escritorio.add(ventana);
-        // Centrar la ventana en el Escritorio
-        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
-        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);        
-        ventana.setVisible(true);
-        
-        /*
-        vistaCargarCliente ventana = new vistaCargarCliente();
-        Escritorio.add(ventana);
-        // Centrar la ventana en el Escritorio
-        int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
-        int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
-        ventana.setLocation(x, y);        
-        ventana.setVisible(true);
-        */
+        vistaCliente ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaCliente) {
+                ventana = (vistaCliente) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaCliente();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jbClienteActionPerformed
 
     //------ Item del menu Tratamiento ------
