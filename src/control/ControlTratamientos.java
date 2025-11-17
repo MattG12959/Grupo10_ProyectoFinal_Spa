@@ -187,7 +187,7 @@ public class ControlTratamientos {
             if (cargandoDesdeTabla) {
                 return;
             }
-            
+            vista.getJcbTipo().setEnabled(true);
             String tipoSeleccionado = (String) vista.getJcbTipo().getSelectedItem();
             // Solo procesar si no es el item por defecto
             if (tipoSeleccionado != null && !"Seleccione un tipo...".equals(tipoSeleccionado)) {
@@ -296,8 +296,8 @@ public class ControlTratamientos {
                 if (tipo != null) {
                     // Seleccionar el tipo en el combobox (esto disparará el listener, pero lo ignoraremos)
                     vista.getJcbTipo().setSelectedItem(tipo);
-                    // Habilitar el combobox de nombre ya que hay un tipo seleccionado
-                    vista.getJcbNombre().setEnabled(true);
+                    // Deshabilitar el combobox de tipo cuando se carga desde la tabla
+                    vista.getJcbTipo().setEnabled(false);
                     // Cargar los nombres correspondientes al tipo seleccionado
                     cargarComboNombre();
                     
@@ -306,8 +306,8 @@ public class ControlTratamientos {
                     if (nombre != null) {
                         // Intentar seleccionar el nombre
                         vista.getJcbNombre().setSelectedItem(nombre);
-                        // Habilitar campos dependientes ya que tipo y nombre están seleccionados
-                        habilitarCamposDependientes();
+                        // Deshabilitar el combobox de nombre cuando se carga desde la tabla
+                        vista.getJcbNombre().setEnabled(false);
                         // Cargar el detalle automáticamente
                         cargarDetalle();
                     }
@@ -332,6 +332,12 @@ public class ControlTratamientos {
                 
                 // Cargar estado
                 vista.getChboxActivo().setSelected(tratamientoSeleccionado.isEstado());
+                
+                 // Habilitar solo los campos editables: detalle, duración, costo y checkbox
+                vista.getJtfDetalle().setEnabled(true);
+                vista.getJftfDuracion().setEnabled(true);
+                vista.getJtfCosto().setEnabled(true);
+                vista.getChboxActivo().setEnabled(true);
                 
                 // Guardar valores originales para comparar al editar
                 detalleOriginal = tratamientoSeleccionado.getDetalle();
@@ -685,6 +691,7 @@ public class ControlTratamientos {
     public void limpiarCampos() {
         vista.getJtfCodigo().setText("");
         vista.getJcbTipo().setSelectedIndex(0);
+        vista.getJcbTipo().setEnabled(true);
         vista.getJcbNombre().removeAllItems();
         vista.getJcbNombre().setEnabled(false);
         vista.getJtfDetalle().setText("");
