@@ -14,6 +14,7 @@ public class InstalacionData {
     public InstalacionData(miConexion conexion) {
         this.con = conexion.buscarConexion();
     }
+    
     // ----------------- GUARDAR INSTALACIÓN -----------------
     public void guardarInstalacion(Instalacion i) {
         String sql = "INSERT INTO instalacion (nombre, detalle_de_uso, usos, precio, estado) VALUES (?, ?, ?, ?, ?)";
@@ -37,6 +38,26 @@ public class InstalacionData {
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar la instalación. " + ex.getMessage());
+        }
+    }
+    
+    // ----------------- MODIFICAR INSTALACIÓN -----------------
+    public void modificarInstalacion(Instalacion i){
+        String query = "UPDATE instalacion SET nombre =? ,detalle_de_uso = ?, usos = ?, precio = ?, estado = ? WHERE idInstalacion = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, i.getNombre());
+            ps.setString(2, i.getDetalleDeUso());
+            ps.setInt(3,i.getUsos());
+            ps.setDouble(4,i.getPrecio());
+            ps.setBoolean(5, i.isEstado());
+            ps.setInt(6, i.getCodInstal());
+            
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Instalación modificada correctamente.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al modificar la instalación: " + ex.getMessage());
         }
     }
 

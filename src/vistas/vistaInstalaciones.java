@@ -34,7 +34,7 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         if(instalacionData != null){
             controlInstalacion = new ControlInstalaciones(this, instalacionData);
         }
-        controlInstalacion.listarInstaciones();
+        controlInstalacion.listarInstalaciones();
     }
 
     /**
@@ -98,6 +98,11 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Detalle", "Usos", "Precio", "Estado"
             }
         ));
+        jtInstalaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtInstalacionesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtInstalaciones);
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -132,16 +137,12 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(30, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(299, 299, 299)
                         .addComponent(jLabel8))
@@ -156,7 +157,7 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
                         .addComponent(jrbActivo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jrbInactivo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,13 +206,28 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel6.setText("Estado:");
 
         jbLimpiarCasilleros.setText("Limpiar casilleros");
+        jbLimpiarCasilleros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarCasillerosActionPerformed(evt);
+            }
+        });
 
         jbModificarInstalacion.setText("Modificar Instalación");
+        jbModificarInstalacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarInstalacionActionPerformed(evt);
+            }
+        });
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Usos:");
 
         jbCargarInstalacion.setText("Cargar Instalación");
+        jbCargarInstalacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCargarInstalacionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -309,12 +325,32 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jrbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbActivoActionPerformed
-        controlInstalacion.listarInstaciones();
+        controlInstalacion.listarInstalaciones();
     }//GEN-LAST:event_jrbActivoActionPerformed
 
     private void jrbInactivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInactivoActionPerformed
-        controlInstalacion.listarInstaciones();
+        controlInstalacion.listarInstalaciones();
     }//GEN-LAST:event_jrbInactivoActionPerformed
+
+    private void jbCargarInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarInstalacionActionPerformed
+        // TODO add your handling code here:
+        controlInstalacion.cargarInstalaciones();
+    }//GEN-LAST:event_jbCargarInstalacionActionPerformed
+
+    private void jbLimpiarCasillerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarCasillerosActionPerformed
+        // TODO add your handling code here:
+        controlInstalacion.limpiarCasilleros();
+    }//GEN-LAST:event_jbLimpiarCasillerosActionPerformed
+
+    private void jtInstalacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtInstalacionesMouseClicked
+        // TODO add your handling code here:
+        controlInstalacion.seleccionarInstalacion();
+    }//GEN-LAST:event_jtInstalacionesMouseClicked
+
+    private void jbModificarInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarInstalacionActionPerformed
+        // TODO add your handling code here:
+        controlInstalacion.modificarInstalaciones();
+    }//GEN-LAST:event_jbModificarInstalacionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -352,20 +388,40 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         return jtfNombre.getText();
     }
     
+    public void setJtfNombre(String setJtfNombre){
+        this.jtfNombre.setText(setJtfNombre);
+    }
+    
     public String getJtaDetalle(){
         return jtaDetalle.getText();
+    }
+    
+    public void setJtaDetalle(String setJtaDetalle){
+        this.jtaDetalle.setText(setJtaDetalle);
     }
     
     public String getJtfPrecio(){
         return jtfPrecio.getText();
     }
     
+    public void setJtfPrecio(String setJtfPrecio){
+        this.jtfPrecio.setText(setJtfPrecio);
+    }
+    
     public String getJtfUsos(){
         return jtfUsos.getText();
     }
     
+    public void setJtfUsos(String setJtfUsos){
+        this.jtfUsos.setText(setJtfUsos);
+    }
+    
     public String getJtfBuscarInstalacion(){
         return jtfBuscarInstalaciones.getText();
+    }
+    
+    public void setJtfBuscarInstalacion(String setJtfBuscarInstalacion){
+        this.jtfBuscarInstalaciones.setText(setJtfBuscarInstalacion);
     }
     
     public boolean getJcbEstado(){
@@ -373,6 +429,14 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
             return true;
         }else{
             return false;
+        }
+    }
+    
+    public void setJtcbEstado(boolean setJtcbEstado){
+        if(setJtcbEstado == true){
+            this.jcbEstado.setSelected(true);
+        }else{
+            this.jcbEstado.setSelected(false);
         }
     }
     
@@ -384,11 +448,27 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         }
     }
     
+    public void setJrbActivo(boolean setJrbActivo){
+        if(setJrbActivo == true){
+            this.jrbActivo.setSelected(true);
+        }else{
+            this.jrbActivo.setSelected(false);
+        }
+    }
+    
     public boolean getJrbInactivo(){
         if(jrbInactivo.isSelected()){
             return true;
         }else{
             return false;
+        }
+    }
+    
+    public void setJrbInactivo(boolean setJrbInactivo){
+        if(setJrbInactivo == true){
+            this.jrbInactivo.setSelected(true);
+        }else{
+            this.jrbInactivo.setSelected(false);
         }
     }
 
