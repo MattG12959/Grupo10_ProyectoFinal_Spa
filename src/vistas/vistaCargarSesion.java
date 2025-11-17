@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -58,7 +59,8 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
     public vistaCargarSesion(JDesktopPane Escritorio) {
         initComponents();
-
+        calendario();
+        
         java.awt.Dimension tam = new java.awt.Dimension(81, 52); 
         labelInformacionDeLaInstalacion.setPreferredSize(tam);
         labelInformacionDeLaInstalacion.setMinimumSize(tam);
@@ -668,6 +670,23 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea txtPreferencias;
     // End of variables declaration//GEN-END:variables
 
+    // --- Métodos ---
+    
+    // --- Setear el día al entrar a sesión y la fecha minima para la sesión --- 
+    public void calendario() {
+        getDateChooserFechaYHoraIngreso.setDate(new Date());
+        
+        Calendar calMin = Calendar.getInstance();
+        int ano = LocalDate.now().getYear();
+        int mes = (LocalDate.now().getMonthValue() - 1);
+        int dia = LocalDate.now().getDayOfMonth();
+        calMin.set(ano, mes, dia);
+        Date fechaMin = calMin.getTime();
+        
+        getDateChooserFechaYHoraIngreso.setMinSelectableDate(fechaMin);
+    }
+    
+    // Getters y Setters
     public miConexion getConnection() {
         return connection;
     }
