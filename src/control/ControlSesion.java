@@ -98,7 +98,7 @@ public class ControlSesion {
     private void cargarConsultorios() {
         try {
             vista.getCbConsultorio().removeAllItems();
-            
+
             // Agregar placeholder
             vista.getCbConsultorio().addItem("Seleccione un consultorio...");
 
@@ -115,7 +115,7 @@ public class ControlSesion {
     public void consultorioSeleccionado() {
         try {
             Object itemSeleccionado = vista.getCbConsultorio().getSelectedItem();
-            
+
             // Verificar si es el placeholder
             if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 vista.getCbMasajista().removeAllItems();
@@ -138,7 +138,7 @@ public class ControlSesion {
     private void cargarMasajistasPorEspecialidad(String especialidad) {
         try {
             vista.getCbMasajista().removeAllItems();
-            
+
             // Agregar placeholder
             vista.getCbMasajista().addItem("Seleccione un masajista...");
 
@@ -159,7 +159,7 @@ public class ControlSesion {
     private void cargarTratamientosPorEspecialidad(String especialidad) {
         try {
             vista.getCbTratamiento().removeAllItems();
-            
+
             // Agregar placeholder
             vista.getCbTratamiento().addItem("Seleccione un tratamiento...");
 
@@ -169,10 +169,10 @@ public class ControlSesion {
 
                 for (Tratamiento t : lista) {
                     // especialidad
-                    if (t.isEstado() 
+                    if (t.isEstado()
                             && t.gettipoTratamiento() != null
                             && t.gettipoTratamiento().equalsIgnoreCase(especialidad)) {
-                                               
+
                         vista.getCbTratamiento().addItem(t);
                     }
                 }
@@ -186,7 +186,7 @@ public class ControlSesion {
     private void cargarInstalaciones() {
         try {
             vista.getCbInstalacion().removeAllItems();
-            
+
             // Agregar placeholder
             vista.getCbInstalacion().addItem("Seleccione una instalación...");
 
@@ -206,13 +206,13 @@ public class ControlSesion {
     public void instalacionSeleccionada() {
         try {
             Object itemSeleccionado = vista.getCbInstalacion().getSelectedItem();
-            
+
             // Verificar si es el placeholder
             if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 vista.getLabelInformacionDeLaInstalacion().setText("");
                 return;
             }
-            
+
             Instalacion inst = (Instalacion) itemSeleccionado;
             vista.getLabelInformacionDeLaInstalacion()
                     .setText(inst.getDetalleDeUso());
@@ -224,13 +224,13 @@ public class ControlSesion {
     public void agregarInstalacionASesion() {
         try {
             Object itemSeleccionado = vista.getCbInstalacion().getSelectedItem();
-            
+
             // Verificar si es el placeholder
             if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar una instalación.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             Instalacion inst = (Instalacion) itemSeleccionado;
 
             if (!instalacionesSesion.contains(inst)) {
@@ -284,7 +284,7 @@ public class ControlSesion {
     private LocalDateTime obtenerFechaHoraIngreso() {
         return obtenerFechaHoraIngreso(true);
     }
-    
+
     private LocalDateTime obtenerFechaHoraIngreso(boolean mostrarErrores) {
         try {
             Date fecha = vista.getGetDateChooserFechaYHoraIngreso().getDate();
@@ -293,7 +293,7 @@ public class ControlSesion {
 
             if (fecha == null) {
                 if (mostrarErrores) {
-                    JOptionPane.showMessageDialog(null,"Debe seleccionar una fecha de ingreso.","Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de ingreso.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 return null;
             }
@@ -329,12 +329,12 @@ public class ControlSesion {
     public void actualizarFechaHoraSalidaYCosto() {
         try {
             Object itemSeleccionado = vista.getCbTratamiento().getSelectedItem();
-            
+
             // Verificar si es el placeholder
             if (itemSeleccionado == null || itemSeleccionado instanceof String) {
                 return;
             }
-            
+
             Tratamiento t = (Tratamiento) itemSeleccionado;
 
             LocalDateTime ingreso = obtenerFechaHoraIngreso(false);
@@ -379,9 +379,9 @@ public class ControlSesion {
             Object itemTratamiento = vista.getCbTratamiento().getSelectedItem();
 
             // Verificar que no sean placeholders
-            if (itemConsultorio == null || itemConsultorio instanceof String ||
-                itemMasajista == null || itemMasajista instanceof String ||
-                itemTratamiento == null || itemTratamiento instanceof String) {
+            if (itemConsultorio == null || itemConsultorio instanceof String
+                    || itemMasajista == null || itemMasajista instanceof String
+                    || itemTratamiento == null || itemTratamiento instanceof String) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar consultorio, masajista y tratamiento.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -394,7 +394,6 @@ public class ControlSesion {
             if (ingreso == null) {
                 return;
             }
-
             int minutosTratamiento = tratamiento.getDuracion().toSecondOfDay() / 60;
             int minutosInstalaciones = instalacionesSesion.size() * 30;
             LocalDateTime salida = ingreso.plusMinutes(minutosTratamiento + minutosInstalaciones);
@@ -402,6 +401,12 @@ public class ControlSesion {
             ArrayList<Instalacion> instalacionesParaSesion = new ArrayList<Instalacion>();
             for (Instalacion ins : instalacionesSesion) {
                 instalacionesParaSesion.add(ins);
+            }
+
+            boolean validacion = validacionSesion(ingreso, salida, consultorio);
+
+            if (!validacion) {
+                return;
             }
 
             Sesion s = new Sesion(
@@ -482,7 +487,6 @@ public class ControlSesion {
             diaDeSpaData.guardarDiaDeSpa(dia);
 
             //JOptionPane.showMessageDialog(null, "Día de Spa guardado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-
             limpiarPantalla();
 
         } catch (Exception ex) {
@@ -523,7 +527,7 @@ public class ControlSesion {
         actualizarTablaInstalaciones();
         actualizarTablaSesiones();
     }
-    
+
     public void abrirVistaCargarCliente(JDesktopPane escritorio) {
         try {
             // Verificar si la ventana ya está abierta
@@ -569,5 +573,64 @@ public class ControlSesion {
                 (desktopSize.width - frameSize.width) / 2,
                 (desktopSize.height - frameSize.height) / 2
         );
+    }
+
+    private boolean validacionSesion(LocalDateTime inicioNuevo, LocalDateTime finNuevo, Consultorio consultorioNuevo) {
+        
+        SesionData sesionData = new SesionData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+        
+        ArrayList<Sesion> sesionesExistentes = sesionData.listarSesionesPorFecha(inicioNuevo);
+        for (Sesion s : sesionesExistentes) {
+            LocalDateTime inicioExist = s.getFechaHoraInicio();
+            LocalDateTime finExist = s.getFechaHoraFinal();
+
+            // Verifica que no haya una sesion dentro de la misma franja horaria, si es true, continua.
+            boolean solapa = inicioNuevo.isBefore(finExist) && finNuevo.isAfter(inicioExist);
+            if (!solapa) {
+                continue;
+            }
+
+            // Se reviza que el consultorio no este vació y si ya hay una sesion en ese consutorio.
+            if (s.getConsultorio() != null && s.getConsultorio().getNroConsultorio() == consultorioNuevo.getNroConsultorio()) {
+                JOptionPane.showMessageDialog(null, "Ya existe una sesión en ese consultorio y horario.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            // Se revisa que el Cliente tiene una sesion en ese horario.
+            if (s.getDiaDeSpa() != null && s.getDiaDeSpa().getCliente() != null
+                    && this.clienteSeleccionado != null
+                    && s.getDiaDeSpa().getCliente().getDni() == this.clienteSeleccionado.getDni()) {
+                JOptionPane.showMessageDialog(null, "El cliente ya tiene otra sesión en ese horario.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        //Código repetido para el DiaDeSpa
+        ArrayList<DiaDeSpa> listasDias = this.diaDeSpaData.listarDiaDeSpas();
+        for (DiaDeSpa dia : listasDias) {
+            Cliente clienteDia = dia.getCliente();
+            
+            for (Sesion s : dia.getSesiones()) {
+                LocalDateTime inicioExist = s.getFechaHoraInicio();
+                LocalDateTime finExist = s.getFechaHoraFinal();
+
+                boolean solapa = inicioNuevo.isBefore(finExist) && finNuevo.isAfter(inicioExist);
+                if (!solapa) {
+                    continue;
+                }
+
+                if (s.getConsultorio() != null && s.getConsultorio().getNroConsultorio() == consultorioNuevo.getNroConsultorio()) {
+                    JOptionPane.showMessageDialog(null, "Ya existe una sesión en ese consultorio y horario.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+
+                if (clienteDia != null && this.clienteSeleccionado != null && clienteDia.getDni() == this.clienteSeleccionado.getDni()) {
+                    JOptionPane.showMessageDialog(null, "El cliente ya tiene otra sesión en ese horario (Día de Spa).", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 }
