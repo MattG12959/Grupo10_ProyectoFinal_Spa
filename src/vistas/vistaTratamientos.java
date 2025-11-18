@@ -109,12 +109,18 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setForeground(new java.awt.Color(155, 216, 185));
 
+        jbLimpiarLista.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiarLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiarLista.setText("Limpiar");
         jbLimpiarLista.setPreferredSize(new java.awt.Dimension(70, 32));
 
+        jbEditar.setBackground(new java.awt.Color(155, 216, 185));
+        jbEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         jbEditar.setText("Editar");
         jbEditar.setPreferredSize(new java.awt.Dimension(70, 32));
 
+        jbAgregar.setBackground(new java.awt.Color(155, 216, 185));
+        jbAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
         jbAgregar.setText("Agregar");
         jbAgregar.setPreferredSize(new java.awt.Dimension(70, 32));
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +128,8 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
                 jbAgregarActionPerformed(evt);
             }
         });
+
+        jftfDuracion.setBackground(new java.awt.Color(202, 243, 222));
 
         jLabel2.setText("Tipo:");
 
@@ -131,13 +139,16 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Duración:");
 
+        jcbTipo.setBackground(new java.awt.Color(202, 243, 222));
         jcbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbTipo.setSelectedIndex(-1);
 
+        jcbNombre.setBackground(new java.awt.Color(202, 243, 222));
         jcbNombre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbNombre.setSelectedIndex(-1);
         jcbNombre.setEnabled(false);
 
+        jTextField8.setBackground(new java.awt.Color(202, 243, 222));
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
@@ -146,6 +157,7 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Costo:");
 
+        jTextField9.setBackground(new java.awt.Color(202, 243, 222));
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -235,6 +247,8 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         jPanel2.setForeground(new java.awt.Color(155, 216, 185));
 
         jtTratamiento.setAutoCreateRowSorter(true);
+        jtTratamiento.setBackground(new java.awt.Color(155, 216, 185));
+        jtTratamiento.setForeground(new java.awt.Color(0, 0, 0));
         jtTratamiento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -262,6 +276,9 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
             }
         });
         jtTratamiento.setFillsViewportHeight(true);
+        jtTratamiento.setGridColor(new java.awt.Color(155, 216, 185));
+        jtTratamiento.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jtTratamiento.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jtTratamiento.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jspTratamientos.setViewportView(jtTratamiento);
 
@@ -286,20 +303,26 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
         jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setForeground(new java.awt.Color(155, 216, 185));
 
+        jTextField10.setBackground(new java.awt.Color(202, 243, 222));
         jTextField10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField10ActionPerformed(evt);
             }
         });
 
+        jTextField11.setBackground(new java.awt.Color(202, 243, 222));
         jTextField11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField11ActionPerformed(evt);
             }
         });
 
+        jbBusquedaTratamCodigo.setBackground(new java.awt.Color(155, 216, 185));
+        jbBusquedaTratamCodigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         jbBusquedaTratamCodigo.setText("Búsqueda por código");
 
+        jbBusquedaTratamNombre.setBackground(new java.awt.Color(155, 216, 185));
+        jbBusquedaTratamNombre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         jbBusquedaTratamNombre.setText("Búsqueda por nombre");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -356,7 +379,7 @@ public class vistaTratamientos extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(993, Short.MAX_VALUE))
         );
 
         pack();

@@ -112,8 +112,20 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Edad:");
 
+        jtfNombre.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtfApellido.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtfDNI.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtfTelefono.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtfEdad.setBackground(new java.awt.Color(202, 243, 222));
+
         jcbActivo.setText("Activo");
 
+        jbCargarCliente.setBackground(new java.awt.Color(155, 216, 185));
+        jbCargarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         jbCargarCliente.setText("Cargar cliente");
         jbCargarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +133,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jbModificarCliente.setBackground(new java.awt.Color(155, 216, 185));
+        jbModificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         jbModificarCliente.setText("Modificar cliente");
         jbModificarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +142,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jbLimpiar.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiar.setText("Limpiar campos");
         jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +151,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jtaAfecciones.setBackground(new java.awt.Color(202, 243, 222));
         jtaAfecciones.setColumns(20);
         jtaAfecciones.setRows(5);
         jScrollPane2.setViewportView(jtaAfecciones);
@@ -176,7 +193,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbCargarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbModificarCliente, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jbModificarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -210,11 +227,11 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbLimpiar)
+                .addComponent(jbLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbCargarCliente)
+                .addComponent(jbCargarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbModificarCliente)
+                .addComponent(jbModificarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
@@ -227,6 +244,8 @@ public class vistaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jTablaClientes.setBackground(new java.awt.Color(155, 216, 185));
+        jTablaClientes.setForeground(new java.awt.Color(0, 0, 0));
         jTablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -238,6 +257,10 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Apellido", "DNI", "Telefono", "Edad", "Afecciones", "Estado"
             }
         ));
+        jTablaClientes.setFocusable(false);
+        jTablaClientes.setGridColor(new java.awt.Color(155, 216, 185));
+        jTablaClientes.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jTablaClientes.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jTablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTablaClientesMouseClicked(evt);
@@ -252,6 +275,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("DNI Cliente:");
 
+        jtfDniCliente.setBackground(new java.awt.Color(202, 243, 222));
         jtfDniCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfDniClienteKeyReleased(evt);
@@ -333,7 +357,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,7 +370,7 @@ public class vistaCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();

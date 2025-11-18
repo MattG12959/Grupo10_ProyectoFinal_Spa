@@ -258,6 +258,9 @@
                 <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="33" red="0" type="rgb"/>
                 </Property>
+                <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -372,7 +375,7 @@
         <Component class="javax.swing.JTextField" name="txtBusquedaPorDni">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="d8" red="9b" type="rgb"/>
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
             </Property>
           </Properties>
         </Component>
@@ -387,14 +390,14 @@
         <Component class="javax.swing.JTextField" name="txtBusquedaPorId">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="d8" red="9b" type="rgb"/>
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtBusquedaPorMatricula">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="b9" green="d8" red="9b" type="rgb"/>
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="(Funcion solo para masajistas)"/>
           </Properties>
@@ -452,7 +455,7 @@
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Para editar un empleado: haga doble clic en una celda, ingrese el nuevo valor y presione &#x2018;Modificar&#x2019;"/>
+            <Property name="text" type="java.lang.String" value="Para editar un empleado: seleccione una fila y presione &#x2018;Modificar&#x2019;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnLimpiarCampos">

@@ -100,7 +100,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtNombre.setBackground(new java.awt.Color(155, 216, 185));
+        txtNombre.setBackground(new java.awt.Color(202, 243, 222));
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,16 +108,16 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
             }
         });
 
-        txtApellido.setBackground(new java.awt.Color(155, 216, 185));
+        txtApellido.setBackground(new java.awt.Color(202, 243, 222));
         txtApellido.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtDni.setBackground(new java.awt.Color(155, 216, 185));
+        txtDni.setBackground(new java.awt.Color(202, 243, 222));
         txtDni.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtTelefono.setBackground(new java.awt.Color(155, 216, 185));
+        txtTelefono.setBackground(new java.awt.Color(202, 243, 222));
         txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtMatricula.setBackground(new java.awt.Color(155, 216, 185));
+        txtMatricula.setBackground(new java.awt.Color(202, 243, 222));
         txtMatricula.setForeground(new java.awt.Color(0, 0, 0));
 
         btnCargar.setBackground(new java.awt.Color(155, 216, 185));
@@ -129,7 +129,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
             }
         });
 
-        cbEspecialidades.setBackground(new java.awt.Color(155, 216, 185));
+        cbEspecialidades.setBackground(new java.awt.Color(202, 243, 222));
         cbEspecialidades.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));

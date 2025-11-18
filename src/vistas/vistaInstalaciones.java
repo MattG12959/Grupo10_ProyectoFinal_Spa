@@ -93,6 +93,8 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Instalaciones");
 
+        jtInstalaciones.setBackground(new java.awt.Color(155, 216, 185));
+        jtInstalaciones.setForeground(new java.awt.Color(0, 0, 0));
         jtInstalaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -104,6 +106,9 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Detalle", "Usos", "Precio", "Estado"
             }
         ));
+        jtInstalaciones.setGridColor(new java.awt.Color(155, 216, 185));
+        jtInstalaciones.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jtInstalaciones.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jtInstalaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtInstalacionesMouseClicked(evt);
@@ -138,6 +143,7 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Buscar por Nombre:");
 
+        jtfBuscarInstalaciones.setBackground(new java.awt.Color(202, 243, 222));
         jtfBuscarInstalaciones.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfBuscarInstalacionesKeyReleased(evt);
@@ -207,6 +213,11 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Precio:");
 
+        jtfNombre.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtfPrecio.setBackground(new java.awt.Color(202, 243, 222));
+
+        jtaDetalle.setBackground(new java.awt.Color(202, 243, 222));
         jtaDetalle.setColumns(20);
         jtaDetalle.setRows(5);
         jScrollPane2.setViewportView(jtaDetalle);
@@ -217,6 +228,8 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Estado:");
 
+        jbLimpiarCasilleros.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiarCasilleros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiarCasilleros.setText("Limpiar casilleros");
         jbLimpiarCasilleros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,6 +237,8 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
             }
         });
 
+        jbModificarInstalacion.setBackground(new java.awt.Color(155, 216, 185));
+        jbModificarInstalacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         jbModificarInstalacion.setText("Modificar Instalación");
         jbModificarInstalacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,6 +249,10 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Usos:");
 
+        jtfUsos.setBackground(new java.awt.Color(202, 243, 222));
+
+        jbCargarInstalacion.setBackground(new java.awt.Color(155, 216, 185));
+        jbCargarInstalacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-nuevo-registro.png"))); // NOI18N
         jbCargarInstalacion.setText("Cargar Instalación");
         jbCargarInstalacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,13 +288,11 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcbEstado)
-                                    .addComponent(jtfUsos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbModificarInstalacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbLimpiarCasilleros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbCargarInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jtfUsos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jbModificarInstalacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbLimpiarCasilleros, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jbCargarInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -306,9 +323,9 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jbLimpiarCasilleros)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbCargarInstalacion)
+                .addComponent(jbCargarInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbModificarInstalacion)
+                .addComponent(jbModificarInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

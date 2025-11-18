@@ -67,6 +67,8 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(115, 179, 147));
 
+        btnSeleccionar.setBackground(new java.awt.Color(155, 216, 185));
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mano-select.png"))); // NOI18N
         btnSeleccionar.setText("Seleccionar");
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +79,10 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Buscar por DNI");
 
+        txtDni.setBackground(new java.awt.Color(202, 243, 222));
+
+        btnBuscarPorDni.setBackground(new java.awt.Color(155, 216, 185));
+        btnBuscarPorDni.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         btnBuscarPorDni.setText("Buscar");
         btnBuscarPorDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +90,8 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscarPorId.setBackground(new java.awt.Color(155, 216, 185));
+        btnBuscarPorId.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         btnBuscarPorId.setText("Buscar");
         btnBuscarPorId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,9 +99,12 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        txtId.setBackground(new java.awt.Color(202, 243, 222));
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Buscar por ID de cliente");
 
+        tableClientes.setBackground(new java.awt.Color(155, 216, 185));
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -105,8 +116,13 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableClientes.setGridColor(new java.awt.Color(155, 216, 185));
+        tableClientes.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tableClientes.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tableClientes);
 
+        jbLimpiar.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiar.setText("Limpiar");
         jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,7 +152,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                                 .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnBuscarPorId)))
-                        .addGap(0, 74, Short.MAX_VALUE)))
+                        .addGap(0, 28, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(195, 195, 195)
@@ -168,7 +184,7 @@ public class vistaSeleccionarCliente extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSeleccionar)
                     .addComponent(jbLimpiar))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

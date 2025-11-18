@@ -131,6 +131,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         ));
         jtEmpleados.setGridColor(new java.awt.Color(155, 216, 185));
         jtEmpleados.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jtEmpleados.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(jtEmpleados);
 
         jButton1.setBackground(new java.awt.Color(155, 216, 185));
@@ -196,14 +197,14 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Busqueda por DNI:");
 
-        txtBusquedaPorDni.setBackground(new java.awt.Color(155, 216, 185));
+        txtBusquedaPorDni.setBackground(new java.awt.Color(202, 243, 222));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Busqueda por ID:");
 
-        txtBusquedaPorId.setBackground(new java.awt.Color(155, 216, 185));
+        txtBusquedaPorId.setBackground(new java.awt.Color(202, 243, 222));
 
-        txtBusquedaPorMatricula.setBackground(new java.awt.Color(155, 216, 185));
+        txtBusquedaPorMatricula.setBackground(new java.awt.Color(202, 243, 222));
         txtBusquedaPorMatricula.setText("(Funcion solo para masajistas)");
         txtBusquedaPorMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,7 +227,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel8.setText("(Funcion solo para masajistas)");
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Para editar un empleado: haga doble clic en una celda, ingrese el nuevo valor y presione ‘Modificar’");
+        jLabel9.setText("Para editar un empleado: seleccione una fila y presione ‘Modificar’");
 
         btnLimpiarCampos.setBackground(new java.awt.Color(155, 216, 185));
         btnLimpiarCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N

@@ -58,7 +58,7 @@
                       <Component id="jbCancelarCambioReserva" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -72,7 +72,7 @@
                   <Component id="jbGuardarCambioReserva" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbCancelarCambioReserva" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="12" max="32767" attributes="0"/>
+              <EmptySpace pref="8" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -215,16 +215,31 @@
         <Component class="javax.swing.JLabel" name="jLabel6">
         </Component>
         <Component class="javax.swing.JTextField" name="jtfCliente">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfClienteActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfTratamiento">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfTratamientoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfMasajistaDesignada">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="de" green="f3" red="ca" type="rgb"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfMasajistaDesignadaActionPerformed"/>
           </Events>
@@ -238,11 +253,23 @@
     </Container>
     <Component class="javax.swing.JButton" name="jbGuardarCambioReserva">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="b9" green="d8" red="9b" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/icono-editar-registro.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Guardar Cambio"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jbCancelarCambioReserva">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="b9" green="d8" red="9b" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/icono-menos.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cancelar Cambio"/>
       </Properties>
     </Component>

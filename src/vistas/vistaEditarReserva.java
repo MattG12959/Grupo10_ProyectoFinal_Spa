@@ -91,18 +91,21 @@ public class vistaEditarReserva extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Masajista");
 
+        jtfCliente.setBackground(new java.awt.Color(202, 243, 222));
         jtfCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfClienteActionPerformed(evt);
             }
         });
 
+        jtfTratamiento.setBackground(new java.awt.Color(202, 243, 222));
         jtfTratamiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfTratamientoActionPerformed(evt);
             }
         });
 
+        jtfMasajistaDesignada.setBackground(new java.awt.Color(202, 243, 222));
         jtfMasajistaDesignada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfMasajistaDesignadaActionPerformed(evt);
@@ -176,8 +179,12 @@ public class vistaEditarReserva extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jbGuardarCambioReserva.setBackground(new java.awt.Color(155, 216, 185));
+        jbGuardarCambioReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         jbGuardarCambioReserva.setText("Guardar Cambio");
 
+        jbCancelarCambioReserva.setBackground(new java.awt.Color(155, 216, 185));
+        jbCancelarCambioReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
         jbCancelarCambioReserva.setText("Cancelar Cambio");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,7 +201,7 @@ public class vistaEditarReserva extends javax.swing.JInternalFrame {
                         .addComponent(jbGuardarCambioReserva)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbCancelarCambioReserva)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +212,7 @@ public class vistaEditarReserva extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbGuardarCambioReserva)
                     .addComponent(jbCancelarCambioReserva))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();

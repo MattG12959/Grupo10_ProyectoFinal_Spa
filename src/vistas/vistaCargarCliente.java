@@ -70,8 +70,21 @@ public class vistaCargarCliente extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Información:");
 
+        jTextField1.setBackground(new java.awt.Color(202, 243, 222));
+
+        jTextField2.setBackground(new java.awt.Color(202, 243, 222));
+
+        jTextField3.setBackground(new java.awt.Color(202, 243, 222));
+
+        jTextField4.setBackground(new java.awt.Color(202, 243, 222));
+
+        jTextField5.setBackground(new java.awt.Color(202, 243, 222));
+
+        jTextPane1.setBackground(new java.awt.Color(202, 243, 222));
         jScrollPane1.setViewportView(jTextPane1);
 
+        jButton1.setBackground(new java.awt.Color(155, 216, 185));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         jButton1.setText("Cargar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -138,7 +151,7 @@ public class vistaCargarCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(35, 35, 35))

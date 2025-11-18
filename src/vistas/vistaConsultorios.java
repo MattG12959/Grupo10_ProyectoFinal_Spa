@@ -97,6 +97,9 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Consultorio:");
 
+        cbConsultorio.setBackground(new java.awt.Color(202, 243, 222));
+
+        btnEliminarEquipamientos.setBackground(new java.awt.Color(155, 216, 185));
         btnEliminarEquipamientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
         btnEliminarEquipamientos.setText("Eliminar equipamiento");
         btnEliminarEquipamientos.addActionListener(new java.awt.event.ActionListener() {
@@ -105,6 +108,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAgregarEquipamientos.setBackground(new java.awt.Color(155, 216, 185));
         btnAgregarEquipamientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
         btnAgregarEquipamientos.setText("Agregar equipamiento");
         btnAgregarEquipamientos.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +117,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
             }
         });
 
+        tablaMasajistas.setBackground(new java.awt.Color(155, 216, 185));
         tablaMasajistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -129,6 +134,9 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaMasajistas.setGridColor(new java.awt.Color(155, 216, 185));
+        tablaMasajistas.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tablaMasajistas.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tablaMasajistas);
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
@@ -136,6 +144,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Masajistas aptos:");
 
+        tablaEquipamientos.setBackground(new java.awt.Color(155, 216, 185));
         tablaEquipamientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -152,6 +161,9 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaEquipamientos.setGridColor(new java.awt.Color(155, 216, 185));
+        tablaEquipamientos.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tablaEquipamientos.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportView(tablaEquipamientos);
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
@@ -159,6 +171,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Equipamientos en el consultorio:");
 
+        btnCerrar.setBackground(new java.awt.Color(155, 216, 185));
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +184,7 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Cantidad de usos de cada consultorio:");
 
+        tablaUsos.setBackground(new java.awt.Color(155, 216, 185));
         tablaUsos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -187,6 +201,9 @@ public class vistaConsultorios extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaUsos.setGridColor(new java.awt.Color(155, 216, 185));
+        tablaUsos.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tablaUsos.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane4.setViewportView(tablaUsos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

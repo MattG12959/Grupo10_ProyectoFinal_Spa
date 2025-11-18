@@ -127,6 +127,10 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jLabel7.setText("ID Producto:");
 
+        jTextField1.setBackground(new java.awt.Color(202, 243, 222));
+
+        jbBuscar.setBackground(new java.awt.Color(155, 216, 185));
+        jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         jbBuscar.setText("Buscar");
 
         jLabel8.setText("Filtros:");
@@ -135,7 +139,8 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jcbSinT1.setText("Sin TACC");
 
-        jtTienda.setForeground(new java.awt.Color(51, 51, 51));
+        jtTienda.setBackground(new java.awt.Color(155, 216, 185));
+        jtTienda.setForeground(new java.awt.Color(0, 0, 0));
         jtTienda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -148,8 +153,13 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             }
         ));
         jtTienda.setToolTipText("");
+        jtTienda.setGridColor(new java.awt.Color(155, 216, 185));
+        jtTienda.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jtTienda.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(jtTienda);
 
+        jbAgregarAVentas.setBackground(new java.awt.Color(155, 216, 185));
+        jbAgregarAVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
         jbAgregarAVentas.setText("Agregar a Ventas");
         jbAgregarAVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +167,8 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             }
         });
 
+        jbLimpiarTabladeVentas.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiarTabladeVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiarTabladeVentas.setText("Limpiar Tabla de Ventas");
         jbLimpiarTabladeVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +176,8 @@ public class vistaTienda extends javax.swing.JInternalFrame {
             }
         });
 
+        jtVentas.setBackground(new java.awt.Color(155, 216, 185));
+        jtVentas.setForeground(new java.awt.Color(255, 255, 255));
         jtVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -175,15 +189,24 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                 "ID Producto", "Nombre", "Fabricante", "Detalle", "Precio", "Stock", "Vegano", "SIn Tacc"
             }
         ));
+        jtVentas.setGridColor(new java.awt.Color(155, 216, 185));
+        jtVentas.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        jtVentas.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportView(jtVentas);
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel10.setText("Lista de Ventas");
 
+        jbEliminarArticuloDeVentas.setBackground(new java.awt.Color(155, 216, 185));
+        jbEliminarArticuloDeVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
         jbEliminarArticuloDeVentas.setText("Eliminar Artículo de Ventas");
 
+        jbConfirmarVenta.setBackground(new java.awt.Color(155, 216, 185));
+        jbConfirmarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-check.png"))); // NOI18N
         jbConfirmarVenta.setText("Confirmar Venta");
 
+        jbLimpiarCampos2.setBackground(new java.awt.Color(155, 216, 185));
+        jbLimpiarCampos2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jbLimpiarCampos2.setText("Limpiar Campos");
         jbLimpiarCampos2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,7 +256,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel6)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,7 +284,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addComponent(jbConfirmarVenta)
                     .addComponent(jbEliminarArticuloDeVentas)
                     .addComponent(jbLimpiarTabladeVentas))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(155, 216, 185));
@@ -270,6 +293,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nombre:");
 
+        jtNombre.setBackground(new java.awt.Color(202, 243, 222));
         jtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtNombreActionPerformed(evt);
@@ -278,18 +302,30 @@ public class vistaTienda extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Fabricante:");
 
+        jtFabricante.setBackground(new java.awt.Color(202, 243, 222));
+
         jLabel3.setText("Detalle:");
+
+        jtDetalle.setBackground(new java.awt.Color(202, 243, 222));
 
         jLabel4.setText("Precio:");
 
+        jtPrecio.setBackground(new java.awt.Color(202, 243, 222));
+
         jLabel5.setText("Stock:");
+
+        Stock.setBackground(new java.awt.Color(202, 243, 222));
 
         jcbProdVegano.setText("Producto Vegano");
 
         jcbProdSinTacc.setText("Sin TACC");
 
+        jbGuardarP.setBackground(new java.awt.Color(155, 216, 185));
+        jbGuardarP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-save.png"))); // NOI18N
         jbGuardarP.setText("Guardar Producto");
 
+        jButton2.setBackground(new java.awt.Color(155, 216, 185));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         jButton2.setText("Limpiar Campos");
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -317,7 +353,7 @@ public class vistaTienda extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jButton2)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbGuardarP)
                             .addComponent(jcbProdSinTacc)
                             .addComponent(jcbProdVegano))

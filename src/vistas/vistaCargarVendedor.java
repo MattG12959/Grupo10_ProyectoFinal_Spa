@@ -92,13 +92,13 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
 
-        txtNombre.setBackground(new java.awt.Color(155, 216, 185));
+        txtNombre.setBackground(new java.awt.Color(202, 243, 222));
 
-        txtApellido.setBackground(new java.awt.Color(155, 216, 185));
+        txtApellido.setBackground(new java.awt.Color(202, 243, 222));
 
-        txtDni.setBackground(new java.awt.Color(155, 216, 185));
+        txtDni.setBackground(new java.awt.Color(202, 243, 222));
 
-        txtTelefono.setBackground(new java.awt.Color(155, 216, 185));
+        txtTelefono.setBackground(new java.awt.Color(202, 243, 222));
 
         btnCargar.setBackground(new java.awt.Color(155, 216, 185));
         btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N

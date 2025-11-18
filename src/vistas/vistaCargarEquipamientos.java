@@ -95,8 +95,10 @@ public class vistaCargarEquipamientos extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Información:");
 
+        txtInfo.setBackground(new java.awt.Color(202, 243, 222));
         jScrollPane1.setViewportView(txtInfo);
 
+        btnAgregar.setBackground(new java.awt.Color(155, 216, 185));
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -105,11 +107,14 @@ public class vistaCargarEquipamientos extends javax.swing.JInternalFrame {
             }
         });
 
+        cbEquipamiento.setBackground(new java.awt.Color(202, 243, 222));
+        cbEquipamiento.setForeground(new java.awt.Color(255, 255, 255));
         cbEquipamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Consultorio");
 
+        cbConsultorio.setBackground(new java.awt.Color(202, 243, 222));
         cbConsultorio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

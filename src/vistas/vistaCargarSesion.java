@@ -233,6 +233,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         jpFechas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jpFechas.setPreferredSize(new java.awt.Dimension(1300, 564));
 
+        btnSeleccionarCliente.setBackground(new java.awt.Color(155, 216, 185));
         btnSeleccionarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-lupa.png"))); // NOI18N
         btnSeleccionarCliente.setText(" Seleccionar cliente");
         btnSeleccionarCliente.setPreferredSize(new java.awt.Dimension(155, 30));
@@ -242,6 +243,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCargarCliente.setBackground(new java.awt.Color(155, 216, 185));
         btnCargarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnCargarCliente.setText("Cargar cliente");
         btnCargarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -270,6 +272,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelAfeccionesCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelAfeccionesCliente.setText("Afecciones del cliente:");
 
+        txtAfecciones.setBackground(new java.awt.Color(155, 216, 185));
         txtAfecciones.setColumns(20);
         txtAfecciones.setRows(5);
         jScrollPane1.setViewportView(txtAfecciones);
@@ -278,20 +281,24 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelConsultorio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelConsultorio.setText("Consultorio:");
 
+        cbConsultorio.setBackground(new java.awt.Color(155, 216, 185));
         cbConsultorio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        cbMasajista.setBackground(new java.awt.Color(155, 216, 185));
         cbMasajista.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         labelMsajg.setBackground(new java.awt.Color(0, 0, 0));
         labelMsajg.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelMsajg.setText("Masajista:");
 
+        cbTratamiento.setBackground(new java.awt.Color(155, 216, 185));
         cbTratamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         labelTratamiento.setBackground(new java.awt.Color(0, 0, 0));
         labelTratamiento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelTratamiento.setText("Tratamiento:");
 
+        cbInstalacion.setBackground(new java.awt.Color(155, 216, 185));
         cbInstalacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbInstalacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,6 +315,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Ingrese las preferencias del cliente para el dia de spa:");
 
+        txtPreferencias.setBackground(new java.awt.Color(155, 216, 185));
         txtPreferencias.setColumns(20);
         txtPreferencias.setRows(5);
         jScrollPane2.setViewportView(txtPreferencias);
@@ -317,6 +325,8 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelInstalacion1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelInstalacion1.setText("Instalaciones cargadas");
 
+        tableInstalaciones.setBackground(new java.awt.Color(155, 216, 185));
+        tableInstalaciones.setForeground(new java.awt.Color(0, 0, 0));
         tableInstalaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -336,6 +346,9 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableInstalaciones.setGridColor(new java.awt.Color(155, 216, 185));
+        tableInstalaciones.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tableInstalaciones.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setViewportView(tableInstalaciones);
 
         btnEliminarInstalacion.setText("Eliminar instalacion de la sesion");
@@ -344,6 +357,8 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Sesiones del dia de Spa");
 
+        btnAgregarInstalacion.setBackground(new java.awt.Color(155, 216, 185));
+        btnAgregarInstalacion.setForeground(new java.awt.Color(155, 216, 185));
         btnAgregarInstalacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-mas.png"))); // NOI18N
         btnAgregarInstalacion.setToolTipText("");
 
@@ -368,9 +383,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelFechaHoraFinal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelFechaHoraFinal.setText("Fecha y hora de salida");
 
+        btnGuardarSesion.setBackground(new java.awt.Color(155, 216, 185));
         btnGuardarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-nuevo-registro.png"))); // NOI18N
         btnGuardarSesion.setText(" Guardar Sesion");
 
+        btnGuardarDiaDeSpa.setBackground(new java.awt.Color(155, 216, 185));
         btnGuardarDiaDeSpa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-nuevo-registro.png"))); // NOI18N
         btnGuardarDiaDeSpa.setText(" Guardar Dia de Spa");
 
@@ -379,6 +396,8 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelCosto.setText("Costo Spa Total: $");
         labelCosto.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
+        tableSesiones.setBackground(new java.awt.Color(155, 216, 185));
+        tableSesiones.setForeground(new java.awt.Color(0, 0, 0));
         tableSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -405,6 +424,9 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableSesiones.setGridColor(new java.awt.Color(155, 216, 185));
+        tableSesiones.setSelectionBackground(new java.awt.Color(0, 51, 51));
+        tableSesiones.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane4.setViewportView(tableSesiones);
 
         javax.swing.GroupLayout jpFechasLayout = new javax.swing.GroupLayout(jpFechas);
@@ -579,11 +601,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 1298, Short.MAX_VALUE)
+            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+            .addComponent(jpFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
