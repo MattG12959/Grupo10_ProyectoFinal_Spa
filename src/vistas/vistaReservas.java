@@ -18,6 +18,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -39,11 +40,11 @@ public class vistaReservas extends javax.swing.JInternalFrame {
     private SimpleDateFormat formatoFecha;
     private DateTimeFormatter formatoFechaHora;
     private DateTimeFormatter formatoHora;
-     private DefaultTableModel modelo = new DefaultTableModel() {
+    private DefaultTableModel modelo = new DefaultTableModel() {
         public boolean isCellEditable(int f, int c) {
             return false;
         }
-    };   
+    };
 
     /**
      * Creates new form vistaReservas
@@ -59,18 +60,19 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos (vistaReservas): " + e.getMessage());
         }
-        
+
         formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         formatoHora = DateTimeFormatter.ofPattern("HH:mm");
-        
+
         armarCabecera();
-        
+
         // Agregar listener al calendario para detectar cambios de fecha
         jCalendar1.addPropertyChangeListener("calendar", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 cargarReservasPorFecha();
+                actualizarMontoDelDia();
             }
         });
     }
@@ -87,17 +89,22 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jbEditarReserva = new javax.swing.JButton();
         jBEliminarR = new javax.swing.JButton();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtDescripcion = new javax.swing.JTable();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
+        labelMonto = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Reservas");
 
         jPanel1.setBackground(new java.awt.Color(155, 216, 185));
 
+        jbEditarReserva.setBackground(new java.awt.Color(155, 216, 185));
+        jbEditarReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         jbEditarReserva.setText("Editar Reserva");
 
+        jBEliminarR.setBackground(new java.awt.Color(155, 216, 185));
+        jBEliminarR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
         jBEliminarR.setText("Eliminar Reserva ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -121,6 +128,8 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jtDescripcion.setBackground(new java.awt.Color(155, 216, 185));
+        jtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         jtDescripcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -132,7 +141,12 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtDescripcion.setGridColor(new java.awt.Color(155, 216, 185));
+        jtDescripcion.setSelectionBackground(new java.awt.Color(0, 51, 51));
         jScrollPane2.setViewportView(jtDescripcion);
+
+        labelMonto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelMonto.setText("Total del dia: $");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,13 +155,16 @@ public class vistaReservas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                            .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,11 +172,13 @@ public class vistaReservas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(labelMonto)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,13 +192,14 @@ public class vistaReservas extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbEditarReserva;
     private javax.swing.JTable jtDescripcion;
+    private javax.swing.JLabel labelMonto;
     // End of variables declaration//GEN-END:variables
 
     private void armarCabecera() {
         // Limpiar el modelo
         modelo.setRowCount(0);
         modelo.setColumnCount(0);
-        
+
         // Agregar las columnas solicitadas
         modelo.addColumn("Fecha de Sesión");
         modelo.addColumn("Horario");
@@ -189,7 +209,7 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         modelo.addColumn("Consultorio");
         modelo.addColumn("Instalación");
         modelo.addColumn("Costo");
-        
+
         jtDescripcion.setModel(modelo);
 
         // Crear un renderer centrado
@@ -206,7 +226,7 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         for (int i = 0; i < jtDescripcion.getColumnCount(); i++) {
             jtDescripcion.getColumnModel().getColumn(i).setCellRenderer(centrarCeldas);
         }
-        
+
         // Ancho de columna
         jtDescripcion.getColumnModel().getColumn(0).setPreferredWidth(120); // Fecha de Sesión
         jtDescripcion.getColumnModel().getColumn(1).setPreferredWidth(80);  // Horario
@@ -223,24 +243,24 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         jtDescripcion.setShowHorizontalLines(true);
         jtDescripcion.setShowVerticalLines(true);
     }
-    
+
     private void cargarReservasPorFecha() {
         try {
             // Limpiar la tabla
             modelo.setRowCount(0);
-            
+
             // Obtener la fecha seleccionada del calendario
             Date fechaSeleccionada = jCalendar1.getDate();
             if (fechaSeleccionada == null) {
                 return;
             }
-            
-             // Verificar que sesionData esté inicializado
+
+            // Verificar que sesionData esté inicializado
             if (sesionData == null) {
                 JOptionPane.showMessageDialog(this, "Error: No se pudo conectar con la base de datos.");
                 return;
             }
-            
+
             // Convertir Date a LocalDateTime (usando medianoche del día seleccionado)
             LocalDateTime fecha = fechaSeleccionada.toInstant()
                     .atZone(ZoneId.systemDefault())
@@ -249,10 +269,10 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                     .withMinute(0)
                     .withSecond(0)
                     .withNano(0);
-            
+
             // Obtener todas las sesiones de esa fecha
             ArrayList<Sesion> sesiones = sesionData.listarSesionesPorFecha(fecha);
-            
+
             // Para cada sesión, agregar una fila a la tabla
             for (Sesion sesion : sesiones) {
                 // Obtener el cliente desde DiaDeSpa
@@ -269,41 +289,43 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                             // Si hay error al cargar, continuar con N/A
                         }
                     }
-                    
+
                     if (sesion.getDiaDeSpa().getCliente() != null) {
-                        nombreCliente = sesion.getDiaDeSpa().getCliente().getApellido() + ", " + 
-                                        sesion.getDiaDeSpa().getCliente().getNombre();
+                        nombreCliente = sesion.getDiaDeSpa().getCliente().getApellido() + ", "
+                                + sesion.getDiaDeSpa().getCliente().getNombre();
                     }
                 }
-                
+
                 // Fecha de sesión (solo fecha)
                 String fechaSesion = sesion.getFechaHoraInicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                
+
                 // Horario (hora de inicio)
                 String horario = sesion.getFechaHoraInicio().format(formatoHora);
-                
+
                 // Tratamiento
                 String tratamiento = sesion.getTratamiento() != null ? sesion.getTratamiento().getNombre() : "N/A";
-                
+
                 // Masajista
-                String masajista = sesion.getMasajista() != null ? 
-                    sesion.getMasajista().getNombre() + " " + sesion.getMasajista().getApellido() : "N/A";
-                
+                String masajista = sesion.getMasajista() != null
+                        ? sesion.getMasajista().getNombre() + " " + sesion.getMasajista().getApellido() : "N/A";
+
                 // Consultorio
-                String consultorio = sesion.getConsultorio() != null ? 
-                    "Consultorio " + sesion.getConsultorio().getNroConsultorio() : "N/A";
-                
+                String consultorio = sesion.getConsultorio() != null
+                        ? "Consultorio " + sesion.getConsultorio().getNroConsultorio() : "N/A";
+
                 // Instalaciones (puede haber múltiples, las concatenamos)
                 String instalaciones = "N/A";
                 if (sesion.getInsalaciones() != null && !sesion.getInsalaciones().isEmpty()) {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < sesion.getInsalaciones().size(); i++) {
-                        if (i > 0) sb.append(", ");
+                        if (i > 0) {
+                            sb.append(", ");
+                        }
                         sb.append(sesion.getInsalaciones().get(i).getNombre());
                     }
                     instalaciones = sb.toString();
                 }
-                
+
                 // Costo: costo del tratamiento + costo de instalaciones
                 double costo = 0.0;
                 if (sesion.getTratamiento() != null) {
@@ -314,7 +336,7 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                         costo += instalacion.getPrecio();
                     }
                 }
-                
+
                 // Agregar la fila a la tabla
                 modelo.addRow(new Object[]{
                     fechaSesion,
@@ -327,11 +349,35 @@ public class vistaReservas extends javax.swing.JInternalFrame {
                     String.format("$%.2f", costo)
                 });
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las reservas: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    private void actualizarMontoDelDia() {
+        try {
+            Date fechaSeleccionada = jCalendar1.getDate();
+            if (fechaSeleccionada == null) {
+                labelMonto.setText("Total del dia: $ 0.00");
+                return;
+            }
+
+            LocalDate fecha = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (diaDeSpaData == null) {
+                JOptionPane.showMessageDialog(this, "Error: No se pudo conectar con la base de datos para calcular el monto.", "Error", JOptionPane.ERROR_MESSAGE);
+                labelMonto.setText("Total del dia: $ 0.00");
+                return;
+            }
+
+            double total = diaDeSpaData.obtenerMontoTotalPorFecha(fecha);
+
+            labelMonto.setText(String.format("Total del dia: $ %.2f", total));
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el monto del dia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

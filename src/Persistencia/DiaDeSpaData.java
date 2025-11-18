@@ -1,14 +1,16 @@
 package Persistencia;
+
 /*
  * @author Grupo10
  *
  * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
  * Natalia
-*/
+ */
 import entidades.DiaDeSpa;
 import entidades.Sesion;
 import entidades.Cliente;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -29,7 +31,7 @@ public class DiaDeSpaData {
 
             ps.setTimestamp(1, Timestamp.valueOf(d.getFechayhora()));
             ps.setString(2, d.getPreferencias());
-            ps.setInt(3, d.getCliente().getCodCli()); 
+            ps.setInt(3, d.getCliente().getCodCli());
             ps.setDouble(4, d.getMonto());
             ps.setBoolean(5, d.isEstado());
 
@@ -81,7 +83,7 @@ public class DiaDeSpaData {
 
                 miConexion conexionCliente = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
                 ClienteData cd = new ClienteData(conexionCliente);
-                
+
                 d.setCliente(cd.buscarCliente(rs.getInt("idCliente")));
 
                 d.setMonto(rs.getDouble("monto"));
@@ -125,9 +127,9 @@ public class DiaDeSpaData {
 
                 miConexion conexionSes = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
                 SesionData sd = new SesionData(conexionSes);
-                
+
                 ArrayList liSesion = new ArrayList<>(sd.listarSesionesPorPack(d.getCodPack()));
-                
+
                 d.setSesiones(liSesion);
 
                 dias.add(d);
@@ -152,5 +154,32 @@ public class DiaDeSpaData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al eliminar día de spa. " + ex.getMessage());
         }
+    }
+
+    // Devolver monto total del dia
+    // Monto total de todos los días de spa de una fecha dada
+    public double obtenerMontoTotalPorFecha(LocalDate fecha) {
+        String sql = "SELECT SUM(monto) AS total_monto "
+                + "FROM dia_de_spa "
+                + "WHERE DATE(fecha_y_hora) = ?";
+        double total = 0;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            // Convertimos LocalDate a java.sql.Date
+            ps.setDate(1, java.sql.Date.valueOf(fecha));
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getDouble("total_monto");
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al obtener monto total por fecha: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return total;
     }
 }
