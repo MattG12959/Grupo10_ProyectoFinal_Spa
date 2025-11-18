@@ -5,6 +5,7 @@
 package vistas;
 
 import Persistencia.MasajistaData;
+import Persistencia.VendedorData;
 import Persistencia.miConexion;
 import control.ControlMasajista;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
      */
     private miConexion connection = null;
     private MasajistaData masajistaData = null;
+    private VendedorData vendedorData = null;
     private ControlMasajista controlMasajista = null;
 
     public vistaCargarMasajista() {
@@ -33,16 +35,18 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
         try {
             connection = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
             masajistaData = new MasajistaData(connection);
+            vendedorData = new VendedorData(connection);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos. " + e.getMessage());
         }
 
-        if (masajistaData != null) {
-            this.controlMasajista = new ControlMasajista(this, masajistaData);
+        if (masajistaData != null && vendedorData != null) {
+            this.controlMasajista = new ControlMasajista(this, masajistaData, vendedorData);
             controlMasajista.preCargarCb();
         }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,12 +100,27 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
 
+        txtNombre.setBackground(new java.awt.Color(155, 216, 185));
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
 
+        txtApellido.setBackground(new java.awt.Color(155, 216, 185));
+        txtApellido.setForeground(new java.awt.Color(0, 0, 0));
+
+        txtDni.setBackground(new java.awt.Color(155, 216, 185));
+        txtDni.setForeground(new java.awt.Color(0, 0, 0));
+
+        txtTelefono.setBackground(new java.awt.Color(155, 216, 185));
+        txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
+
+        txtMatricula.setBackground(new java.awt.Color(155, 216, 185));
+        txtMatricula.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnCargar.setBackground(new java.awt.Color(155, 216, 185));
         btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnCargar.setText("Cargar");
         btnCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -110,9 +129,13 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
             }
         });
 
+        cbEspecialidades.setBackground(new java.awt.Color(155, 216, 185));
+        cbEspecialidades.setForeground(new java.awt.Color(255, 255, 255));
+
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Especialidad:");
 
+        btnCargar1.setBackground(new java.awt.Color(155, 216, 185));
         btnCargar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         btnCargar1.setText("Limpiar");
         btnCargar1.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +170,7 @@ public class vistaCargarMasajista extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel6))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel8))))

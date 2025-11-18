@@ -47,6 +47,38 @@ public class EmpleadoData {
             JOptionPane.showMessageDialog(null, "No se pudo conectar con la tabla de empleados", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public void actualizarDNIEmpleado(int idEmpleado, int nuevoDNI) throws SQLException {
+        String sql = "UPDATE empleado SET dni = ? WHERE idEmpleado = ?";
+        
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, nuevoDNI);
+        ps.setInt(2, idEmpleado);
+        
+        int filas = ps.executeUpdate();
+        ps.close();
+        
+        if (filas == 0) {
+            throw new SQLException("No se pudo actualizar el DNI en la tabla empleado");
+        }
+    }
+    
+    
+    public void actualizarPuestoEmpleado(int idEmpleado, String nuevoPuesto) throws SQLException {
+        String sql = "UPDATE empleado SET puesto = ? WHERE idEmpleado = ?";
+        
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, nuevoPuesto);
+        ps.setInt(2, idEmpleado);
+        
+        int filas = ps.executeUpdate();
+        ps.close();
+        
+        if (filas == 0) {
+            throw new SQLException("No se pudo actualizar el puesto en la tabla empleado");
+        }
+    }
+    
         public void eliminarEmpleado(int idEmpleado) {
         String sql = "DELETE FROM empleado WHERE idEmpleado = ?";
 

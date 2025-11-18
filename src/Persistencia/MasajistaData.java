@@ -86,6 +86,18 @@ public class MasajistaData {
         //System.out.println("["  + a.getMatricula() + " ] [" + a.getNombre() + "] [" + a.getApellido() + "] [" + a.getTelefono() + "]["a.getDni() + "] [" + a.getPuesto() + "] [" + a.getEspecialidad() + "] [" + a.isEstado() + "] [" + a.getIdEmpleado() + "]");
 
         try {
+            
+            // Primero, obtener el DNI actual del masajista para comparar
+            Masajista masajistaActual = buscarMasajistaPorId(a.getIdEmpleado());
+            if (masajistaActual != null && masajistaActual.getDni() != a.getDni()) {
+                // Si el DNI cambió, actualizar primero en la tabla empleado
+                miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                conexion.buscarConexion();
+                EmpleadoData empleadoData = new EmpleadoData(conexion);
+                empleadoData.actualizarDNIEmpleado(a.getIdEmpleado(), a.getDni());
+            }
+            
+            
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, a.getMatricula());
             ps.setString(2, a.getNombre());
@@ -98,12 +110,12 @@ public class MasajistaData {
             ps.setInt(9, a.getIdEmpleado());
 
             int aux = ps.executeUpdate();
-            if (aux == 0) {
-                JOptionPane.showMessageDialog(null, "El Masajista no se ha modificado.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Masajista modificado exitosamente.");
-            }
             ps.close();
+            
+            if (aux == 0) {
+                throw new SQLException("El Masajista no se ha modificado.");
+            }
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar al Masajista: " + ex.getMessage());
             Logger.getLogger(MasajistaData.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,6 +142,32 @@ public class MasajistaData {
             JOptionPane.showMessageDialog(null, "Error al eliminar al masajista. " + ex.getMessage());
         }
     }
+    
+    // ----------------- INSERTAR MASAJISTA CON ID EMPLEADO EXISTENTE -----------------
+    // Usado cuando se cambia de puesto de vendedor a masajista
+    public void insertarMasajistaConIdExistente(Masajista masajista) throws SQLException {
+        String sql = "INSERT INTO masajista (idEmpleado, matricula, nombre, apellido, telefono, dni, puesto, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, masajista.getIdEmpleado());
+        ps.setInt(2, masajista.getMatricula());
+        ps.setString(3, masajista.getNombre());
+        ps.setString(4, masajista.getApellido());
+        ps.setString(5, masajista.getTelefono());
+        ps.setInt(6, masajista.getDni());
+        ps.setString(7, masajista.getPuesto());
+        ps.setString(8, masajista.getEspecialidad());
+        ps.setBoolean(9, masajista.isEstado());
+        
+        int filas = ps.executeUpdate();
+        ps.close();
+        
+        if (filas == 0) {
+            throw new SQLException("No se pudo insertar el masajista");
+        }
+    }
+
+    
 
     // ----------------- LISTAR TODAS LAS MASAJISTAS -----------------
     public ArrayList<Masajista> listarMasajistas() {

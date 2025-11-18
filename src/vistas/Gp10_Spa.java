@@ -14,6 +14,7 @@ import Persistencia.MasajistaData;
 import Persistencia.SesionData;
 import Persistencia.TratamientoData;
 import Persistencia.ProductoData;
+import Persistencia.VendedorData;
 import entidades.Empleado;
 import entidades.Vendedor;
 import constantes.*;
@@ -339,6 +340,7 @@ public class Gp10_Spa {
         TratamientoData tratData = new TratamientoData(conexion);
         MasajistaData masData = new MasajistaData(conexion);
         ClienteData clienteData = new ClienteData(conexion);
+        VendedorData vendedorData = new VendedorData(conexion);
         
 
         try {
@@ -440,12 +442,16 @@ public class Gp10_Spa {
             masData.altaMasajista(new Masajista(2301, "Pedro", "Alvarez", "444444441", 40444551, "Masajista", "Relajacion", true));
             masData.altaMasajista(new Masajista(2302, "Luciana", "Vega", "444444442", 40444552, "Masajista", "Relajacion", true));
             masData.altaMasajista(new Masajista(2303, "Emilia", "Castro", "444444443", 40444553, "Masajista", "Relajacion", true));
-
+            
+            // ----------- VENDEDORES -----------
+            vendedorData.altaVendedor(new Vendedor("Ezequiel", "Bequis", "2664880438", 44437768, PuestosDeTrabajo.VENDEDOR.getPuesto(), true));
+            
+            
             // ----------- CONSULTORIOS (Facial, Corporal, Estetico, Relajacion) -----------
             // FACIAL
             Consultorio c1 = new Consultorio();
             c1.setUsos(7);
-            c1.setApto("Facial");
+            c1.setApto(Especialidades.FACIAL.getEspecialidad());
             ArrayList<Equipamiento> eq1 = new ArrayList<>();
             eq1.add(new Equipamiento(0, 0, Equipamientos.VAPORIZADOR_FACIAL.getNombre(), Equipamientos.VAPORIZADOR_FACIAL.getDescripcion()));
             eq1.add(new Equipamiento(0, 0, Equipamientos.LAMPARA_LUZ_PULSADA.getNombre(), Equipamientos.LAMPARA_LUZ_PULSADA.getDescripcion()));
@@ -456,7 +462,7 @@ public class Gp10_Spa {
             // CORPORAL
             Consultorio c2 = new Consultorio();
             c2.setUsos(10);
-            c2.setApto("Corporal");
+            c2.setApto(Especialidades.CORPORAL.getEspecialidad());
             ArrayList<Equipamiento> eq2 = new ArrayList<>();
             eq2.add(new Equipamiento(0, 0, Equipamientos.CAMILLA_MASAJES.getNombre(), Equipamientos.CAMILLA_MASAJES.getDescripcion()));
             eq2.add(new Equipamiento(0, 0, Equipamientos.CAMILLA_HIDROMASAJE.getNombre(), Equipamientos.CAMILLA_HIDROMASAJE.getDescripcion()));
@@ -467,7 +473,7 @@ public class Gp10_Spa {
             // ESTETICO
             Consultorio c3 = new Consultorio();
             c3.setUsos(8);
-            c3.setApto("Estetico");
+            c3.setApto(Especialidades.ESTETICO.getEspecialidad());
             ArrayList<Equipamiento> eq3 = new ArrayList<>();
             eq3.add(new Equipamiento(0, 0, Equipamientos.EQUIPO_RADIOFRECUENCIA.getNombre(), Equipamientos.EQUIPO_RADIOFRECUENCIA.getDescripcion()));
             eq3.add(new Equipamiento(0, 0, Equipamientos.MAQUINA_ULTRASONIDO.getNombre(), Equipamientos.MAQUINA_ULTRASONIDO.getDescripcion()));
@@ -478,7 +484,7 @@ public class Gp10_Spa {
             // RELAJACION
             Consultorio c4 = new Consultorio();
             c4.setUsos(12);
-            c4.setApto("Relajacion");
+            c4.setApto(Especialidades.RELAJACION.getEspecialidad());
             ArrayList<Equipamiento> eq4 = new ArrayList<>();
             eq4.add(new Equipamiento(0, 0, Equipamientos.CABINA_SAUNA.getNombre(), Equipamientos.CABINA_SAUNA.getDescripcion()));
             eq4.add(new Equipamiento(0, 0, Equipamientos.DUCHA_SENSORIAL.getNombre(), Equipamientos.DUCHA_SENSORIAL.getDescripcion()));
@@ -487,7 +493,6 @@ public class Gp10_Spa {
             consultData.cargaConsultorio(c4);
 
             // ----------- CLIENTES -----------
-            clienteData.guardarCliente(new Cliente(50111222, "Marcos", "Bequis", "2664880438", 22, "Ninguna", true));
             clienteData.guardarCliente(new Cliente(50111223, "Julieta", "Molina", "2664880439", 28, "Alergia a cremas", true));
             clienteData.guardarCliente(new Cliente(50111224, "Santiago", "Paz", "2664880440", 35, "Hipertensión", true));
             clienteData.guardarCliente(new Cliente(50111225, "Camila", "Rossi", "2664880441", 30, "Ninguna", true));
