@@ -38,9 +38,9 @@ public class vistaCliente extends javax.swing.JInternalFrame {
         }        
         if(clienteData != null){
             controlCliente = new ControlCliente(this, clienteData);
+            construirTabla();
+            controlCliente.listarClientes();
         }
-        construirTabla();
-        controlCliente.listarClientes();
     }
 
     /**
@@ -521,19 +521,40 @@ public class vistaCliente extends javax.swing.JInternalFrame {
     }
     
     public boolean getJrbActivo(){
-        if(jrbActivo.isSelected()){
+        if(jrbActivo != null && jrbActivo.isSelected()){
             return true;
         }else{
             return false;
         }
     }
     
+    public void setJrbActivo(boolean setJrbActivo){
+        if(setJrbActivo == true){
+            this.jrbActivo.setSelected(true);
+        }else{
+            this.jrbActivo.setSelected(false);
+        }
+    }
+    
     public boolean getJrbInactivo(){
-        if(jrbInactivo.isSelected()){
+        if(jrbInactivo != null && jrbInactivo.isSelected()){
             return true;
         }else{
             return false;
         }
+    }
+    
+    public void setJrbInactivo(boolean setJrbInactivo){
+        if(setJrbInactivo == true){
+            this.jrbInactivo.setSelected(true);
+        }else{
+            this.jrbInactivo.setSelected(false);
+        }
+    }
+    
+    // Método para resetear ambos radio buttons del filtro
+    public void resetearFiltrosEstado(){
+        btgEstado.clearSelection();
     }
 
     public DefaultTableModel getModel() {

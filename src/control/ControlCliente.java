@@ -60,72 +60,103 @@ public class ControlCliente {
 
     //--------- Carga Cliente Base de Datos ---------
     public void cargarCliente() {
-        int dni = 0;
+        long dni = 0;
         int edad = 0;
-        long telefono = 0;
+        String telefonoS = "";
+        ArrayList<String> errores = new ArrayList<>();
         
-        //----- Validaciones ------
-        if (vistaCliente.getJtfNombre().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El Casillero Nombre debe estar completo");
-            return;
-        }
-        if (vistaCliente.getJtfApellido().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El Casillero Apellido debe estar completo");
-            return;
-        }
-        if (vistaCliente.getJtfDNI().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El Casillero DNI debe estar completo");
-            return;
-        } else {
-            try {
-                dni = Integer.parseInt(vistaCliente.getJtfDNI());
-            } catch (NumberFormatException e) {
-                vistaCliente.setJtfDNI("");
-                JOptionPane.showMessageDialog(vistaCliente, "Debe ingresar un valor númerico en DNI.");
-                return;
-            }
-        }
-        if (vistaCliente.getJtfTelefono().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El Casillero Telefono debe estar completo");
-            return;
-        } else {
-            try {
-                telefono = Long.parseLong(vistaCliente.getJtfTelefono());
-            } catch (NumberFormatException e) {
-                vistaCliente.setJtfTelefono("");
-                JOptionPane.showMessageDialog(vistaCliente, "Debe ingresar un valor númerico en Teléfono.");
-                return;
-            }
-        }
-        if (vistaCliente.getJtfEdad().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El Casillero Edad debe estar completo");
-            return;
-        } else {
-            try {
-                edad = Integer.parseInt(vistaCliente.getJtfEdad());
-            } catch (NumberFormatException e) {
-                vistaCliente.setJtfEdad("");
-                JOptionPane.showMessageDialog(vistaCliente, "Debe ingresar un valor númerico en Edad.");
-                return;
-            }
-        }
         if(vistaCliente.getjTablaClientes().getSelectedRow() >= 0){
             JOptionPane.showMessageDialog(vistaCliente, "No puedes Cargar un cliente seleccionado. Solo modificarlo.");
             limpiarCasilleros();
             return;
         }
+        
+        //----- Validaciones ------
+        // Validar Nombre
+        String nombre = "";
+        if (vistaCliente.getJtfNombre().isEmpty()) {
+            errores.add("El nombre no puede estar vacío");
+        } else {
+            nombre = vistaCliente.getJtfNombre().trim();
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El nombre solo puede contener letras y espacios.");
+            } else if (nombre.length() > 20) {
+                errores.add("El nombre no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar Apellido
+        String apellido = "";
+        if (vistaCliente.getJtfApellido().isEmpty()) {
+            errores.add("El apellido no puede estar vacío");
+        } else {
+            apellido = vistaCliente.getJtfApellido().trim();
+            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El apellido solo puede contener letras y espacios.");
+            } else if (apellido.length() > 20) {
+                errores.add("El apellido no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar DNI (8 números)
+        if (vistaCliente.getJtfDNI().isEmpty()) {
+            errores.add("El DNI no puede estar vacío");
+        } else {
+            String dniTexto = vistaCliente.getJtfDNI().trim();
+            if (!dniTexto.matches("\\d+")) {
+                errores.add("El DNI solo puede contener números.");
+            } else if (dniTexto.length() != 8) {
+                errores.add("El DNI debe tener exactamente 8 números.");
+            } else {
+                try {
+                    dni = Long.parseLong(dniTexto);
+                } catch (NumberFormatException e) {
+                    errores.add("El DNI debe ser un número válido.");
+                }
+            }
+        }
+        
+        // Validar Teléfono (8 a 20 números)
+        if (vistaCliente.getJtfTelefono().isEmpty()) {
+            errores.add("El teléfono no puede estar vacío");
+        } else {
+            telefonoS = vistaCliente.getJtfTelefono().trim();
+            if (!telefonoS.matches("\\d+")) {
+                errores.add("El teléfono solo puede contener números.");
+            } else if (telefonoS.length() < 8 || telefonoS.length() > 20) {
+                errores.add("El teléfono debe tener entre 8 y 20 números.");
+            }
+        }
+        
+        // Validar Edad (número)
+        if (vistaCliente.getJtfEdad().isEmpty()) {
+            errores.add("La edad no puede estar vacía");
+        } else {
+            try {
+                edad = Integer.parseInt(vistaCliente.getJtfEdad().trim());
+            } catch (NumberFormatException e) {
+                errores.add("La edad debe ser un número válido.");
+            }
+        }
+        
+        // Si hay errores, mostrarlos todos juntos
+        if (!errores.isEmpty()) {
+            StringBuilder mensaje = new StringBuilder("Por favor, corrija los siguientes errores:\n\n");
+            for (String error : errores) {
+                mensaje.append("• ").append(error).append("\n");
+            }
+            JOptionPane.showMessageDialog(vistaCliente, mensaje.toString(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         //------ Cargar objeto Cliente ------
-        String nombre = vistaCliente.getJtfNombre();
-        String apellido = vistaCliente.getJtfApellido();
         String afecciones = vistaCliente.getJtaAfecciones();
-        String telefonoS = vistaCliente.getJtfTelefono();
 
         Cliente cargaCliente = new Cliente();
 
         cargaCliente.setNombre(nombre);
         cargaCliente.setApellido(apellido);
-        cargaCliente.setDni(dni);
+        cargaCliente.setDni((int)dni);
         cargaCliente.setTelefono(telefonoS);
         cargaCliente.setEdad(edad);
         cargaCliente.setAfecciones(afecciones);
@@ -145,6 +176,9 @@ public class ControlCliente {
         vistaCliente.setJtfEdad("");
         vistaCliente.setJtaAfecciones("");
         vistaCliente.setJcbActivo(false);
+        vistaCliente.resetearFiltrosEstado();
+        
+        listarClientes();
     }
 
     //--------- Buscar por DNI ---------
@@ -230,13 +264,92 @@ public class ControlCliente {
             return;
         }
         
+        long dniLong = 0;
+        int edad = 0;
+        String telefonoS = "";
+        ArrayList<String> errores = new ArrayList<>();
+        
+        //----- Validaciones ------
+        // Validar Nombre
+        String nombre = "";
+        if (vistaCliente.getJtfNombre().isEmpty()) {
+            errores.add("El nombre no puede estar vacío");
+        } else {
+            nombre = vistaCliente.getJtfNombre().trim();
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El nombre solo puede contener letras y espacios.");
+            } else if (nombre.length() > 20) {
+                errores.add("El nombre no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar Apellido
+        String apellido = "";
+        if (vistaCliente.getJtfApellido().isEmpty()) {
+            errores.add("El apellido no puede estar vacío");
+        } else {
+            apellido = vistaCliente.getJtfApellido().trim();
+            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El apellido solo puede contener letras y espacios.");
+            } else if (apellido.length() > 20) {
+                errores.add("El apellido no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar DNI (8 números)
+        if (vistaCliente.getJtfDNI().isEmpty()) {
+            errores.add("El DNI no puede estar vacío");
+        } else {
+            String dniTexto = vistaCliente.getJtfDNI().trim();
+            if (!dniTexto.matches("\\d+")) {
+                errores.add("El DNI solo puede contener números.");
+            } else if (dniTexto.length() != 8) {
+                errores.add("El DNI debe tener exactamente 8 números.");
+            } else {
+                try {
+                    dniLong = Long.parseLong(dniTexto);
+                } catch (NumberFormatException e) {
+                    errores.add("El DNI debe ser un número válido.");
+                }
+            }
+        }
+        
+        // Validar Teléfono (8 a 20 números)
+        if (vistaCliente.getJtfTelefono().isEmpty()) {
+            errores.add("El teléfono no puede estar vacío");
+        } else {
+            telefonoS = vistaCliente.getJtfTelefono().trim();
+            if (!telefonoS.matches("\\d+")) {
+                errores.add("El teléfono solo puede contener números.");
+            } else if (telefonoS.length() < 8 || telefonoS.length() > 20) {
+                errores.add("El teléfono debe tener entre 8 y 20 números.");
+            }
+        }
+        
+        // Validar Edad (número)
+        if (vistaCliente.getJtfEdad().isEmpty()) {
+            errores.add("La edad no puede estar vacía");
+        } else {
+            try {
+                edad = Integer.parseInt(vistaCliente.getJtfEdad().trim());
+            } catch (NumberFormatException e) {
+                errores.add("La edad debe ser un número válido.");
+            }
+        }
+        
+        // Si hay errores, mostrarlos todos juntos
+        if (!errores.isEmpty()) {
+            StringBuilder mensaje = new StringBuilder("Por favor, corrija los siguientes errores:\n\n");
+            for (String error : errores) {
+                mensaje.append("• ").append(error).append("\n");
+            }
+            JOptionPane.showMessageDialog(vistaCliente, mensaje.toString(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         int ID = (int) vistaCliente.getjTablaClientes().getValueAt(fila, 0);
-        String nombre = vistaCliente.getJtfNombre();
-        String apellido = vistaCliente.getJtfApellido();
         String afecciones = vistaCliente.getJtaAfecciones();
-        String telefonoS = vistaCliente.getJtfTelefono();
-        int DNI = Integer.parseInt(vistaCliente.getJtfDNI());
-        int edad = Integer.parseInt(vistaCliente.getJtfEdad());
+        int DNI = (int)dniLong;
         boolean estado = vistaCliente.getJcnActivo();
         
         //----- Buscamos el cliente en la base de datos y lo asignamos a un objeto cliente -----

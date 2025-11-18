@@ -510,6 +510,11 @@ public class vistaInstalaciones extends javax.swing.JInternalFrame {
         }
     }
 
+    // Método para resetear ambos radio buttons del filtro
+    public void resetearFiltrosEstado(){
+        bgFiltros.clearSelection();
+    }
+    
     public JTable getJtInstalaciones() {
         return jtInstalaciones;
     }

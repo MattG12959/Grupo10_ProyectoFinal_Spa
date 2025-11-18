@@ -62,50 +62,70 @@ public class ControlInstalaciones {
 
     //--------- Cargar Instalaciones  ---------
     public void cargarInstalaciones() {
-        double precios;
-        int usos;
-
-        //-------- Validaciones --------
-        if (vistaInstalacion.getJtfNombre().isEmpty()) {
-            JOptionPane.showMessageDialog(vistaInstalacion, "El casillero Nombre debe estar completo.");
-            return;
-        }
-        if (vistaInstalacion.getJtfPrecio().isEmpty()) {
-            JOptionPane.showMessageDialog(vistaInstalacion, "El casillero Precio debe estar completo.");
-            return;
-        } else {
-            try {
-                precios = Double.parseDouble(vistaInstalacion.getJtfPrecio());
-            } catch (NumberFormatException e) {
-                vistaInstalacion.setJtfPrecio("");
-                JOptionPane.showMessageDialog(vistaInstalacion, "Debe ingresar un valor numérico en Precio.");
-                return;
-            }
-        }
-        if (vistaInstalacion.getJtaDetalle().isEmpty()) {
-            JOptionPane.showMessageDialog(vistaInstalacion, "Es necesario el detalle de la Instalación, complete el casillero.");
-            return;
-        }
-        if(vistaInstalacion.getJtfUsos().isEmpty()){
-            JOptionPane.showMessageDialog(vistaInstalacion, "El casillero Usos debe estar completo.");
-            return;
-        }else{
-            try {
-                usos = Integer.parseInt(vistaInstalacion.getJtfUsos());
-            } catch (NumberFormatException e) {
-                vistaInstalacion.setJtfUsos("");
-                JOptionPane.showMessageDialog(vistaInstalacion, "Debe ingresar un valor numérico en Usos.");
-                return;
-            }
-        }
+        double precios = 0;
+        int usos = 0;
+        ArrayList<String> errores = new ArrayList<>();
+        
         if(vistaInstalacion.getJtInstalaciones().getSelectedRow() >= 0){
             JOptionPane.showMessageDialog(vistaInstalacion, "No puedes Cargar una Instalacion seleccionada. Solo modificarlo.");
             limpiarCasilleros();
             return;
         }
         
-        String nombre = vistaInstalacion.getJtfNombre();
-        String detalle = vistaInstalacion.getJtaDetalle();
+        //-------- Validaciones --------
+        // Validar Nombre
+        String nombre = "";
+        if (vistaInstalacion.getJtfNombre().isEmpty()) {
+            errores.add("El nombre no puede estar vacío");
+        } else {
+            nombre = vistaInstalacion.getJtfNombre().trim();
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El nombre solo puede contener letras y espacios.");
+            } else if (nombre.length() > 20) {
+                errores.add("El nombre no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar Precio
+        if (vistaInstalacion.getJtfPrecio().isEmpty()) {
+            errores.add("El precio no puede estar vacío");
+        } else {
+            try {
+                precios = Double.parseDouble(vistaInstalacion.getJtfPrecio().trim());
+            } catch (NumberFormatException e) {
+                errores.add("El precio debe ser un número válido.");
+            }
+        }
+        
+        // Validar Detalle
+        String detalle = "";
+        if (vistaInstalacion.getJtaDetalle().isEmpty()) {
+            errores.add("El detalle no puede estar vacío");
+        } else {
+            detalle = vistaInstalacion.getJtaDetalle().trim();
+        }
+        
+        // Validar Usos
+        if(vistaInstalacion.getJtfUsos().isEmpty()){
+            errores.add("Los usos no pueden estar vacíos");
+        } else {
+            try {
+                usos = Integer.parseInt(vistaInstalacion.getJtfUsos().trim());
+            } catch (NumberFormatException e) {
+                errores.add("Los usos deben ser un número válido.");
+            }
+        }
+        
+        // Si hay errores, mostrarlos todos juntos
+        if (!errores.isEmpty()) {
+            StringBuilder mensaje = new StringBuilder("Por favor, corrija los siguientes errores:\n\n");
+            for (String error : errores) {
+                mensaje.append("• ").append(error).append("\n");
+            }
+            JOptionPane.showMessageDialog(vistaInstalacion, mensaje.toString(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         boolean estado = vistaInstalacion.getJcbEstado();
         
         Instalacion instalacionC = new Instalacion();
@@ -178,11 +198,65 @@ public class ControlInstalaciones {
             return;
         }
         
+        double precio = 0;
+        int usos = 0;
+        ArrayList<String> errores = new ArrayList<>();
+        
+        //-------- Validaciones --------
+        // Validar Nombre
+        String nombre = "";
+        if (vistaInstalacion.getJtfNombre().isEmpty()) {
+            errores.add("El nombre no puede estar vacío");
+        } else {
+            nombre = vistaInstalacion.getJtfNombre().trim();
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+")) {
+                errores.add("El nombre solo puede contener letras y espacios.");
+            } else if (nombre.length() > 20) {
+                errores.add("El nombre no puede tener más de 20 caracteres.");
+            }
+        }
+        
+        // Validar Precio
+        if (vistaInstalacion.getJtfPrecio().isEmpty()) {
+            errores.add("El precio no puede estar vacío");
+        } else {
+            try {
+                precio = Double.parseDouble(vistaInstalacion.getJtfPrecio().trim());
+            } catch (NumberFormatException e) {
+                errores.add("El precio debe ser un número válido.");
+            }
+        }
+        
+        // Validar Detalle
+        String detalle = "";
+        if (vistaInstalacion.getJtaDetalle().isEmpty()) {
+            errores.add("El detalle no puede estar vacío");
+        } else {
+            detalle = vistaInstalacion.getJtaDetalle().trim();
+        }
+        
+        // Validar Usos
+        if(vistaInstalacion.getJtfUsos().isEmpty()){
+            errores.add("Los usos no pueden estar vacíos");
+        } else {
+            try {
+                usos = Integer.parseInt(vistaInstalacion.getJtfUsos().trim());
+            } catch (NumberFormatException e) {
+                errores.add("Los usos deben ser un número válido.");
+            }
+        }
+        
+        // Si hay errores, mostrarlos todos juntos
+        if (!errores.isEmpty()) {
+            StringBuilder mensaje = new StringBuilder("Por favor, corrija los siguientes errores:\n\n");
+            for (String error : errores) {
+                mensaje.append("• ").append(error).append("\n");
+            }
+            JOptionPane.showMessageDialog(vistaInstalacion, mensaje.toString(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         int id = (int) vistaInstalacion.getJtInstalaciones().getValueAt(fila, 0);
-        String nombre = vistaInstalacion.getJtfNombre();
-        double precio = Double.parseDouble(vistaInstalacion.getJtfPrecio());
-        String detalle = vistaInstalacion.getJtaDetalle();
-        int usos = Integer.parseInt(vistaInstalacion.getJtfUsos());
         boolean estado = vistaInstalacion.getJcbEstado();
         
         //--- Buscamos la instalación en la base de datos ---
@@ -230,6 +304,8 @@ public class ControlInstalaciones {
         vistaInstalacion.setJtaDetalle("");
         vistaInstalacion.setJtfUsos("");
         vistaInstalacion.setJtcbEstado(false);
+        vistaInstalacion.resetearFiltrosEstado();
+        listarInstalaciones();
     }
 
     //--------- Código repetido para filtrar tablas ---------
@@ -250,3 +326,4 @@ public class ControlInstalaciones {
         }
     }
 }
+
