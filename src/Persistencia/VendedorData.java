@@ -78,23 +78,101 @@ public class VendedorData {
         String query = "UPDATE Vendedor SET nombre = ?, apellido = ?, telefono=?, dni=? WHERE idEmpleado = ?";
         //System.out.println("["+a.getNombre()+"]"+a.getApellido()+"]"a.getTelefono()+"] "+a.getDni()+"]"+a.getEspecialidad()+"]"+a.getEstado()+"]"+a.getIdEmpleado()+"] ");
         try {
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, a.getNombre());
-            ps.setString(2, a.getApellido());
-            ps.setString(3, a.getTelefono());
-            ps.setInt(4, a.getDni());
-            ps.setInt(5, a.getIdEmpleado());
-            int aux = ps.executeUpdate();
-            if (aux == 0) {
-                JOptionPane.showMessageDialog(null, "El Vendedor no se ha modificado.");
+            // Primero, obtener el DNI actual del vendedor para comparar
+            Vendedor vendedorActual = buscarVendedorPorId(a.getIdEmpleado());
+            boolean dniCambio = vendedorActual != null && vendedorActual.getDni() != a.getDni();
+            
+            if (dniCambio) {
+                // Si el DNI cambió, usar un valor temporal para evitar el conflicto de FK
+                // 1. Deshabilitar temporalmente las verificaciones de FK
+                PreparedStatement psDisableFK = con.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
+                psDisableFK.execute();
+                psDisableFK.close();
+                
+                try {
+                    // 2. Actualizar primero el DNI en empleado
+                    miConexion conexion = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                    conexion.buscarConexion();
+                    EmpleadoData empleadoData = new EmpleadoData(conexion);
+                    empleadoData.actualizarDNIEmpleado(a.getIdEmpleado(), a.getDni());
+                    
+                    // 3. Ahora actualizar el vendedor con el nuevo DNI
+                    PreparedStatement psVendedor = con.prepareStatement(query);
+                    psVendedor.setString(1, a.getNombre());
+                    psVendedor.setString(2, a.getApellido());
+                    psVendedor.setString(3, a.getTelefono());
+                    psVendedor.setInt(4, a.getDni());
+                    psVendedor.setInt(5, a.getIdEmpleado());
+                    int auxVendedor = psVendedor.executeUpdate();
+                    psVendedor.close();
+                    
+                    if (auxVendedor == 0) {
+                        throw new SQLException("El Vendedor no se ha modificado.");
+                    }
+                } finally {
+                    // 4. Rehabilitar las verificaciones de FK
+                    PreparedStatement psEnableFK = con.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
+                    psEnableFK.execute();
+                    psEnableFK.close();
+                }
+            } else {
+                // Si el DNI no cambió, solo actualizar los demás campos
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, a.getNombre());
+                ps.setString(2, a.getApellido());
+                ps.setString(3, a.getTelefono());
+                ps.setInt(4, a.getDni());
+                ps.setInt(5, a.getIdEmpleado());
+                int aux = ps.executeUpdate();
+                ps.close();
+                
+                if (aux == 0) {
+                    throw new SQLException("El Vendedor no se ha modificado.");
+                }
             }
-            ps.close();
 
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar al Vendedor: " + ex.getMessage());
             Logger.getLogger(VendedorData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    // ----------------- ELIMINAR VENDEDOR -----------------
+    public void eliminarVendedor(int idEmpleado) throws SQLException {
+        String sql = "DELETE FROM vendedor WHERE idEmpleado = ?";
+        
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idEmpleado);
+        int filas = ps.executeUpdate();
+        ps.close();
+        
+        if (filas == 0) {
+            throw new SQLException("No se encontró el vendedor con ese idEmpleado");
+        }
+    }
+    
+    // ----------------- INSERTAR VENDEDOR CON ID EMPLEADO EXISTENTE -----------------
+    // Usado cuando se cambia de puesto de masajista a vendedor
+    public void insertarVendedorConIdExistente(Vendedor vendedor) throws SQLException {
+        String sql = "INSERT INTO vendedor (idEmpleado, nombre, apellido, telefono, dni, puesto, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, vendedor.getIdEmpleado());
+        ps.setString(2, vendedor.getNombre());
+        ps.setString(3, vendedor.getApellido());
+        ps.setString(4, vendedor.getTelefono());
+        ps.setInt(5, vendedor.getDni());
+        ps.setString(6, vendedor.getPuesto());
+        ps.setBoolean(7, vendedor.getEstado());
+        
+        int filas = ps.executeUpdate();
+        ps.close();
+        
+        if (filas == 0) {
+            throw new SQLException("No se pudo insertar el vendedor");
+        }
+    }
+    
     //-------------BAJA LOGICA
     public void bajaLogica(int idEmpleado) {
         String query = "UPDATE vendedor SET estado=0 WHERE idEmpleado = ?";

@@ -46,7 +46,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         }
 
         if (masajistaData != null && vendedorData != null) {
-            this.controlVistaEmpleados = new ControlVistaEmpleados(this, masajistaData, vendedorData);
+            this.controlVistaEmpleados = new ControlVistaEmpleados(this, masajistaData, vendedorData, Escritorio);
             controlVistaEmpleados.preCargarCbTipoDeEmpleado();
             controlVistaEmpleados.agregarListenerTipoEmpleado();
             controlVistaEmpleados.actualizarTabla();

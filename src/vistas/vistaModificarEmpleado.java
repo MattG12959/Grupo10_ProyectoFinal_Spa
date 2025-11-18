@@ -5,18 +5,35 @@
  */
 package vistas;
 
+import Persistencia.MasajistaData;
+import Persistencia.VendedorData;
+import control.ControlModificarEmpleado;
+import control.ControlVistaEmpleados;
+import constantes.PuestosDeTrabajo;
+
 /**
+ * @author Grupo10
  *
- * @author usuario
+ * Altamirano Karina Gianfranco Antonacci Matías Bequis Marcos Ezequiel Dave
+ * Natalia
  */
 public class vistaModificarEmpleado extends javax.swing.JInternalFrame {
 
+    private ControlModificarEmpleado control;
+    private MasajistaData masajistaData;
+    private VendedorData vendedorData;
+    private ControlVistaEmpleados controlVistaEmpleados;
+    private int idEmpleado;
+    private String puestoOriginal;
+    
     /**
      * Creates new form vistaModificarEmpleado
      */
     public vistaModificarEmpleado() {
         initComponents();
+        
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,18 +65,25 @@ public class vistaModificarEmpleado extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Modificar Empleado");
 
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Puesto");
 
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Especialidad");
 
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Nombre");
 
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Apellido");
 
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Telefono");
 
+        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("DNI");
 
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Matricula");
 
         jcbPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -183,6 +207,77 @@ public class vistaModificarEmpleado extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public vistaModificarEmpleado(int idEmpleado, String puestoOriginal, MasajistaData masajistaData, VendedorData vendedorData, ControlVistaEmpleados controlVistaEmpleados) {
+        initComponents();
+        this.idEmpleado = idEmpleado;
+        this.puestoOriginal = puestoOriginal;
+        this.masajistaData = masajistaData;
+        this.vendedorData = vendedorData;
+        this.controlVistaEmpleados = controlVistaEmpleados;
+        
+        
+        
+       jcbPuesto.removeAllItems();
+        jcbPuesto.addItem(PuestosDeTrabajo.MASAJISTA.getPuesto());
+        jcbPuesto.addItem(PuestosDeTrabajo.VENDEDOR.getPuesto());
+        
+        // El combobox de puesto es solo seleccionable (no editable)
+        jcbPuesto.setEditable(false);
+        jcbPuesto.setEnabled(false);
+        
+        
+        String puestoOriginalNormalizado = puestoOriginal != null ? puestoOriginal.trim() : "";
+        String puestoParaSeleccionar = null;
+        
+        // Buscar el item que coincida exactamente con puestoOriginal
+        for (int i = 0; i < jcbPuesto.getItemCount(); i++) {
+            String item = (String) jcbPuesto.getItemAt(i);
+            if (item != null && item.equals(puestoOriginalNormalizado)) {
+                puestoParaSeleccionar = item;
+                break;
+            }
+        }
+        
+        // Si no se encuentra coincidencia exacta, buscar por comparación case-insensitive
+        if (puestoParaSeleccionar == null) {
+            for (int i = 0; i < jcbPuesto.getItemCount(); i++) {
+                String item = (String) jcbPuesto.getItemAt(i);
+                if (item != null && item.equalsIgnoreCase(puestoOriginalNormalizado)) {
+                    puestoParaSeleccionar = item;
+                    break;
+                }
+            }
+        }
+        
+        // Si aún no se encuentra, usar los valores del enum
+        if (puestoParaSeleccionar == null) {
+            if (PuestosDeTrabajo.MASAJISTA.getPuesto().equalsIgnoreCase(puestoOriginalNormalizado)) {
+                puestoParaSeleccionar = PuestosDeTrabajo.MASAJISTA.getPuesto();
+            } else if (PuestosDeTrabajo.VENDEDOR.getPuesto().equalsIgnoreCase(puestoOriginalNormalizado)) {
+                puestoParaSeleccionar = PuestosDeTrabajo.VENDEDOR.getPuesto();
+            }
+        }
+        
+        // Seleccionar el puesto
+        if (puestoParaSeleccionar != null) {
+            jcbPuesto.setSelectedItem(puestoParaSeleccionar);
+        } else {
+            // Si no se pudo determinar, mostrar un mensaje de advertencia
+            javax.swing.JOptionPane.showMessageDialog(null, 
+                "No se pudo determinar el puesto. Valor recibido: '" + puestoOriginal + "'", 
+                "Advertencia", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+        
+        // Inicializar control DESPUÉS de precargar y seleccionar
+        this.control = new ControlModificarEmpleado(this, masajistaData, vendedorData, controlVistaEmpleados, idEmpleado, puestoOriginal);
+        
+        // Precargar especialidades
+        control.preCargarCbEspecialidad();
+              
+        
+    }
+    
     private void jtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtNombreActionPerformed
@@ -201,14 +296,51 @@ public class vistaModificarEmpleado extends javax.swing.JInternalFrame {
 
     private void btnModificarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEmpleadoActionPerformed
         // TODO add your handling code here:
+        if (control != null) {
+            control.modificarEmpleado();
+        }
         
     }//GEN-LAST:event_btnModificarEmpleadoActionPerformed
 
     private void btnLimpiarModifEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarModifEmpleadoActionPerformed
         // TODO add your handling code here:
-        
+        if (control != null) {
+            control.limpiarCampos();
+            // Recargar datos originales
+            control = new ControlModificarEmpleado(this, masajistaData, vendedorData, controlVistaEmpleados, idEmpleado, puestoOriginal);
+            control.preCargarCbPuesto();
+            control.preCargarCbEspecialidad();
+        }
     }//GEN-LAST:event_btnLimpiarModifEmpleadoActionPerformed
-
+    
+    // Getters para el control
+    public javax.swing.JComboBox<String> getJcbPuesto() {
+        return jcbPuesto;
+    }
+    
+    public javax.swing.JComboBox<String> getJcbEspecialidad() {
+        return jcbEspecialidad;
+    }
+    
+    public javax.swing.JTextField getJtNombre() {
+        return jtNombre;
+    }
+    
+    public javax.swing.JTextField getJtApellido() {
+        return jtApellido;
+    }
+    
+    public javax.swing.JTextField getJtTelefono() {
+        return jtTelefono;
+    }
+    
+    public javax.swing.JTextField getJtDni() {
+        return jtDni;
+    }
+    
+    public javax.swing.JTextField getJtMatricula() {
+        return jtMatricula;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpiarModifEmpleado;
@@ -228,4 +360,5 @@ public class vistaModificarEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtNombre;
     private javax.swing.JTextField jtTelefono;
     // End of variables declaration//GEN-END:variables
+    
 }

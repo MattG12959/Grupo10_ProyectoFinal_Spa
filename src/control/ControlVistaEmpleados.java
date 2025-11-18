@@ -12,20 +12,25 @@ import entidades.Masajista;
 import entidades.Vendedor;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vistas.vistaEmpleados;
+import vistas.vistaModificarEmpleado;
 
 public class ControlVistaEmpleados {
 
     private vistaEmpleados vista;
     private VendedorData vendedorData;
     private MasajistaData masajistaData;
+    private JDesktopPane escritorio;
 
-    public ControlVistaEmpleados(vistaEmpleados vista, MasajistaData masajistaData, VendedorData vendedorData) {
+    public ControlVistaEmpleados(vistaEmpleados vista, MasajistaData masajistaData, VendedorData vendedorData, JDesktopPane escritorio) {
         this.vista = vista;
         this.vendedorData = vendedorData;
         this.masajistaData = masajistaData;
+        this.escritorio = escritorio;
     }
 
     public void preCargarCbTipoDeEmpleado() {
@@ -235,56 +240,56 @@ public class ControlVistaEmpleados {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea modificar los datos de este empleado?", "Confirmar modificación", JOptionPane.YES_NO_OPTION);
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
         DefaultTableModel modelo = (DefaultTableModel) vista.getJtEmpleados().getModel();
-        String puesto = modelo.getValueAt(fila, modelo.findColumn("Puesto")).toString();
-
+        int idEmpleado = Integer.parseInt(modelo.getValueAt(fila, 0).toString());
+        String puesto = "";
+        
         try {
-            if (PuestosDeTrabajo.MASAJISTA.getPuesto().equals(puesto)) {
-                // Tomar todos los datos del masajista
-                int idEmpleado = Integer.parseInt(modelo.getValueAt(fila, modelo.findColumn("ID Empleado")).toString());
-                int matricula = Integer.parseInt(modelo.getValueAt(fila, modelo.findColumn("Matrícula")).toString());
-                String nombre = modelo.getValueAt(fila, modelo.findColumn("Nombre")).toString();
-                String apellido = modelo.getValueAt(fila, modelo.findColumn("Apellido")).toString();
-                String telefono = modelo.getValueAt(fila, modelo.findColumn("Teléfono")).toString();
-                int dni = Integer.parseInt(modelo.getValueAt(fila, modelo.findColumn("DNI")).toString());
-                String especialidad = modelo.getValueAt(fila, modelo.findColumn("Especialidad")).toString();
-                String estadoStr = modelo.getValueAt(fila, modelo.findColumn("Estado")).toString();
-                boolean estado = "Activo".equals(estadoStr);
-
-                Masajista m = new Masajista(idEmpleado, matricula, nombre, apellido, telefono, dni, puesto, especialidad, estado);
-
-                masajistaData.actualizarMasajista(m);
-
-            } else if (PuestosDeTrabajo.VENDEDOR.getPuesto().equals(puesto)) {
-                // Tomar todos los datos del vendedor
-                int idEmpleado = Integer.parseInt(modelo.getValueAt(fila, modelo.findColumn("ID Empleado")).toString());
-                String nombre = modelo.getValueAt(fila, modelo.findColumn("Nombre")).toString();
-                String apellido = modelo.getValueAt(fila, modelo.findColumn("Apellido")).toString();
-                String telefono = modelo.getValueAt(fila, modelo.findColumn("Teléfono")).toString();
-                int dni = Integer.parseInt(modelo.getValueAt(fila, modelo.findColumn("DNI")).toString());
-                String estadoStr = modelo.getValueAt(fila, modelo.findColumn("Estado")).toString();
-                boolean estado = "Activo".equals(estadoStr);
-
-                Vendedor v = new Vendedor(idEmpleado, nombre, apellido, telefono, dni, puesto, estado);
-                vendedorData.actualizarVendedor(v);
-
+            puesto = modelo.getValueAt(fila, modelo.findColumn("Puesto")).toString();
+        } catch (IllegalArgumentException e) {
+            // Si no encuentra la columna "Puesto", buscar en otra posición
+            if (modelo.getColumnCount() > 5) {
+                puesto = modelo.getValueAt(fila, 5).toString();
             } else {
-                JOptionPane.showMessageDialog(null, "No se reconoce el tipo de empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se pudo determinar el puesto del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        // Verificar si ya existe una ventana de modificación abierta
+        JInternalFrame abierto = buscarFrame(vistaModificarEmpleado.class);
+        if (abierto != null) {
+            try { 
+                abierto.setSelected(true); 
+            } catch (java.beans.PropertyVetoException e) {}
+            abierto.toFront();
+            centrarFrame(abierto);
+            return;
+        }
+        
+         // Crear nueva ventana de modificación
+        vistaModificarEmpleado frm = new vistaModificarEmpleado(idEmpleado, puesto, masajistaData, vendedorData, this);
+        escritorio.add(frm);
+        frm.pack(); 
+        centrarFrame(frm);
+        frm.setVisible(true);
+        try { 
+            frm.setSelected(true); 
+        } catch (java.beans.PropertyVetoException e) {}
+    }
+    
+    private JInternalFrame buscarFrame(Class<? extends JInternalFrame> clase) {
+        for (JInternalFrame f : escritorio.getAllFrames()) {
+            if (clase.isInstance(f)) return f;
+        }
+        return null;
+    }
+    
+    private void centrarFrame(JInternalFrame f) {
+        int x = (escritorio.getWidth() - f.getWidth()) / 2;
+        int y = (escritorio.getHeight() - f.getHeight()) / 2;
+        f.setLocation(Math.max(x, 0), Math.max(y, 0));
 
-        // Refresca la tabla
-        actualizarTabla();
+        
     }
 
     public void buscarEmpleado() {
