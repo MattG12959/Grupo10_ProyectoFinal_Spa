@@ -63,10 +63,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
 
@@ -306,20 +302,7 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem5);
 
-        jMenuItem6.setText("Historial de Tratamientos");
-        jMenu3.add(jMenuItem6);
-
         jMenuBar1.add(jMenu3);
-
-        jMenu1.setText("Tienda");
-
-        jMenuItem7.setText("Historial de Ventas");
-        jMenu1.add(jMenuItem7);
-
-        jMenuItem8.setText("Historial de Productos");
-        jMenu1.add(jMenuItem8);
-
-        jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Herramientas");
 
@@ -834,7 +817,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JDesktopPane Escritorio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -843,9 +825,6 @@ public class vistaMenuSpa extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JButton jbCargarSesion;
     private javax.swing.JButton jbCliente;
