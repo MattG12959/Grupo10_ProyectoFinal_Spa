@@ -446,8 +446,10 @@ public class Gp10_Spa {
             // ----------- VENDEDORES -----------
             vendedorData.altaVendedor(new Vendedor("Ezequiel", "Bequis", "2664880438", 44437768, PuestosDeTrabajo.VENDEDOR.getPuesto(), true));
             vendedorData.altaVendedor(new Vendedor("Matias","Antonacci","2664880438",44075064,PuestosDeTrabajo.VENDEDOR.getPuesto(), true));
+            vendedorData.altaVendedor(new Vendedor("Karina",  "Altamirano", "33465789", 33465789, PuestosDeTrabajo.VENDEDOR.getPuesto(), true));
+            vendedorData.altaVendedor(new Vendedor("Natalia","Dave","31092801",31092801,PuestosDeTrabajo.VENDEDOR.getPuesto(),true) );
             
-            // ----------- CONSULTORIOS (Facial, Corporal, Estetico, Relajacion) -----------
+// ----------- CONSULTORIOS (Facial, Corporal, Estetico, Relajacion) -----------
             // FACIAL
             Consultorio c1 = new Consultorio();
             c1.setUsos(7);
