@@ -40,6 +40,7 @@ public class vistaReservas extends javax.swing.JInternalFrame {
     private SimpleDateFormat formatoFecha;
     private DateTimeFormatter formatoFechaHora;
     private DateTimeFormatter formatoHora;
+    private ArrayList<Sesion> sesionesCargadas; // Lista para mantener las sesiones cargadas
     private DefaultTableModel modelo = new DefaultTableModel() {
         public boolean isCellEditable(int f, int c) {
             return false;
@@ -106,6 +107,11 @@ public class vistaReservas extends javax.swing.JInternalFrame {
         jBEliminarR.setBackground(new java.awt.Color(155, 216, 185));
         jBEliminarR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-menos.png"))); // NOI18N
         jBEliminarR.setText("Eliminar Reserva ");
+        jBEliminarR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarRActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -246,8 +252,9 @@ public class vistaReservas extends javax.swing.JInternalFrame {
 
     private void cargarReservasPorFecha() {
         try {
-            // Limpiar la tabla
+            // Limpiar la tabla y la lista de sesiones
             modelo.setRowCount(0);
+            sesionesCargadas = new ArrayList<>();
 
             // Obtener la fecha seleccionada del calendario
             Date fechaSeleccionada = jCalendar1.getDate();
@@ -275,6 +282,8 @@ public class vistaReservas extends javax.swing.JInternalFrame {
 
             // Para cada sesión, agregar una fila a la tabla
             for (Sesion sesion : sesiones) {
+                // Guardar la sesión en la lista para poder acceder a ella después
+                sesionesCargadas.add(sesion);
                 // Obtener el cliente desde DiaDeSpa
                 String nombreCliente = "N/A";
                 if (sesion.getDiaDeSpa() != null) {
@@ -380,4 +389,82 @@ public class vistaReservas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al actualizar el monto del dia: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void jBEliminarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarRActionPerformed
+        // Verificar que se haya seleccionado una fila
+        int filaSeleccionada = jtDescripcion.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Por favor, seleccione una reserva de la tabla para eliminar.", 
+                "Selección requerida", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Verificar que haya sesiones cargadas
+        if (sesionesCargadas == null || sesionesCargadas.isEmpty() || filaSeleccionada >= sesionesCargadas.size()) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: No se pudo obtener la información de la reserva seleccionada.", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Obtener la sesión seleccionada
+        Sesion sesionSeleccionada = sesionesCargadas.get(filaSeleccionada);
+        
+        // Obtener información de la sesión para mostrar en el mensaje de confirmación
+        String cliente = "N/A";
+        String fecha = "N/A";
+        String horario = "N/A";
+        String tratamiento = "N/A";
+        
+        if (sesionSeleccionada.getDiaDeSpa() != null && sesionSeleccionada.getDiaDeSpa().getCliente() != null) {
+            cliente = sesionSeleccionada.getDiaDeSpa().getCliente().getApellido() + ", " + 
+                     sesionSeleccionada.getDiaDeSpa().getCliente().getNombre();
+        }
+        
+        if (sesionSeleccionada.getFechaHoraInicio() != null) {
+            fecha = sesionSeleccionada.getFechaHoraInicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            horario = sesionSeleccionada.getFechaHoraInicio().format(formatoHora);
+        }
+        
+        if (sesionSeleccionada.getTratamiento() != null) {
+            tratamiento = sesionSeleccionada.getTratamiento().getNombre();
+        }
+        
+        // Mostrar confirmación
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro que desea eliminar (desactivar) esta reserva?\n\n" +
+            "Cliente: " + cliente + "\n" +
+            "Fecha: " + fecha + "\n" +
+            "Horario: " + horario + "\n" +
+            "Tratamiento: " + tratamiento,
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                // Actualizar el estado de la sesión a false (inactivo)
+                sesionData.actualizarEstadoSesion(sesionSeleccionada.getCodSesion(), false);
+                
+                // Recargar las reservas para actualizar la tabla
+                cargarReservasPorFecha();
+                
+                // Actualizar el monto del día después de eliminar
+                actualizarMontoDelDia();
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Error al eliminar la reserva: " + e.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jBEliminarRActionPerformed
 }

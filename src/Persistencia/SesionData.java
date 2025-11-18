@@ -316,6 +316,7 @@ public class SesionData {
         return lista;
     }
 
+ 
     // --------------------------------------------------
     // Método: listarTodasLasSesiones
     // Lista todas las sesiones realizadas hasta la fecha de consulta
@@ -398,6 +399,30 @@ public class SesionData {
             JOptionPane.showMessageDialog(null, "Error al listar todas las sesiones: " + ex.getMessage());
         }
         return lista;
+    }
+
+    // --------------------------------------------------
+    // Método: actualizarEstadoSesion
+    // Actualiza el estado de una sesión (activo/inactivo)
+    // --------------------------------------------------
+    public void actualizarEstadoSesion(int codSesion, boolean estado) {
+        String sql = "UPDATE sesion SET estado = ? WHERE codSesion = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1, estado);
+            ps.setInt(2, codSesion);
+            
+            int filas = ps.executeUpdate();
+            ps.close();
+            
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Estado de la sesión actualizado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró la sesión con el código especificado.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el estado de la sesión: " + ex.getMessage());
+        }
     }
 }
 
