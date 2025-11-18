@@ -291,9 +291,19 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         jMenu3.setText("Busquedas");
 
         jMenuItem4.setText("Historial de Sesiones/Turnos");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuItem5.setText("Historial de Clientes");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem5);
 
         jMenuItem6.setText("Historial de Tratamientos");
@@ -687,6 +697,78 @@ public class vistaMenuSpa extends javax.swing.JFrame {
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    //------ Item del menu Busquedas - Historial de Sesiones ------
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        vistaHistorialSesiones ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaHistorialSesiones) {
+                ventana = (vistaHistorialSesiones) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaHistorialSesiones();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    //------ Item del menu Busquedas - Historial de Clientes ------
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        vistaHistorialClientes ventana = null;
+
+        // Buscar si ya existe una instancia en el escritorio
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            if (frame instanceof vistaHistorialClientes) {
+                ventana = (vistaHistorialClientes) frame;
+                break;
+            }
+        }
+
+        if (ventana == null) {
+            // Crear nueva si no estaba abierta la ventana
+            ventana = new vistaHistorialClientes();
+            // Instanciarla
+            Escritorio.add(ventana);
+
+            // Centrar
+            int x = (Escritorio.getWidth() - ventana.getWidth()) / 2;
+            int y = (Escritorio.getHeight() - ventana.getHeight()) / 2;
+            ventana.setLocation(x, y);
+
+            ventana.setVisible(true);
+        } else {
+            // Si ya estaba, traerla al frente
+            try {
+                ventana.setIcon(false); // restaurar si estaba minimizada
+                ventana.setSelected(true);
+                ventana.toFront();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     //------ Método para implementar Música ------
     public void musica() {

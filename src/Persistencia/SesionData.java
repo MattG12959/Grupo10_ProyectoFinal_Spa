@@ -315,4 +315,89 @@ public class SesionData {
         }
         return lista;
     }
+
+    // --------------------------------------------------
+    // Método: listarTodasLasSesiones
+    // Lista todas las sesiones realizadas hasta la fecha de consulta
+    // --------------------------------------------------
+    public ArrayList<Sesion> listarTodasLasSesiones() {
+        ArrayList<Sesion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM sesion WHERE estado = 1 ORDER BY fecha_hora_inicio DESC";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Sesion s = new Sesion();
+                s.setCodSesion(rs.getInt("codSesion"));
+                
+                Timestamp tsInicio = rs.getTimestamp("fecha_hora_inicio");
+                Timestamp tsFin = rs.getTimestamp("fecha_hora_fin");
+                if (tsInicio != null) {
+                    s.setFechaHoraInicio(tsInicio.toLocalDateTime());
+                }
+                if (tsFin != null) {
+                    s.setFechaHoraFinal(tsFin.toLocalDateTime());
+                }
+                
+                DiaDeSpa dd = null;
+                int codPackFromRs = rs.getInt("codPack");
+                if (!rs.wasNull() && codPackFromRs > 0) {
+                    // Cargar el DiaDeSpa completo con el cliente
+                    DiaDeSpaData ddd = new DiaDeSpaData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                    dd = ddd.buscarDiaDeSpa(codPackFromRs);
+                }
+                if (dd == null) {
+                    dd = new DiaDeSpa();
+                    if (!rs.wasNull()) {
+                        dd.setCodPack(codPackFromRs);
+                    }
+                }
+                s.setDiaDeSpa(dd);
+                
+                int idTrat = rs.getInt("idTratamiento");
+                if (!rs.wasNull()) {
+                    TratamientoData td = new TratamientoData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                    s.setTratamiento(td.buscarTratamiento(idTrat));
+                }
+                
+                int idCons = rs.getInt("idConsultorio");
+                if (!rs.wasNull()) {
+                    ConsultorioData cd = new ConsultorioData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                    s.setConsultorio(cd.buscarConsultorio(idCons));
+                }
+                
+                int idMas = rs.getInt("idMasajista");
+                if (!rs.wasNull()) {
+                    MasajistaData md = new MasajistaData(new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", ""));
+                    s.setMasajista(md.buscarMasajistaPorMatricula(idMas));
+                }
+                
+                s.setEstado(rs.getBoolean("estado"));
+                
+                String sqlIns = "SELECT idInstalacion FROM sesion_instalacion WHERE codSesion = ?";
+                try (PreparedStatement psIns = con.prepareStatement(sqlIns)) {
+                    psIns.setInt(1, s.getCodSesion());
+                    try (ResultSet rsIns = psIns.executeQuery()) {
+                        List<Instalacion> instalaciones = new ArrayList<>();
+                        miConexion conexionInst = new miConexion("jdbc:mariadb://localhost:3306/gp10_entre_dedos", "root", "");
+                        InstalacionData idata = new InstalacionData(conexionInst);
+                        while (rsIns.next()) {
+                            Instalacion insObj = idata.buscarInstalacion(rsIns.getInt("idInstalacion"));
+                            instalaciones.add(insObj);
+                        }
+                        s.setInsalaciones(new ArrayList<>(instalaciones));
+                    }
+                }
+                
+                lista.add(s);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar todas las sesiones: " + ex.getMessage());
+        }
+        return lista;
+    }
 }
+
