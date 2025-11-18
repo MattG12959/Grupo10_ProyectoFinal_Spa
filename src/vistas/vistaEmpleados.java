@@ -110,9 +110,14 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(115, 179, 147));
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 646));
 
+        cbTipoDeEmpleado.setBackground(new java.awt.Color(155, 216, 185));
+        cbTipoDeEmpleado.setForeground(new java.awt.Color(155, 216, 185));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Tipo de empleado:");
 
+        jtEmpleados.setBackground(new java.awt.Color(155, 216, 185));
+        jtEmpleados.setForeground(new java.awt.Color(0, 0, 0));
         jtEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -124,8 +129,11 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
 
             }
         ));
+        jtEmpleados.setGridColor(new java.awt.Color(155, 216, 185));
+        jtEmpleados.setSelectionBackground(new java.awt.Color(0, 51, 51));
         jScrollPane1.setViewportView(jtEmpleados);
 
+        jButton1.setBackground(new java.awt.Color(155, 216, 185));
         jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +141,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
+        btnModfActivoOInactivo.setBackground(new java.awt.Color(155, 216, 185));
         btnModfActivoOInactivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-activo-inactivo.png"))); // NOI18N
         btnModfActivoOInactivo.setText("Modif. Activo / Inactivo");
         btnModfActivoOInactivo.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +150,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
+        btnModificar.setBackground(new java.awt.Color(155, 216, 185));
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-editar-registro.png"))); // NOI18N
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +164,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel2.setText("(Para modificar es necesario seleccionar una fila)");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        btnRegistrarMasajista.setBackground(new java.awt.Color(155, 216, 185));
         btnRegistrarMasajista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnRegistrarMasajista.setText("Registrar Masajista");
         btnRegistrarMasajista.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +173,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRegistrarVendedor.setBackground(new java.awt.Color(155, 216, 185));
         btnRegistrarVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnRegistrarVendedor.setText("Registrar Vendedor");
         btnRegistrarVendedor.setMaximumSize(new java.awt.Dimension(156, 31));
@@ -173,6 +185,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscar.setBackground(new java.awt.Color(155, 216, 185));
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/lupa.png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,9 +196,14 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Busqueda por DNI:");
 
+        txtBusquedaPorDni.setBackground(new java.awt.Color(155, 216, 185));
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Busqueda por ID:");
 
+        txtBusquedaPorId.setBackground(new java.awt.Color(155, 216, 185));
+
+        txtBusquedaPorMatricula.setBackground(new java.awt.Color(155, 216, 185));
         txtBusquedaPorMatricula.setText("(Funcion solo para masajistas)");
         txtBusquedaPorMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +213,9 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Busqueda por Matricula:");
+
+        cbEspecialidades.setBackground(new java.awt.Color(155, 216, 185));
+        cbEspecialidades.setForeground(new java.awt.Color(155, 216, 185));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Especialidad");
@@ -207,6 +228,8 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Para editar un empleado: haga doble clic en una celda, ingrese el nuevo valor y presione ‘Modificar’");
 
+        btnLimpiarCampos.setBackground(new java.awt.Color(155, 216, 185));
+        btnLimpiarCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         btnLimpiarCampos.setText("limpiar campos");
         btnLimpiarCampos.setMargin(new java.awt.Insets(2, 10, 2, 10));
         btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +238,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
             }
         });
 
+        btnActualizar.setBackground(new java.awt.Color(155, 216, 185));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-actualizar.png"))); // NOI18N
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,7 +378,7 @@ public class vistaEmpleados extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
         );
 
         pack();

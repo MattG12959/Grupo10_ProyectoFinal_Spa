@@ -92,6 +92,15 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
 
+        txtNombre.setBackground(new java.awt.Color(155, 216, 185));
+
+        txtApellido.setBackground(new java.awt.Color(155, 216, 185));
+
+        txtDni.setBackground(new java.awt.Color(155, 216, 185));
+
+        txtTelefono.setBackground(new java.awt.Color(155, 216, 185));
+
+        btnCargar.setBackground(new java.awt.Color(155, 216, 185));
         btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-registrar-empleado.png"))); // NOI18N
         btnCargar.setText("Cargar");
         btnCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +109,7 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCargar1.setBackground(new java.awt.Color(155, 216, 185));
         btnCargar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-limpieza.png"))); // NOI18N
         btnCargar1.setText("Limpiar");
         btnCargar1.addActionListener(new java.awt.event.ActionListener() {
@@ -177,11 +187,11 @@ public class vistaCargarVendedor extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
 
         pack();
