@@ -106,7 +106,7 @@
               <Font name="Segoe UI" size="13" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Sesiones del dia de Spa"/>
+            <Property name="text" type="java.lang.String" value="Sesiones del d&#xed;a de Spa"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -239,7 +239,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Telefono:"/>
+                <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="labelEdadCliente">
@@ -364,19 +364,13 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="labelTratamiento" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
+                                          <Component id="labelConsultorio" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="labelTratamiento" alignment="1" min="-2" max="-2" attributes="0"/>
                                               <Component id="labelMsajg" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="labelConsultorio" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="cbConsultorio" max="32767" attributes="0"/>
                                           <Component id="cbTratamiento" alignment="0" max="32767" attributes="0"/>
@@ -425,8 +419,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="99" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -527,7 +521,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Instalacion:"/>
+                <Property name="text" type="java.lang.String" value="Instalaci&#xf3;n:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbInstalacion">
@@ -602,7 +596,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="labelInformacionDeLaInstalacion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Info de la Instalacion:"/>
+                <Property name="text" type="java.lang.String" value="Info de la Instalaci&#xf3;n:"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -807,7 +801,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnEliminarInstalacion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Eliminar instalacion de la sesion"/>
+                <Property name="text" type="java.lang.String" value="Eliminar instalaci&#xf3;n de la sesi&#xf3;n"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnGuardarSesion">
@@ -818,7 +812,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/resources/icons/icono-nuevo-registro.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value=" Guardar Sesion"/>
+                <Property name="text" type="java.lang.String" value=" Guardar Sesi&#xf3;n"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnGuardarDiaDeSpa">
@@ -829,7 +823,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/resources/icons/icono-nuevo-registro.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value=" Guardar Dia de Spa"/>
+                <Property name="text" type="java.lang.String" value=" Guardar D&#xed;a de Spa"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="labelInstalacion1">
@@ -850,7 +844,7 @@
                   <Font name="Dialog" size="14" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Resumen"/>
+                <Property name="text" type="java.lang.String" value="Res&#xfa;men"/>
               </Properties>
             </Component>
           </SubComponents>

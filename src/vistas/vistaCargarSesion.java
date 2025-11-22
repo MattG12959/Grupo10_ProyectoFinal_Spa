@@ -242,7 +242,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Sesiones del dia de Spa");
+        jLabel2.setText("Sesiones del día de Spa");
 
         tableSesiones.setBackground(new java.awt.Color(155, 216, 185));
         tableSesiones.setForeground(new java.awt.Color(0, 0, 0));
@@ -290,7 +290,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         labelTelefonoCliente.setBackground(new java.awt.Color(0, 0, 0));
         labelTelefonoCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelTelefonoCliente.setText("Telefono:");
+        labelTelefonoCliente.setText("Teléfono:");
 
         labelEdadCliente.setBackground(new java.awt.Color(0, 0, 0));
         labelEdadCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -398,7 +398,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         labelInstalacion.setBackground(new java.awt.Color(0, 0, 0));
         labelInstalacion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelInstalacion.setText("Instalacion:");
+        labelInstalacion.setText("Instalación:");
 
         cbInstalacion.setBackground(new java.awt.Color(155, 216, 185));
         cbInstalacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -425,7 +425,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Detalle de la Sesión");
 
-        labelInformacionDeLaInstalacion.setText("Info de la Instalacion:");
+        labelInformacionDeLaInstalacion.setText("Info de la Instalación:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -452,15 +452,11 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                                 .addComponent(cbInstalacion, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(labelTratamiento)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(labelMsajg)
-                                        .addGap(24, 24, 24))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(labelConsultorio)
-                                        .addGap(24, 24, 24)))
+                                    .addComponent(labelConsultorio)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelTratamiento, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(labelMsajg)))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(cbConsultorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbTratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -497,8 +493,8 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jPanel3.setBackground(new java.awt.Color(115, 179, 147));
@@ -551,15 +547,15 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
         labelFechaHoraFinal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelFechaHoraFinal.setText("Fecha y hora de salida");
 
-        btnEliminarInstalacion.setText("Eliminar instalacion de la sesion");
+        btnEliminarInstalacion.setText("Eliminar instalación de la sesión");
 
         btnGuardarSesion.setBackground(new java.awt.Color(155, 216, 185));
         btnGuardarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-nuevo-registro.png"))); // NOI18N
-        btnGuardarSesion.setText(" Guardar Sesion");
+        btnGuardarSesion.setText(" Guardar Sesión");
 
         btnGuardarDiaDeSpa.setBackground(new java.awt.Color(155, 216, 185));
         btnGuardarDiaDeSpa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/icono-nuevo-registro.png"))); // NOI18N
-        btnGuardarDiaDeSpa.setText(" Guardar Dia de Spa");
+        btnGuardarDiaDeSpa.setText(" Guardar Día de Spa");
 
         labelInstalacion1.setBackground(new java.awt.Color(0, 0, 0));
         labelInstalacion1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -568,7 +564,7 @@ public class vistaCargarSesion extends javax.swing.JInternalFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Resumen");
+        jLabel5.setText("Resúmen");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
